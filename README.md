@@ -1,4 +1,6 @@
 # T19 Commit to Master
+![](https://github.com/csucs314s19/t19/blob/photo/team/images/group%20photo.jpg?raw=true)
+*Left to right, top to bottom: Kareem, Dziugas, Parker, Westin. We them boys* 
 
 | name | eID | GitHub Username | Email |
 |------|-----|-----------------|-------|
