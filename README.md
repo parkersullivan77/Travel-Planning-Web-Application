@@ -1,4 +1,4 @@
-# T19 Name
+# T19 Commit to Master
 
 | name | eID | GitHub Username | Email |
 |------|-----|-----------------|-------|
