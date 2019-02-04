@@ -1,4 +1,4 @@
-# T19 - Commit to Master
+# T19 - We Them Boys
 
 ![](https://github.com/csucs314s19/t19/blob/master/team/images/group%20photo.jpg?raw=true)
 *Left to right, top to bottom: Kareem, Dziugas, Parker, Westin. We them boys* 
