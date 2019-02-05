@@ -11,7 +11,7 @@ export default class App extends Component {
   constructor (props){
     super(props);
     this.pages = [
-      { title: 't## team name', page: ''},
+      { title: 't19 We Them Boys', page: ''},
       { title: 'Calculator', page: 'calc'},
       { title: 'Options', page: 'options'},
       { title: '\u2699', page: 'settings' }
@@ -20,7 +20,6 @@ export default class App extends Component {
     this.state = {
       current_page: this.pages[0].page
     };
-
     this.setAppPage = this.setAppPage.bind(this);
   }
 
