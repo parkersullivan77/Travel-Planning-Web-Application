@@ -33,7 +33,7 @@ public class TestTIPConfig {
   @Test
   public void testServerName() {
     String name = conf.getServerName();
-    assertEquals("config name", "t## team name", name);
+    assertEquals("config name", "T19 We Them Boys", name);
   }
 
   @Test
