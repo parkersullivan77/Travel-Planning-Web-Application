@@ -85,7 +85,7 @@ export default class Application extends Component {
                            settings={this.state.clientSettings}
                            createErrorBanner={this.createErrorBanner}/>;
       case 'about':
-        return <Calculator options={this.state.planOptions}
+        return <About options={this.state.planOptions}
                            settings={this.state.clientSettings}
                            createErrorBanner={this.createErrorBanner}/>;
       case 'options':

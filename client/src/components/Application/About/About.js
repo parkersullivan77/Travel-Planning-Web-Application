@@ -9,16 +9,16 @@ export default class About extends Component {
     constructor(props) {
         super(props);
 
-        //this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
-        //this.calculateDistance = this.calculateDistance.bind(this);
-        //this.createInputField = this.createInputField.bind(this);
-
     }
 
     render() {
         return (
             <Container>
-                { this.state.errorMessage }
+                <Row>
+                    <Col>
+                        {this.createHeader()}
+                    </Col>
+                </Row>
 
             </Container>
         );
@@ -27,9 +27,9 @@ export default class About extends Component {
     createHeader() {
         return (
             <Pane header={'About'}
-                  bodyJSX={<div>Determine the distance between the origin and destination.
-                      Change the units on the <b>Options</b> page.</div>}/>
+                  bodyJSX={<div>About <b>We Them Boys</b> page.</div>}/>
         );
     }
+
 
 }
