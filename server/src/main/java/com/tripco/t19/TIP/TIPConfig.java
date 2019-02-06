@@ -38,6 +38,14 @@ public class TIPConfig extends TIPHeader {
     this.placeAttributes = Arrays.asList("latitude", "longitude", "name");
     log.trace("buildResponse -> {}", this);
   }
+  @Override
+  public String toString()
+  {
+    return serverName + " " + placeAttributes;
+   // return "{\"serverName\":"+ "\"" + serverName + "\"," + placeAttributes;
+
+    //no need to return log
+  }
 
 
   String getServerName() {
