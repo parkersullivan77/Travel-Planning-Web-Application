@@ -41,7 +41,7 @@ public class TIPConfig extends TIPHeader {
   @Override
   public String toString()
   {
-    return serverName + " " + placeAttributes;
+    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes;
    // return "{\"serverName\":"+ "\"" + serverName + "\"," + placeAttributes;
 
     //no need to return log
