@@ -25,7 +25,6 @@ public class TIPConfig extends TIPHeader {
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
-
   public TIPConfig() {
     this.requestType = "config";
     this.requestVersion = 1;
