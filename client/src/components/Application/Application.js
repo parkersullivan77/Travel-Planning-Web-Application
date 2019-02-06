@@ -4,7 +4,6 @@ import {Card, CardBody, CardHeader, Container} from 'reactstrap';
 import Home from './Home';
 import Options from './Options/Options';
 import Calculator from './Calculator/Calculator';
-import About from './About/About';
 import Settings from './Settings/Settings';
 import {getOriginalServerPort, sendServerRequest} from '../../api/restfulAPI';
 import ErrorBanner from './ErrorBanner';
@@ -64,7 +63,6 @@ export default class Application extends Component {
 
   updateServerConfig() {
     sendServerRequest('config', this.state.clientSettings.serverPort).then(config => {
-
       console.log(config);
       this.processConfigResponse(config);
     });
@@ -82,10 +80,6 @@ export default class Application extends Component {
     switch(pageToRender) {
       case 'calc':
         return <Calculator options={this.state.planOptions}
-                           settings={this.state.clientSettings}
-                           createErrorBanner={this.createErrorBanner}/>;
-      case 'about':
-        return <About options={this.state.planOptions}
                            settings={this.state.clientSettings}
                            createErrorBanner={this.createErrorBanner}/>;
       case 'options':

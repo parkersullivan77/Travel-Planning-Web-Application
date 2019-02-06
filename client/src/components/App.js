@@ -13,7 +13,6 @@ export default class App extends Component {
     this.pages = [
       { title: 't19 We Them Boys', page: ''},
       { title: 'Calculator', page: 'calc'},
-      { title: 'About', page: 'about'},
       { title: 'Options', page: 'options'},
       { title: '\u2699', page: 'settings' }
     ];
