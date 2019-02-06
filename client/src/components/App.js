@@ -20,7 +20,6 @@ export default class App extends Component {
     this.state = {
       current_page: this.pages[0].page
     };
-
     this.setAppPage = this.setAppPage.bind(this);
   }
 

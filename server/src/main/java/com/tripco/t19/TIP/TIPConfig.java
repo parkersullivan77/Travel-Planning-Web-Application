@@ -25,7 +25,6 @@ public class TIPConfig extends TIPHeader {
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
-
   public TIPConfig() {
     this.requestType = "config";
     this.requestVersion = 1;
@@ -34,9 +33,17 @@ public class TIPConfig extends TIPHeader {
 
   @Override
   public void buildResponse() {
-    this.serverName = "t## team name";
+    this.serverName = "T19 We Them Boys";
     this.placeAttributes = Arrays.asList("latitude", "longitude", "name");
     log.trace("buildResponse -> {}", this);
+  }
+  @Override
+  public String toString()
+  {
+    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes;
+   // return "{\"serverName\":"+ "\"" + serverName + "\"," + placeAttributes;
+
+    //no need to return log
   }
 
 
