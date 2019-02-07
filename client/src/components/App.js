@@ -12,6 +12,7 @@ export default class App extends Component {
     super(props);
     this.pages = [
       { title: 't19 We Them Boys', page: ''},
+      { title: 'About', page: 'about'},
       { title: 'Calculator', page: 'calc'},
       { title: 'Options', page: 'options'},
       { title: '\u2699', page: 'settings' }
