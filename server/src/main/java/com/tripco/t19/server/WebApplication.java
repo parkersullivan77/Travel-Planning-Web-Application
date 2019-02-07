@@ -9,6 +9,7 @@ public class WebApplication {
 
   private final static Logger log = LoggerFactory.getLogger(WebApplication.class);
 
+
   public static void main(String[] commandLineArguments) {
 
     if (commandLineArguments.length > 1) {

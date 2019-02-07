@@ -24,7 +24,6 @@ class MicroServer {
 
   private final Logger log = LoggerFactory.getLogger(MicroServer.class);
 
-
   MicroServer(int serverPort) {
     configureServer(serverPort);
     serveStaticPages();
