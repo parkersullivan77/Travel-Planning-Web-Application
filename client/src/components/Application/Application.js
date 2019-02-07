@@ -3,6 +3,7 @@ import {Card, CardBody, CardHeader, Container} from 'reactstrap';
 
 import Home from './Home';
 import Options from './Options/Options';
+import About from './About/About';
 import Calculator from './Calculator/Calculator';
 import Settings from './Settings/Settings';
 import {getOriginalServerPort, sendServerRequest} from '../../api/restfulAPI';
@@ -78,6 +79,10 @@ export default class Application extends Component {
 
   createApplicationPage(pageToRender) {
     switch(pageToRender) {
+      case 'about':
+        return <About options={this.state.planOptions}
+                      settings={this.state.clientSettings}
+                      createErrorBanner={this.createErrorBanner}/>;
       case 'calc':
         return <Calculator options={this.state.planOptions}
                            settings={this.state.clientSettings}
