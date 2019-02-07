@@ -24,7 +24,7 @@ export default class Application extends Component {
     this.state = {
       serverConfig: null,
       planOptions: {
-        units: {'miles':3959},
+        units: {'miles':3959, 'kilometers':6371},
         activeUnit: 'miles'
       },
       clientSettings: {
@@ -93,7 +93,7 @@ export default class Application extends Component {
                         updateOption={this.updatePlanOption}/>;
       case 'settings':
         return <Settings settings={this.state.clientSettings}
-                         serverConfig={this.state.serverConfig}
+                         serverConfig={this.state.seplanOptionsrverConfig}
                          updateSetting={this.updateClientSetting}/>;
       default:
         return <Home/>;
