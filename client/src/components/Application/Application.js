@@ -93,7 +93,7 @@ export default class Application extends Component {
                         updateOption={this.updatePlanOption}/>;
       case 'settings':
         return <Settings settings={this.state.clientSettings}
-                         serverConfig={this.state.seplanOptionsrverConfig}
+                         serverConfig={this.state.serverConfig}
                          updateSetting={this.updateClientSetting}/>;
       default:
         return <Home/>;
