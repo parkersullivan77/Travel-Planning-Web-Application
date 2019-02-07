@@ -9,29 +9,25 @@ export default class About extends Component {
     constructor(props) {
         super(props);
 
-
     }
 
     render() {
         return (
             <Container>
-            <Row>
-            <Col>
-            {this.createHeader()}
-            </Col>
-            </Row>
-            <Row>
+                <Row>
+                    <Col>
+                        {this.createHeader()}
+                    </Col>
+                </Row>
 
-            </Row>
             </Container>
         );
     }
 
     createHeader() {
         return (
-            <Pane header={'Calculator'}
-                  bodyJSX={<div>Determine the distance between the origin and destination.
-                      Change the units on the <b>Options</b> page.</div>}/>
+            <Pane header={'About'}
+                  bodyJSX={<div>About <b>We Them Boys</b> page.</div>}/>
         );
     }
 
