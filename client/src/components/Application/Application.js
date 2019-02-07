@@ -78,6 +78,8 @@ export default class Application extends Component {
 
   createApplicationPage(pageToRender) {
     switch(pageToRender) {
+      case 'about':
+        return <About />;
       case 'calc':
         return <Calculator options={this.state.planOptions}
                            settings={this.state.clientSettings}
