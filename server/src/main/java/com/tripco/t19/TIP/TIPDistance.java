@@ -55,6 +55,12 @@ public class TIPDistance extends TIPHeader {
 
 
   int getDistance() {
+    double lat1  = Double.parseDouble((String)origin.get("latitude"));
+    double lon1  = Double.parseDouble((String)origin.get("longitude"));
+    double lat2  = Double.parseDouble((String)destination.get("latitude"));
+    double lon2  = Double.parseDouble((String)destination.get("longitude"));
+    this.distance = GreatCircleDistance.haversine(lat1, lon1, lat2, lon2);
+    System.out.println(this.toString());
     return distance;
   }
 }
