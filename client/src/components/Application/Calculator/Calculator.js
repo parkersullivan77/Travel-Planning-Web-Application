@@ -87,9 +87,43 @@ export default class Calculator extends Component {
               <div>
               <h5>{this.state.distance} {this.props.options.activeUnit}</h5>
               <Button onClick={this.calculateDistance}>Calculate</Button>
+              <Button onClick={this.errorCheck}>Error Check</Button>
             </div>}
       />
     );
+  }
+  errorCheck()  //Validating data; Make sure latitude,longitudes are valid. Make sure input is numeric.
+  {
+      if (this.state.origin.distance[latitude] < -90 || this.state.origin.distance[latitude] > 90 || isNaN(this.state.origin.distance[latitude]))
+      {
+          errorMessage: this.props.createErrorBanner
+          (
+              `Invalid Latitude.`
+          )
+      }
+      if (this.state.origin.distance[longitude] < -180 || this.state.origin.distance[longitude] > 180 || isNaN(this.state.origin.distance[longitude]))
+      {
+          errorMessage: this.props.createErrorBanner
+          (
+              `Invalid Longitude.`
+          )
+      }
+      if (this.state.destination.distance[latitude] < -90 || this.state.destination.distance[latitude] > 90 || isNaN(this.state.destination.distance[latitude]))
+      {
+          errorMessage: this.props.createErrorBanner
+          (
+              `Invalid Latitude.`
+          )
+
+      }
+      if (this.state.destination.distance[longitude] < -180 || this.state.destination.distance[longitude] > 180 || isNaN(this.state.origin.distance[longitude]))
+      {
+          errorMessage: this.props.createErrorBanner
+          (
+              `Invalid Longitude.`
+          )
+      }
+         //output: invalid data
   }
 
   calculateDistance() {
