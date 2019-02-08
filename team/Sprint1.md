@@ -57,7 +57,7 @@ Epics planned for this release.
 We picked up the project quickly and were able to start making progress with only a small handful of interruptions. The team came together well and together produces a condusive work environment. 
 
 #### Potential improvements
-Our meeting times are not always the most ideal for optimal productivity. Additionally, the space we choose is not always accessible.
+Our meeting times are not always the most ideal for optimal productivity. Additionally, the space we choose is not always accessible. We did not stick to who commited branches, even though the asignees worked on them. 
 
 #### What we will change next time
-Meeting times will be reconfigured to combine both opportune times and workable spaces, ensuring team meeting time is as productive as possible. 
+Meeting times will be reconfigured to combine both opportune times and workable spaces, ensuring team meeting time is as productive as possible. Moreover, we will follow proper procedure closer.
