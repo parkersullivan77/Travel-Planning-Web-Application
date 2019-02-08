@@ -9,15 +9,25 @@ import { Card, CardImg, CardText, CardBody,
 
 
 
-import dziugas from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/resources/Dzuigas.jpg'
-import westin from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/resources/westin.jpg'
-import kareem from  '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/resources/Kareem1.jpg'
-import parker from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/resources/parker.jpg'
+import dziugas from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/src/components/Application/About/resources/Dzuigas.jpg'
+import westin from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/src/components/Application/About/resources/westin.jpg'
+import kareem from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/src/components/Application/About/resources/Kareem1.jpg'
+import parker from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/src/components/Application/About/resources/parker.jpg'
 
 export default class About extends Component {
     constructor(props) {
         super(props);
-        this.state = {}
+        /*this.state = {
+            bio: {parker: "My name is Parker Sullivan and I am a currently a CS major at Colorado State University. I like long walks on the beach and candlelit dinners."
+                ,kareem: "I'm a senior CS student at Colorado State University. Interests: VR and cloud computing"
+                ,westin: "I'm a third year computer science major with a minor (and love) for mathematics. I'm particularly interested in security, but in my free time I enjoy picking up games of volleyball and watching movies."
+                ,dziugas: "I am a second year computer science student, meme connoisseur, aspiring entrepreneur."},
+
+            name: {parker: "Parker Sullivan",kareem: "Kareem Youssef", dziugas: "Dziugas Butkus", westin: "Westin Musser"},
+
+            img: {parker:"./resources/parker.jpg",kareem: "https://imgur.com/a/mhnXq55", dziugas: "https://imgur.com/a/tUzALTA", westin: "https://imgur.com/a/edEWksR"}
+
+        }*/
     }
 
 
@@ -61,12 +71,27 @@ export default class About extends Component {
         );
     }
 
+    /*createCard(name){
+        return (
+            <div>
+                <Card>
+                    <div className="container">
+                        <img   src = {this.state.img[name]}/>
+                    </div>
+                    <CardBody>
+                        <CardTitle>{this.state.name[name]}</CardTitle>
+                        <CardText>{this.state.bio[name]}</CardText>
+                    </CardBody>
+                </Card>
+            </div>
+        );
+    };*/
     createParker(){
         return (
             <div>
                 <Card>
                     <div className="container">
-                        <img   src = {parker}/>
+                        <img  src={parker} />
                     </div>
                     <CardBody>
                         <CardTitle>Parker Sullivan</CardTitle>
@@ -106,22 +131,21 @@ export default class About extends Component {
             </div>
         );
     };
-    createKareem(){
+    createKareem() {
         return (
             <div>
                 <Card>
                     <div className="container">
-                        <img  src={kareem} />
+                        <img src={kareem}/>
                     </div>
                     <CardBody>
                         <CardTitle>Kareem Youssef</CardTitle>
-                        <CardText> I'm a senior CS student at Colorado State University. Interests: VR and cloud computing</CardText>
+                        <CardText> I'm a senior CS student at Colorado State University. Interests: VR and cloud
+                            computing</CardText>
                     </CardBody>
                 </Card>
             </div>
         );
-    };
-
-
+    }
 
 }
