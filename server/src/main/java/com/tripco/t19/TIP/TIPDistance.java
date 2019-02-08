@@ -28,6 +28,9 @@ public class TIPDistance extends TIPHeader {
 
   private final transient Logger log = LoggerFactory.getLogger(TIPDistance.class);
 
+  public String toString(){
+    return "{origin:" + origin + ",destination:" + destination + ",earthRadius:" + earthRadius + ",distance:" + distance + "}";
+  }
 
   TIPDistance(int version, Map origin, Map destination, float earthRadius) {
     this();
