@@ -50,11 +50,17 @@ public class TIPDistance extends TIPHeader {
   @Override
   public void buildResponse() {
     this.distance = 0;
+    this.distance = getDistance();
     log.trace("buildResponse -> {}", this);
   }
 
 
   int getDistance() {
+    double lat1  = Double.parseDouble((String)origin.get("latitude"));
+    double lon1  = Double.parseDouble((String)origin.get("longitude"));
+    double lat2  = Double.parseDouble((String)destination.get("latitude"));
+    double lon2  = Double.parseDouble((String)destination.get("longitude"));
+    distance = GreatCircleDistance.haversine(lat1, lon1, lat2, lon2, earthRadius);
     return distance;
   }
 }
