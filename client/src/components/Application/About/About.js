@@ -9,10 +9,10 @@ import { Card, CardImg, CardText, CardBody,
 
 
 
-import dziugas from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/src/components/Application/About/resources/Dzuigas.jpg'
-import westin from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/src/components/Application/About/resources/westin.jpg'
-import kareem from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/src/components/Application/About/resources/Kareem1.jpg'
-import parker from '/s/bach/k/under/pmsulliv/IdeaProjects/t19/client/src/components/Application/About/resources/parker.jpg'
+import dziugas from'./resources/Dziugas.jpg'
+import westin from './resources/westin.jpg'
+import kareem from './resources/Kareem1.jpg'
+import parker from './resources/parker.jpg'
 
 export default class About extends Component {
     constructor(props) {
