@@ -55,7 +55,9 @@ export default class Calculator extends Component {
 
   createInputField(stateVar, coordinate) {
     let updateStateVarOnChange = (event) => {
-      this.updateLocationOnChange(stateVar, event.target.name, event.target.value)};
+      this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
+      //console.log(event.target);
+    };
 
     let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
     return (
