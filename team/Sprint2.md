@@ -50,7 +50,9 @@ This sprint will complete the following Epics.
 
 
 
-Key planning decisions for this sprint include changing our meeting times to when we can focus on working on this class only and not get distracted by other tasks.
+Key planning decisions for this sprint include:
+* changing our meeting times to when we can focus on working on this class only and not get distracted by other tasks
+* starting to complete tasks early
 
 
 ## Metrics
