@@ -17,12 +17,14 @@ export default class Calculator extends Component {
       origin: {latitude: '', longitude: ''},
       destination: {latitude: '', longitude: ''},
       distance: 0,
-      errorMessage: null
+      errorMessage: null,
+      isDisabled: true
     };
   }
 
   render() {
-    return (
+      this.state.isDisabled = this.validateInput();
+      return (
       <Container>
         { this.state.errorMessage }
         <Row>
@@ -56,18 +58,39 @@ export default class Calculator extends Component {
   createInputField(stateVar, coordinate) {
     let updateStateVarOnChange = (event) => {
       this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
-      //console.log(event.target);
     };
 
     let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
-    return (
-      <Input name={coordinate} placeholder={capitalizedCoordinate}
-             id={`${stateVar}${capitalizedCoordinate}`}
-             value={this.state[stateVar][coordinate]}
-             onChange={updateStateVarOnChange}
-             style={{width: "100%"}} />
-    );
+      return (
+          <Input name={coordinate} placeholder={capitalizedCoordinate}
+                 id={`${stateVar}${capitalizedCoordinate}`}
+                 value={this.state[stateVar][coordinate]}
+                 onChange={updateStateVarOnChange}
+                 style={{width: "100%"}}/>
+      );
+  }
 
+  validateInput() {
+      // Check if every input is valid
+      var nan1 = /^\d*\.?\d+$/.test(this.state.origin['latitude']);
+      var nan2 = /^\d*\.?\d+$/.test(this.state.origin['longitude']);
+      var nan3 = /^\d*\.?\d+$/.test(this.state.destination['latitude']);
+      var nan4 = /^\d*\.?\d+$/.test(this.state.destination['longitude']);
+
+      // If every input is valid, parse them to floats and check ranges
+      if(nan1 === true && nan2 === true && nan3 === true && nan4 === true) {
+          var lat1 = Number.parseFloat((this.state.origin['latitude']));
+          var long1 = Number.parseFloat((this.state.origin['longitude']));
+          var lat2 = Number.parseFloat((this.state.destination['latitude']));
+          var long2 = Number.parseFloat((this.state.destination['longitude']));
+          if(lat1 > 90 || lat1 < -90 || lat2 > 90 || lat2 < -90)
+              return true;
+          if(long1 > 180 || long1 < -180 || long2 > 180 || long2 < -180)
+              return true;
+      } else {
+          return true;
+      }
+      return false;
   }
 
   createForm(stateVar) {
@@ -83,13 +106,18 @@ export default class Calculator extends Component {
   }
 
   createDistance() {
-    return(
+      return(
       <Pane header={'Distance'}
             bodyJSX={
               <div>
               <h5>{this.state.distance} {this.props.options.activeUnit}</h5>
-              <Button onClick={this.calculateDistance}>Calculate</Button>
-            </div>}
+              <Button
+                  disabled={this.state.isDisabled}
+                  onClick={this.calculateDistance}>
+                  Calculate
+              </Button>
+            </div>
+            }
       />
     );
   }
@@ -104,23 +132,22 @@ export default class Calculator extends Component {
     };
 
     sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
-      .then((response) => {
-        if(response.statusCode >= 200 && response.statusCode <= 299) {
-          this.setState({
-            distance: response.body.distance,
-            errorMessage: null
-          });
-        }
-        else {
-          this.setState({
-            errorMessage: this.props.createErrorBanner(
-                response.statusText,
-                response.statusCode,
-                `Request to ${ this.props.settings.serverPort } failed.`
-            )
-          });
-        }
-      });
+        .then((response) => {
+            if (response.statusCode >= 200 && response.statusCode <= 299) {
+                this.setState({
+                    distance: response.body.distance,
+                    errorMessage: null
+                });
+            } else {
+                this.setState({
+                    errorMessage: this.props.createErrorBanner(
+                        response.statusText,
+                        response.statusCode,
+                        `Request to ${this.props.settings.serverPort} failed.`
+                    )
+                });
+            }
+        });
   }
 
   updateLocationOnChange(stateVar, field, value) {
