@@ -71,13 +71,12 @@ export default class Calculator extends Component {
   }
 
   validateInput() {
-      var nan1 = Number.isNaN(Number.parseFloat((this.state.origin['latitude'])));
-      var nan2 = Number.isNaN(Number.parseFloat((this.state.origin['longitude'])));
-      var nan3 = Number.isNaN(Number.parseFloat((this.state.destination['latitude'])));
-      var nan4 = Number.isNaN(Number.parseFloat((this.state.destination['longitude'])));
-      //console.log(this.state.origin['latitude'], this.state.origin['longitude'], this.state.destination['latitude'], this.state.destination['longitude'])
-      //console.log(nan1, nan2, nan3, nan4);
-      if(nan1 !== true && nan2 !== true && nan3 !== true && nan4 !== true) {
+      var nan1 = /^\d*\.?\d+$/.test(this.state.origin['latitude']);
+      var nan2 = /^\d*\.?\d+$/.test(this.state.origin['longitude']);
+      var nan3 = /^\d*\.?\d+$/.test(this.state.destination['latitude']);
+      var nan4 = /^\d*\.?\d+$/.test(this.state.destination['longitude']);
+
+      if(nan1 === true && nan2 === true && nan3 === true && nan4 === true) {
           var lat1 = Number.parseFloat((this.state.origin['latitude']));
           var long1 = Number.parseFloat((this.state.origin['longitude']));
           var lat2 = Number.parseFloat((this.state.destination['latitude']));
