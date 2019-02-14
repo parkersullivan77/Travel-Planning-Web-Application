@@ -71,11 +71,13 @@ export default class Calculator extends Component {
   }
 
   validateInput() {
+      // Check if every input is valid
       var nan1 = /^\d*\.?\d+$/.test(this.state.origin['latitude']);
       var nan2 = /^\d*\.?\d+$/.test(this.state.origin['longitude']);
       var nan3 = /^\d*\.?\d+$/.test(this.state.destination['latitude']);
       var nan4 = /^\d*\.?\d+$/.test(this.state.destination['longitude']);
 
+      // If every input is valid, parse them to floats and check ranges
       if(nan1 === true && nan2 === true && nan3 === true && nan4 === true) {
           var lat1 = Number.parseFloat((this.state.origin['latitude']));
           var long1 = Number.parseFloat((this.state.origin['longitude']));
