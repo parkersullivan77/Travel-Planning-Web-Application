@@ -68,7 +68,7 @@ Key planning decisions for this sprint include:
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* | 
+| 02/13/2019 | #107 | #48, #86, #105, #106, #109 | none | 
 
 
 ## Review (focus on solution and technology)
