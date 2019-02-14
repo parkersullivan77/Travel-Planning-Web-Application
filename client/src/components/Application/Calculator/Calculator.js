@@ -17,12 +17,14 @@ export default class Calculator extends Component {
       origin: {latitude: '', longitude: ''},
       destination: {latitude: '', longitude: ''},
       distance: 0,
-      errorMessage: null
+      errorMessage: null,
+      isDisabled: true
     };
   }
 
   render() {
-    return (
+      this.state.isDisabled = this.validateInput();
+      return (
       <Container>
         { this.state.errorMessage }
         <Row>
@@ -55,17 +57,39 @@ export default class Calculator extends Component {
 
   createInputField(stateVar, coordinate) {
     let updateStateVarOnChange = (event) => {
-      this.updateLocationOnChange(stateVar, event.target.name, event.target.value)};
+      this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
+    };
 
     let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
-    return (
-      <Input name={coordinate} placeholder={capitalizedCoordinate}
-             id={`${stateVar}${capitalizedCoordinate}`}
-             value={this.state[stateVar][coordinate]}
-             onChange={updateStateVarOnChange}
-             style={{width: "100%"}} />
-    );
+      return (
+          <Input name={coordinate} placeholder={capitalizedCoordinate}
+                 id={`${stateVar}${capitalizedCoordinate}`}
+                 value={this.state[stateVar][coordinate]}
+                 onChange={updateStateVarOnChange}
+                 style={{width: "100%"}}/>
+      );
+  }
 
+  validateInput() {
+      var nan1 = Number.isNaN(Number.parseFloat((this.state.origin['latitude'])));
+      var nan2 = Number.isNaN(Number.parseFloat((this.state.origin['longitude'])));
+      var nan3 = Number.isNaN(Number.parseFloat((this.state.destination['latitude'])));
+      var nan4 = Number.isNaN(Number.parseFloat((this.state.destination['longitude'])));
+      //console.log(this.state.origin['latitude'], this.state.origin['longitude'], this.state.destination['latitude'], this.state.destination['longitude'])
+      console.log(nan1, nan2, nan3, nan4);
+      if(nan1 !== true && nan2 !== true && nan3 !== true && nan4 !== true) {
+          var lat1 = Number.parseFloat((this.state.origin['latitude']));
+          var long1 = Number.parseFloat((this.state.origin['longitude']));
+          var lat2 = Number.parseFloat((this.state.destination['latitude']));
+          var long2 = Number.parseFloat((this.state.destination['longitude']));
+          if(lat1 > 90 || lat1 < -90 || lat2 > 90 || lat2 < -90)
+              return true;
+          if(long1 > 180 || long1 < -180 || long2 > 180 || long2 < -180)
+              return true;
+      } else {
+          return true;
+      }
+      return false;
   }
 
   createForm(stateVar) {
@@ -81,49 +105,20 @@ export default class Calculator extends Component {
   }
 
   createDistance() {
-    return(
+      return(
       <Pane header={'Distance'}
             bodyJSX={
               <div>
               <h5>{this.state.distance} {this.props.options.activeUnit}</h5>
-              <Button onClick={this.calculateDistance}>Calculate</Button>
-              <Button onClick={this.errorCheck}>Error Check</Button>
-            </div>}
+              <Button
+                  disabled={this.state.isDisabled}
+                  onClick={this.calculateDistance}>
+                  Calculate
+              </Button>
+            </div>
+            }
       />
     );
-  }
-  errorCheck()  //Validating data; Make sure latitude,longitudes are valid. Make sure input is numeric.
-  {
-      if (this.state.origin.distance[latitude] < -90 || this.state.origin.distance[latitude] > 90 || isNaN(this.state.origin.distance[latitude]))
-      {
-          errorMessage: this.props.createErrorBanner
-          (
-              `Invalid Latitude.`
-          )
-      }
-      if (this.state.origin.distance[longitude] < -180 || this.state.origin.distance[longitude] > 180 || isNaN(this.state.origin.distance[longitude]))
-      {
-          errorMessage: this.props.createErrorBanner
-          (
-              `Invalid Longitude.`
-          )
-      }
-      if (this.state.destination.distance[latitude] < -90 || this.state.destination.distance[latitude] > 90 || isNaN(this.state.destination.distance[latitude]))
-      {
-          errorMessage: this.props.createErrorBanner
-          (
-              `Invalid Latitude.`
-          )
-
-      }
-      if (this.state.destination.distance[longitude] < -180 || this.state.destination.distance[longitude] > 180 || isNaN(this.state.origin.distance[longitude]))
-      {
-          errorMessage: this.props.createErrorBanner
-          (
-              `Invalid Longitude.`
-          )
-      }
-         //output: invalid data
   }
 
   calculateDistance() {
@@ -136,23 +131,22 @@ export default class Calculator extends Component {
     };
 
     sendServerRequestWithBody('distance', tipConfigRequest, this.props.settings.serverPort)
-      .then((response) => {
-        if(response.statusCode >= 200 && response.statusCode <= 299) {
-          this.setState({
-            distance: response.body.distance,
-            errorMessage: null
-          });
-        }
-        else {
-          this.setState({
-            errorMessage: this.props.createErrorBanner(
-                response.statusText,
-                response.statusCode,
-                `Request to ${ this.props.settings.serverPort } failed.`
-            )
-          });
-        }
-      });
+        .then((response) => {
+            if (response.statusCode >= 200 && response.statusCode <= 299) {
+                this.setState({
+                    distance: response.body.distance,
+                    errorMessage: null
+                });
+            } else {
+                this.setState({
+                    errorMessage: this.props.createErrorBanner(
+                        response.statusText,
+                        response.statusCode,
+                        `Request to ${this.props.settings.serverPort} failed.`
+                    )
+                });
+            }
+        });
   }
 
   updateLocationOnChange(stateVar, field, value) {
