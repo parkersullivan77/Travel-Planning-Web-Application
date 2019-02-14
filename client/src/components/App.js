@@ -14,6 +14,7 @@ export default class App extends Component {
       { title: 't19 We Them Boys', page: ''},
       { title: 'About', page: 'about'},
       { title: 'Calculator', page: 'calc'},
+      { title: 'Itinerary', page:'itinerary'},
       { title: 'Options', page: 'options'},
       { title: '\u2699', page: 'settings' }
     ];
