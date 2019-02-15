@@ -12,7 +12,7 @@ public abstract class TIPItinerary extends TIPHeader{
             return "{requestVersion:" + requestVersion + ",requestType:" + requestType + "}";
       }
 
-      TIPItinerary(int version, JsonObject options, Object[] places){
+      TIPItinerary(Integer version, JsonObject options, Object[] places){
             this.requestVersion = version;
             this.options = options;
             this.places = places;
