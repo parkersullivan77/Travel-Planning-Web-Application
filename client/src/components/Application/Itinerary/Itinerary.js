@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Container, Row, Col } from 'reactstrap'
+import { CustomInput, FormGroup } from 'reactstrap';
 import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
@@ -20,11 +21,30 @@ export default class Itinerary extends Component{
             <Row>
                 <Col>
                     {this.createHeader()}
+
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={'6'}>
+                    {this.createFileInput()}
                 </Col>
             </Row>
         </Container>
-    );
+        );
+    }
 
+    createFileInput (){
+        return(
+            <Pane header={'Load In Your Itinerary'}
+                  bodyJSX={
+                      <Form>
+                          <FormGroup>
+                              <Label for="exampleCustomFileBrowser">File Browser</Label>
+                              <CustomInput type="file" id="exampleCustomFileBrowser" name="customFile"/>
+                          </FormGroup>
+                      </Form>
+                  }/>
+        )
     }
 
     createHeader() {
