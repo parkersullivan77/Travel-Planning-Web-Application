@@ -9,12 +9,12 @@ import { Card, CardImg, CardText, CardBody,
     CardTitle, CardSubtitle, Spinner, CardImgOverlay } from 'reactstrap';
 
 export default class Itinerary extends Component{
-    constructor(props){
+    constructor(props)
+    {
         super(props);
         this.state = {
             }
-
-        }
+    }
     render(){
         return (
         <Container>
