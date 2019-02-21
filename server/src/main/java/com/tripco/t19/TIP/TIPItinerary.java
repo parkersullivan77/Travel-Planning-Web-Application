@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
-public abstract class TIPItinerary extends TIPHeader{
+public class TIPItinerary extends TIPHeader{
       protected JsonObject options;
       protected List<JsonObject> places;
       protected Double[] distances;
@@ -29,12 +29,12 @@ public abstract class TIPItinerary extends TIPHeader{
             this.earthRadius =  options.get("earthRadius").getAsLong();
       }
 
+      private TIPItinerary() {this.requestType = "itinerary"; }
 
       @Override
       public void buildResponse() {
-            for(int i = 0; i < (distances.length-1); i++ ){
+            for(int i = 0; i < (distances.length - 1); i++ ){
                   this.distances[i] = getDistance(i, i+1);
-                  log.trace("Distance", this.distances[i]);
             }
             this.distances[distances.length-1] = getDistance(distances.length-1, 0);
             log.trace("buildResponse -> {}", this);
@@ -45,6 +45,7 @@ public abstract class TIPItinerary extends TIPHeader{
             double lon1 = places.get(origin).get("longitude").getAsDouble();
             double lat2 = places.get(dest).get("latitude").getAsDouble();
             double lon2 = places.get(dest).get("longitude").getAsDouble();
+            log.trace("Distance");
             return GreatCircleDistance.haversine(lat1, lon1, lat2, lon2, earthRadius);
       }
 }
