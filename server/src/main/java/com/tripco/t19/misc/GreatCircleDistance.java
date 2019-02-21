@@ -9,7 +9,7 @@ public class GreatCircleDistance {
     //https://rosettacode.org/wiki/Haversine_formula#Java
     //public static final double R = 6372.8; // In kilometers
 
-    public static int haversine(double lat1, double lon1, double lat2, double lon2, float radius) {
+    public static int haversine(double lat1, double lon1, double lat2, double lon2, double radius) {
         double dLat = Math.toRadians(lat2 - lat1);
         double dLon = Math.toRadians(lon2 - lon1);
         lat1 = Math.toRadians(lat1);

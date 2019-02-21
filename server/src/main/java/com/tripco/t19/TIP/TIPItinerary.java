@@ -12,7 +12,7 @@ public class TIPItinerary extends TIPHeader{
       protected JsonObject options;
       protected List<JsonObject> places;
       protected Double[] distances;
-      protected Long earthRadius;
+      protected Double earthRadius;
 
       private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
@@ -22,12 +22,23 @@ public class TIPItinerary extends TIPHeader{
       }
 
       TIPItinerary(Integer version, JsonObject options, List<JsonObject> places){
+            this();
             this.requestVersion = version;
             this.options = options;
             this.places = places;
             this.distances = new Double[places.size()];
-            this.earthRadius =  options.get("earthRadius").getAsLong();
       }
+
+      TIPItinerary(Integer version, JsonObject options, List<JsonObject> places, Double[] distances){
+            this();
+            this.requestVersion = version;
+            this.options = options;
+            this.places = places;
+            for(int i = 0; i < distances.length; i++) {
+                  this.distances[i] = distances[i];
+            }
+      }
+
 
       private TIPItinerary() {this.requestType = "itinerary"; }
 
@@ -45,7 +56,8 @@ public class TIPItinerary extends TIPHeader{
             double lon1 = places.get(origin).get("longitude").getAsDouble();
             double lat2 = places.get(dest).get("latitude").getAsDouble();
             double lon2 = places.get(dest).get("longitude").getAsDouble();
-            log.trace("Distance");
+            this.earthRadius = Double.parseDouble(this.options.get("earthRadius").toString().replaceAll("\"",""));
+
             return GreatCircleDistance.haversine(lat1, lon1, lat2, lon2, earthRadius);
       }
 }
