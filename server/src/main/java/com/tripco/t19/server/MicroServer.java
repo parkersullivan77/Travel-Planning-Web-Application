@@ -8,6 +8,7 @@ import com.tripco.t19.TIP.TIPHeader;
 
 import java.lang.reflect.Type;
 
+import com.tripco.t19.TIP.TIPItinerary;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -60,6 +61,7 @@ class MicroServer {
   private void processRestfulAPIrequests() {
     Spark.get("/api/config", this::processTIPconfigRequest);
     Spark.post("/api/distance", this::processTIPdistanceRequest);
+    Spark.post("/api/itinerary", this::processTIPitineraryRequest);
     Spark.get("/api/echo", this::echoHTTPrequest);
     log.trace("Restful configuration complete");
   }
@@ -87,6 +89,9 @@ class MicroServer {
 
   private String processTIPdistanceRequest(Request request, Response response) {
     return processTIPrequest(TIPDistance.class, request, response);
+  }
+  private String processTIPitineraryRequest(Request request, Response response) {
+    return processTIPrequest(TIPItinerary.class, request, response);
   }
 
 

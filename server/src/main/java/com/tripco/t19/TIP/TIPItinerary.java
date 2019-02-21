@@ -34,6 +34,7 @@ public abstract class TIPItinerary extends TIPHeader{
       public void buildResponse() {
             for(int i = 0; i < (distances.length-1); i++ ){
                   this.distances[i] = getDistance(i, i+1);
+                  log.trace("Distance", this.distances[i]);
             }
             this.distances[distances.length-1] = getDistance(distances.length-1, 0);
             log.trace("buildResponse -> {}", this);
