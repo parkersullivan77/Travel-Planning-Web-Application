@@ -1,3 +1,4 @@
+
 package com.tripco.t19.TIP;
 
 import com.tripco.t19.misc.GreatCircleDistance;
@@ -23,23 +24,22 @@ import java.util.Map;
 public class TIPDistance extends TIPHeader {
   private Map origin;
   private Map destination;
-  private Double earthRadius;
-  private Long distance;
-  //Changed earthRadius to Double
-  //Changed distance to Long
+  private Float earthRadius;
+  private Integer distance;
+
   private final transient Logger log = LoggerFactory.getLogger(TIPDistance.class);
 
   public String toString(){
     return "{origin:" + origin + ",destination:" + destination + ",earthRadius:" + earthRadius + ",distance:" + distance + "}";
   }
 
-  TIPDistance(int version, Map origin, Map destination, Double earthRadius) {
+  TIPDistance(int version, Map origin, Map destination, float earthRadius) {
     this();
     this.requestVersion = version;
     this.origin = origin;
     this.destination = destination;
     this.earthRadius = earthRadius;
-    this.distance = 0L;
+    this.distance = 0;
   }
 
 
@@ -50,13 +50,13 @@ public class TIPDistance extends TIPHeader {
 
   @Override
   public void buildResponse() {
-    this.distance = 0L;
+    this.distance = 0;
     this.distance = getDistance();
     log.trace("buildResponse -> {}", this);
   }
 
 
-    long getDistance() {
+  int getDistance() {
     double lat1  = Double.parseDouble((String)origin.get("latitude"));
     double lon1  = Double.parseDouble((String)origin.get("longitude"));
     double lat2  = Double.parseDouble((String)destination.get("latitude"));
