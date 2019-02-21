@@ -13,7 +13,7 @@ import static org.junit.Assert.assertEquals;
 public class TestTIPDistance {
 
   /* Radius and location values shared by test cases */
-  private final Double radiusMiles = 3958D;
+  private final Integer radiusMiles = 3958;
   private Map<String, Object> csu;
   private final int version = 1;
 
