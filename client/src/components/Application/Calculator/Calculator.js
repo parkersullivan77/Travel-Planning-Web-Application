@@ -5,8 +5,10 @@ import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
 
+
+//Wrong value returned for miles.json after intelliJ restful api test
 export default class Calculator extends Component {
-  constructor(props) {
+  constructor(props){
     super(props);
 
     this.updateLocationOnChange = this.updateLocationOnChange.bind(this);
@@ -21,7 +23,6 @@ export default class Calculator extends Component {
       isDisabled: true
     };
   }
-
   render() {
       this.state.isDisabled = this.validateInput();
       return (
