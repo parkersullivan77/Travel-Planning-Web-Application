@@ -29,7 +29,6 @@ public abstract class TIPItinerary extends TIPHeader{
             this.earthRadius =  options.get("earthRadius").getAsLong();
       }
 
-
       @Override
       public void buildResponse() {
         for(int i = 0; i < (distances.length-1); i++ ){
