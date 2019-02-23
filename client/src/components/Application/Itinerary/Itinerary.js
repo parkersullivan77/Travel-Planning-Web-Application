@@ -93,8 +93,7 @@ export default class Itinerary extends Component{
             'type': 'itinerary',
             'version':2,
             'options':this.state.options,
-            'places': this.state.places,
-            'distances':this.state.distances
+            'places': this.state.places
         }
 
         sendServerRequestWithBody('itinerary',tipConfigRequest, this.props.settings.serverPort())
