@@ -5,10 +5,10 @@ import com.google.gson.Gson;
 import com.tripco.t19.TIP.TIPConfig;
 import com.tripco.t19.TIP.TIPDistance;
 import com.tripco.t19.TIP.TIPHeader;
+import com.tripco.t19.TIP.TIPItinerary;
 
 import java.lang.reflect.Type;
 
-import com.tripco.t19.TIP.TIPItinerary;
 import spark.Request;
 import spark.Response;
 import spark.Spark;

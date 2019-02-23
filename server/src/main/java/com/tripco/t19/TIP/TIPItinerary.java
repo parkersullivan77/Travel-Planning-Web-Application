@@ -16,36 +16,26 @@ public class TIPItinerary extends TIPHeader{
 
       private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
-
       public String toString(){
             return "{requestVersion:" + requestVersion + ",requestType:" + requestType + "}";
       }
 
-      TIPItinerary(Integer version, JsonObject options, List<JsonObject> places){
+      TIPItinerary(Integer version, JsonObject options, List<JsonObject> places) {
             this();
             this.requestVersion = version;
             this.options = options;
             this.places = places;
-            this.distances = new Double[places.size()];
       }
 
-      TIPItinerary(Integer version, JsonObject options, List<JsonObject> places, Double[] distances){
-            this();
-            this.requestVersion = version;
-            this.options = options;
-            this.places = places;
-            for(int i = 0; i < distances.length; i++) {
-                  this.distances[i] = distances[i];
-            }
+      private TIPItinerary() {
+            this.requestType = "itinerary";
       }
-
-
-      private TIPItinerary() {this.requestType = "itinerary"; }
 
       @Override
-      public void buildResponse() {
-            for(int i = 0; i < (distances.length - 1); i++ ){
-                  this.distances[i] = getDistance(i, i+1);
+      public void buildResponse(){
+            this.distances = new Double[places.size()];
+            for (int i = 0; i < this.distances.length - 1; i++) {
+                  this.distances[i] = getDistance(i, i + 1);
             }
             this.distances[distances.length-1] = getDistance(distances.length-1, 0);
             log.trace("buildResponse -> {}", this);
