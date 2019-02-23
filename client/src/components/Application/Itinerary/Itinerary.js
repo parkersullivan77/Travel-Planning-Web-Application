@@ -15,6 +15,7 @@ export default class Itinerary extends Component{
         this.updateField= this.updateField.bind(this);
 
         this.createFileInput= this.createFileInput.bind(this);
+        this.createInputField = this.createInputField.bind(this);
 
         this.state = {
             origin: {latitude: '', longitude: ''},
@@ -32,12 +33,13 @@ export default class Itinerary extends Component{
                 <Row>
                     <Col>
                         {this.createHeader()}
-
                     </Col>
                 </Row>
                 <Row>
                     <Col lg={'6'}>
                         {this.createFileInput()}
+                        {this.createForm('origin')}
+                        {this.createForm('destination')}
                     </Col>
                 </Row>
             </Container>
@@ -70,6 +72,34 @@ export default class Itinerary extends Component{
                   bodyJSX={<div><b>Plan your Trip Boyyyysss</b></div>}/>
         );
     }
+
+
+    createInputField(stateVar, coordinate) {
+        let updateStateVarOnChange = (event) => {
+            this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
+        };
+
+        let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
+        return (
+            <Input name={coordinate} placeholder={capitalizedCoordinate}
+                   id={`${stateVar}${capitalizedCoordinate}`}
+                   value={this.state[stateVar][coordinate]}
+                   onChange={updateStateVarOnChange}
+                   style={{width: "100%"}}/>
+        );
+    }
+    createForm(stateVar) {
+        return (
+            <Pane header={stateVar.charAt(0).toUpperCase() + stateVar.slice(1)}
+                  bodyJSX={
+                      <Form >
+                          {this.createInputField(stateVar, 'latitude')}
+                          {this.createInputField(stateVar, 'longitude')}
+                      </Form>
+                  }
+            />);
+    }
+
 
     updateField(event){
         var reader = new FileReader();
@@ -106,5 +136,10 @@ export default class Itinerary extends Component{
                     });
                 }
             });
+    }
+    updateLocationOnChange(stateVar, field, value) {
+        let location = Object.assign({}, this.state[stateVar]);
+        location[field] = value;
+        this.setState({[stateVar]: location});
     }
 }
