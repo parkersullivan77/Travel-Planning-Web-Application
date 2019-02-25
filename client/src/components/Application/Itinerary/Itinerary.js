@@ -39,7 +39,6 @@ export default class Itinerary extends Component{
                     <Col lg={'6'}>
                         {this.createFileInput()}
                         {this.createForm('origin')}
-                        {this.createForm('destination')}
                     </Col>
                 </Row>
             </Container>
@@ -90,11 +89,19 @@ export default class Itinerary extends Component{
     }
     createForm(stateVar) {
         return (
-            <Pane header={stateVar.charAt(0).toUpperCase() + stateVar.slice(1)}
+            <Pane header={'Type a Trip'}
                   bodyJSX={
                       <Form >
+                          <label> <b>Start Location</b></label>
+                          <FormGroup>
                           {this.createInputField(stateVar, 'latitude')}
                           {this.createInputField(stateVar, 'longitude')}
+                          </FormGroup>
+                          <label> <b>Finish Location</b></label>
+                          <FormGroup>
+                          {this.createInputField(stateVar, 'latitude')}
+                          {this.createInputField(stateVar, 'longitude')}
+                          </FormGroup>
                       </Form>
                   }
             />);
