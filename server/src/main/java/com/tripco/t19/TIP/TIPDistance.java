@@ -32,7 +32,6 @@ public class TIPDistance extends TIPHeader {
   public String toString(){
     return "{origin:" + origin + ",destination:" + destination + ",earthRadius:" + earthRadius + ",distance:" + distance + "}";
   }
-
   TIPDistance(int version, Map origin, Map destination, double earthRadius) {
     this();
     this.requestVersion = version;
