@@ -14,6 +14,7 @@ public class TestTIPDistance {
 
   /* Radius and location values shared by test cases */
   private final Integer radiusMiles = 3958;
+
   private Map<String, Object> csu;
   private final int version = 1;
 
@@ -32,5 +33,13 @@ public class TestTIPDistance {
     int expect = 0;
     long actual = trip.getDistance();
     assertEquals("origin and destination are the same", expect, actual);
+  }
+  @Test
+  public void testMilesInputs() {
+    TIPDistance trip = new TIPDistance(version, csu , csu, 3959);
+    trip.buildResponse();
+    long expect = 466;
+    long actual = trip.getDistance();
+    assertEquals("Test values for miles ",expect,actual);
   }
 }
