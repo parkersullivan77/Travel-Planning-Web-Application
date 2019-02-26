@@ -15,13 +15,15 @@ export default class Itinerary extends Component{
         this.updateField= this.updateField.bind(this);
 
         this.createFileInput= this.createFileInput.bind(this);
+        this.createInputField = this.createInputField.bind(this);
 
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
             options:{title: '',earthRadius: ' '},
             places:{id: '', name:'', latitude: '',longitude: ''},
-            distances: []
+            distances: [],
+            filename:' Upload File'
         }
 
     }
@@ -32,12 +34,12 @@ export default class Itinerary extends Component{
                 <Row>
                     <Col>
                         {this.createHeader()}
-
                     </Col>
                 </Row>
                 <Row>
                     <Col lg={'6'}>
                         {this.createFileInput()}
+                        {this.createForm('origin','destination')}
                     </Col>
                 </Row>
             </Container>
@@ -51,7 +53,7 @@ export default class Itinerary extends Component{
                       <Form onSubmit= {this.createItinerary}>
                           <FormGroup>
                               <Label for="itinerary">File Browser</Label>
-                              <CustomInput onChange = {this.updateField} type="file" id="itinerary" label='Upload Your Trip'/>
+                              <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
                           </FormGroup>
                           <FormGroup>
                               <Button
@@ -71,12 +73,51 @@ export default class Itinerary extends Component{
         );
     }
 
+
+    createInputField(stateVar, coordinate) {
+        let updateStateVarOnChange = (event) => {
+            this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
+        };
+
+        let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
+        return (
+            <Input name={coordinate} placeholder={capitalizedCoordinate}
+                   id={`${stateVar}${capitalizedCoordinate}`}
+                   value={this.state[stateVar][coordinate]}
+                   onChange={updateStateVarOnChange}
+                   style={{width: "100%"}}/>
+        );
+    }
+    createForm(stateVar,stateVar2) {
+        return (
+            <Pane header={'Type a Trip'}
+                  bodyJSX={
+                      <Form >
+                          <label> <b>Start Location</b></label>
+                          <FormGroup>
+                          {this.createInputField(stateVar, 'latitude')}
+                          {this.createInputField(stateVar, 'longitude')}
+                          </FormGroup>
+                          <label> <b>Finish Location</b></label>
+                          <FormGroup>
+                          {this.createInputField(stateVar2, 'latitude')}
+                          {this.createInputField(stateVar2, 'longitude')}
+                          </FormGroup>
+                      </Form>
+                  }
+            />);
+    }
+
+
     updateField(event){
         var reader = new FileReader();
         reader.onload = this.handleFile(reader);
         console.log("hi");
         console.log(reader.readAsText(event.target.files[0]));
+        this.setState({filename: event.target.files[0].name});
     }
+
+
 
     handleFile(reader) {
         console.log("file loader");
@@ -106,5 +147,10 @@ export default class Itinerary extends Component{
                     });
                 }
             });
+    }
+    updateLocationOnChange(stateVar, field, value) {
+        let location = Object.assign({}, this.state[stateVar]);
+        location[field] = value;
+        this.setState({[stateVar]: location});
     }
 }
