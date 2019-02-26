@@ -33,4 +33,5 @@ public class TestTIPDistance {
     long actual = trip.getDistance();
     assertEquals("origin and destination are the same", expect, actual);
   }
+
 }
