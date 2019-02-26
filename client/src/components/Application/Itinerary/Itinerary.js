@@ -22,7 +22,8 @@ export default class Itinerary extends Component{
             destination: {latitude: '', longitude: ''},
             options:{title: '',earthRadius: ' '},
             places:{id: '', name:'', latitude: '',longitude: ''},
-            distances: []
+            distances: [],
+            filename:' Upload File'
         }
 
     }
@@ -38,7 +39,7 @@ export default class Itinerary extends Component{
                 <Row>
                     <Col lg={'6'}>
                         {this.createFileInput()}
-                        {this.createForm('origin')}
+                        {this.createForm('origin','destination')}
                     </Col>
                 </Row>
             </Container>
@@ -52,7 +53,7 @@ export default class Itinerary extends Component{
                       <Form onSubmit= {this.createItinerary}>
                           <FormGroup>
                               <Label for="itinerary">File Browser</Label>
-                              <CustomInput onChange = {this.updateField} type="file" id="itinerary" label='Upload Your Trip'/>
+                              <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
                           </FormGroup>
                           <FormGroup>
                               <Button
@@ -87,7 +88,7 @@ export default class Itinerary extends Component{
                    style={{width: "100%"}}/>
         );
     }
-    createForm(stateVar) {
+    createForm(stateVar,stateVar2) {
         return (
             <Pane header={'Type a Trip'}
                   bodyJSX={
@@ -99,8 +100,8 @@ export default class Itinerary extends Component{
                           </FormGroup>
                           <label> <b>Finish Location</b></label>
                           <FormGroup>
-                          {this.createInputField(stateVar, 'latitude')}
-                          {this.createInputField(stateVar, 'longitude')}
+                          {this.createInputField(stateVar2, 'latitude')}
+                          {this.createInputField(stateVar2, 'longitude')}
                           </FormGroup>
                       </Form>
                   }
@@ -113,7 +114,10 @@ export default class Itinerary extends Component{
         reader.onload = this.handleFile(reader);
         console.log("hi");
         console.log(reader.readAsText(event.target.files[0]));
+        this.setState({filename: event.target.files[0].name});
     }
+
+
 
     handleFile(reader) {
         console.log("file loader");
