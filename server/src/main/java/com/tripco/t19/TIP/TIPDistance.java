@@ -24,22 +24,21 @@ import java.util.Map;
 public class TIPDistance extends TIPHeader {
   private Map origin;
   private Map destination;
-  private Float earthRadius;
-  private Integer distance;
+  private Double earthRadius;
+  private Long distance;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPDistance.class);
 
   public String toString(){
     return "{origin:" + origin + ",destination:" + destination + ",earthRadius:" + earthRadius + ",distance:" + distance + "}";
   }
-
-  TIPDistance(int version, Map origin, Map destination, float earthRadius) {
+  TIPDistance(int version, Map origin, Map destination, double earthRadius) {
     this();
     this.requestVersion = version;
     this.origin = origin;
     this.destination = destination;
     this.earthRadius = earthRadius;
-    this.distance = 0;
+    this.distance = 0L;
   }
 
 
@@ -50,18 +49,18 @@ public class TIPDistance extends TIPHeader {
 
   @Override
   public void buildResponse() {
-    this.distance = 0;
+    this.distance = 0L;
     this.distance = getDistance();
     log.trace("buildResponse -> {}", this);
   }
 
 
-  int getDistance() {
+  Long getDistance() {
     double lat1  = Double.parseDouble((String)origin.get("latitude"));
     double lon1  = Double.parseDouble((String)origin.get("longitude"));
     double lat2  = Double.parseDouble((String)destination.get("latitude"));
     double lon2  = Double.parseDouble((String)destination.get("longitude"));
-    distance = GreatCircleDistance.haversine(lat1, lon1, lat2, lon2, earthRadius);
+    distance = (GreatCircleDistance.haversine(lat1, lon1, lat2, lon2, earthRadius));
     return distance;
   }
 }
