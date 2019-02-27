@@ -5,8 +5,6 @@ import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
-import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Spinner, CardImgOverlay } from 'reactstrap';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer} from "react-leaflet";
@@ -183,7 +181,7 @@ export default class Itinerary extends Component{
             'places': this.state.places
         }
 
-        sendServerRequestWithBody('itinerary',tipConfigRequest, this.props.settings.serverPort())
+        sendServerRequestWithBody('itinerary',tipConfigRequest, this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
                     this.setState({
@@ -191,7 +189,6 @@ export default class Itinerary extends Component{
                         places: response.body.places,
                         distances: response.body.distances
                     });
-                    //this.saveFile();
                 }
             });
     }
