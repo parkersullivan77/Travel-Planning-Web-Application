@@ -5,8 +5,6 @@ import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
-import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Spinner, CardImgOverlay } from 'reactstrap';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer} from "react-leaflet";
@@ -16,7 +14,7 @@ export default class Itinerary extends Component{
         super(props);
 
         this.updateField= this.updateField.bind(this);
-
+        this.createItinerary = this.createItinerary.bind(this);
         this.createFileInput= this.createFileInput.bind(this);
         this.createInputField = this.createInputField.bind(this);
 
@@ -158,28 +156,24 @@ export default class Itinerary extends Component{
             />);
     }
 
-
-    updateField(event){
+    updateField(event) {
+        var file = event.target.files[0];
         var reader = new FileReader();
-        reader.onload = this.handleFile(reader);
-        console.log("hi");
-        console.log(reader.readAsText(event.target.files[0]));
-        this.setState({filename: event.target.files[0].name});
-    }
+        const scope = this;
 
+        reader.onload = function(e) {
+            var parsed = JSON.parse(e.target.result);
+            scope.setState(parsed);
+            console.log(parsed);
+        }
+        this.setState({filename: event.target.files[0].name})
 
-
-    handleFile(reader) {
-        console.log("file loader");
-        console.log(reader.result);
-        var file  = JSON.parse(reader.result);
-        console.log(file);
-        this.setState(file);
+        reader.readAsText(file);
     }
 
     createItinerary(event){
         event.preventDefault();
-        filename = event.target.value;
+        //var filename = event.target.files[0].name;
         const tipConfigRequest = {
             'type': 'itinerary',
             'version':2,
@@ -187,7 +181,7 @@ export default class Itinerary extends Component{
             'places': this.state.places
         }
 
-        sendServerRequestWithBody('itinerary',tipConfigRequest, this.props.settings.serverPort())
+        sendServerRequestWithBody('itinerary',tipConfigRequest, this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
                     this.setState({
