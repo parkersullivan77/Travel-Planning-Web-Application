@@ -173,54 +173,6 @@ export default class Itinerary extends Component{
         reader.readAsText(file);
     }
 
-    handleFile(events) {
-        // The file's text will be printed here
-        //console.log(e.target.result);
-        //let file  = JSON.parse(e.target.result);
-        //console.log("file", file);
-        //this.setState(file);
-    }
-    /*
-    updateField(event){
-        let reader = new FileReader();
-        reader.onload = this.handleFile(reader);
-        console.log("TEXT:", reader.readAsText(event.target.files[0]));
-    }
-
-
-    handleFile(reader) {
-        console.log("file loader", reader.result);
-        let file  = JSON.parse(reader.result);
-        return file;
-        //this.setState(file);
-    }
-    */
-
-    /*
-    saveFile() {
-        var data = { x: 42, s: "hello, world", d: new Date() },
-            fileName = "my-download.json";
-        console.log(data);
-
-        var saveData = (function () {
-
-            var a = document.createElement("a");
-            document.body.appendChild(a);
-            a.style = "display: none";
-            return function (data, fileName) {
-                var json = JSON.stringify(data),
-                    blob = new Blob([json], {type: "octet/stream"}),
-                    url = window.URL.createObjectURL(blob);
-                a.href = url;
-                a.download = fileName;
-                a.click();
-                window.URL.revokeObjectURL(url);
-            };
-        }());
-        */
-
-    //}
-
     createItinerary(event){
         event.preventDefault();
         //var filename = event.target.files[0].name;
