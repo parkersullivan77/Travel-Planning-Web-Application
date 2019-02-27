@@ -74,7 +74,6 @@ export default class Itinerary extends Component{
     updateField(event){
         var reader = new FileReader();
         reader.onload = this.handleFile(reader);
-        console.log("hi");
         console.log(reader.readAsText(event.target.files[0]));
     }
 
@@ -85,6 +84,7 @@ export default class Itinerary extends Component{
         console.log(file);
         this.setState(file);
     }
+
 
     createItinerary(event){
         event.preventDefault();
