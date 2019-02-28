@@ -20,7 +20,7 @@ public class TestTIPDistance {
   private Map<String, Object> LargeInput;
   private Map<String, Object> VeryLargeInput;
 
-  private final int version = 1;
+  private final int version = 2;
 
   @Before
   public void createLocationsForTestCases() {
@@ -41,7 +41,7 @@ public class TestTIPDistance {
 
     VeryLargeInput = new HashMap<>();   //for very large inputs
     VeryLargeInput.put("latitude", "32423042950249504295424234235859185941850134914");
-    VeryLargeInput.put("longitude", "-542262652654254242598425924859842585991354525");
+    VeryLargeInput.put("longitude", "-542262652654254455242598425924859842585991354525");
     VeryLargeInput.put("name", "A very large value ");
   }
   @Test
@@ -65,7 +65,7 @@ public class TestTIPDistance {
    public void testVeryLargeInputs(){ //Distance between two very large inputs
     TIPDistance trip = new TIPDistance(version, LargeInput, VeryLargeInput, radiusMiles);
     trip.buildResponse();
-    int expect = 2435425;
+    int expect = 5544;
     long actual = trip.getDistance();
     assertEquals("Distance between two very Large distances ", expect, actual);
   }
