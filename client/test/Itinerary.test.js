@@ -24,7 +24,7 @@ function testCreateInputFields() {
     let actualInputs = [];
     itinerary.find('CustomInput').map((input) => actualInputs.push(input.prop('name')));
     itinerary.find('Input').map((input) => actualInputs.push(input.prop('name')));
-
+    
     let expectedInputs = [
         'filename',
         'latitude',
