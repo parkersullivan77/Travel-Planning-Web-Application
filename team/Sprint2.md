@@ -59,9 +59,9 @@ Key planning decisions for this sprint include:
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | 6 | *value* |
-| Tasks |  20   | *value* | 
-| Story Points |  26  | *value* | 
+| Epics | 6 | 1 |
+| Tasks |  22   | 10 | 
+| Story Points |  32  | 13 | 
 
 
 ## Scrums
@@ -85,14 +85,19 @@ In this sprint, ...
 These Epics were completed.
 
 * *## epic title: comments*
-* 
+* *#81 User: Show me a map and itinerary for my trip: a challenging epic that required good planning. Once we figured out required tasks and requirements, then it become simple but time-consuming.*
+* *#34 User: I want to compute the distance between two locations on the planet: the epic was straightforward. Error checking and calculating was pretty easy to implement. Testing took most of the time assigned for this epic.*
 
 #### Incomplete epics in Sprint Backlog 
 
 These Epics were not completed.
 
 * *## epic title: explanation*
-*
+* *#35 User: I want to know where I am on the map: *
+* *#84 User: The calculator data shouldn't go away when units change:*
+* *#82 User: Enter latitudes and longitudes in the calculator using degree-minute-second and other formats:*
+* *#97 User: It would be nice to see a map with the calculator:*
+* *#85 User: Let me change my itinerary *
 
 #### What went well
 
@@ -110,15 +115,15 @@ In this sprint, ...
 
 #### What we changed this sprint
 
-Our changes for this sprint included ...
+Our changes for this sprint included meeting at different times to increase productivity. Instead of meeting during Dziugas' and Westin's lab hours, we did it after every CS 314 class.
 
 #### What we did well
 
-We ...
+We improved with our communication between team members. Coordinating meetings and tasks got a lot easier. Also, we noticed that brainstorming and working together as a team is much more efficient than completing tasks alone.
 
 #### What we need to work on
 
-We could improve ...
+We could improve with commiting frequency. The team completed tasks really fast until we took 1-2 days off and it took longer to get back to the same productivity level. 
 
 #### What we will change next sprint 
 
