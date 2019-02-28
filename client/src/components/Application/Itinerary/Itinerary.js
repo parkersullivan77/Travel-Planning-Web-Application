@@ -24,7 +24,7 @@ export default class Itinerary extends Component{
             options:{title: '',earthRadius: ' '},
             places:{id: '', name:'', latitude: '',longitude: ''},
             distances: [],
-            filename:' Upload File'
+            filename: 'Upload File'
         }
 
     }
@@ -93,6 +93,7 @@ export default class Itinerary extends Component{
             iconAnchor: [12,40]  // for proper placement
         })
     }
+
     createFileInput (){
         return(
             <Pane header={'Load In Your Itinerary'}
