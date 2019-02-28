@@ -11,7 +11,7 @@ import java.util.List;
 public class TIPItinerary extends TIPHeader{
       protected JsonObject options;
       protected List<JsonObject> places;
-      protected Double[] distances;
+      protected Long[] distances;
       protected Double earthRadius;
 
       private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
@@ -33,7 +33,7 @@ public class TIPItinerary extends TIPHeader{
 
       @Override
       public void buildResponse(){
-            this.distances = new Double[places.size()];
+            this.distances = new Long[places.size()];
             for (int i = 0; i < this.distances.length - 1; i++) {
                   this.distances[i] = getDistance(i, i + 1);
             }
@@ -41,7 +41,7 @@ public class TIPItinerary extends TIPHeader{
             log.trace("buildResponse -> {}", this);
       }
 
-      double getDistance(int origin, int dest){
+      Long getDistance(int origin, int dest){
             double lat1 = places.get(origin).get("latitude").getAsDouble();
             double lon1 = places.get(origin).get("longitude").getAsDouble();
             double lat2 = places.get(dest).get("latitude").getAsDouble();
