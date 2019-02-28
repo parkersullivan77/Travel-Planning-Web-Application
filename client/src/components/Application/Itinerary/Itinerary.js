@@ -8,6 +8,7 @@ import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer} from "react-leaflet";
+import Coordinates from "coordinate-parser";
 
 export default class Itinerary extends Component{
     constructor(props){
@@ -17,7 +18,6 @@ export default class Itinerary extends Component{
         this.createItinerary = this.createItinerary.bind(this);
         this.createFileInput= this.createFileInput.bind(this);
         this.createInputField = this.createInputField.bind(this);
-
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
@@ -195,6 +195,12 @@ export default class Itinerary extends Component{
     updateLocationOnChange(stateVar, field, value) {
         let location = Object.assign({}, this.state[stateVar]);
         location[field] = value;
-        this.setState({[stateVar]: location});
+        var position = new Coordinates('40:7:22.8N 74:7:22.8W');
+        console.log("value",position.validate());
+        if(position){
+            this.setState({[stateVar]: location});
+        }
+
     }
+
 }
