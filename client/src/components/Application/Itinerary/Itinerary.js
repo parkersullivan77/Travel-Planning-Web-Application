@@ -160,7 +160,7 @@ export default class Itinerary extends Component{
                           <FormGroup>
                               <Button
                                   type ="submit">
-                                  Upload
+                                  Download
                               </Button>
                           </FormGroup>
                       </Form>
