@@ -50,7 +50,7 @@ export default class Itinerary extends Component{
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={12} sm={12} md={7} lg={6} xl={12}>
+                    <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                         {this.renderTable()}
                     </Col>
                 </Row>
@@ -256,6 +256,8 @@ export default class Itinerary extends Component{
         var fileName = this.state.filename;
         var data = this.state;
         delete(data["filename"]);
+        delete(data["origin"]);
+        delete(data["destination"]);
 
         var json = JSON.stringify(data),
             blob = new Blob([json], {type: "octet/stream"}),
