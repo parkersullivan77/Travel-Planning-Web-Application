@@ -72,13 +72,12 @@ export default class Itinerary extends Component{
             <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
                  style={{height: 500, maxwidth: 700}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                />
+                           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"/>
                 <Marker position={this.csuOvalGeographicCoordinates()}
                         icon={this.markerIcon()}>
                     <Popup className="font-weight-extrabold">Colorado State University</Popup>
                 </Marker>
-                <Polyline color= "black" positions = {points} />
+                <Polyline color= "black"  positions = {points} />
             </Map>
         )
     }
