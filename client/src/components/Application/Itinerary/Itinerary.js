@@ -24,7 +24,7 @@ export default class Itinerary extends Component{
             options:{title: '',earthRadius: ' '},
             places:{id: '0', name:'a', latitude: '0',longitude: '0'},
             distances: [],
-            filename:' Upload File'
+            filename: 'Upload File'
         }
 
     }
@@ -101,6 +101,7 @@ export default class Itinerary extends Component{
             iconAnchor: [12,40]  // for proper placement
         })
     }
+
     createFileInput (){
         return(
             <Pane header={'Load In Your Itinerary'}
@@ -197,9 +198,28 @@ export default class Itinerary extends Component{
                         places: response.body.places,
                         distances: response.body.distances
                     });
+                    this.saveFile();
                 }
             });
     }
+
+    saveFile() {
+        var a = document.createElement("a");
+        document.body.appendChild(a);
+        a.style = "display: none";
+        var fileName = this.state.filename;
+        var data = this.state;
+        delete(data["filename"]);
+
+        var json = JSON.stringify(data),
+            blob = new Blob([json], {type: "octet/stream"}),
+            url = window.URL.createObjectURL(blob);
+        a.href = url;
+        a.download = fileName;
+        a.click();
+        window.URL.revokeObjectURL(url);
+    }
+
     updateLocationOnChange(stateVar, field, value) {
         let location = Object.assign({}, this.state[stateVar]);
         location[field] = value;

@@ -24,7 +24,7 @@ function testCreateInputFields() {
     let actualInputs = [];
     itinerary.find('CustomInput').map((input) => actualInputs.push(input.prop('name')));
     itinerary.find('Input').map((input) => actualInputs.push(input.prop('name')));
-
+    
     let expectedInputs = [
         'filename',
         'latitude',
@@ -35,5 +35,18 @@ function testCreateInputFields() {
     expect(actualInputs).toEqual(expectedInputs);
 }
 
+function testDefaultLabel() {
+    const itinerary = mount((
+        <Itinerary options={startProperties.options}/>
+    ));
+
+    let actualLabel = [];
+    itinerary.find('CustomInput').map((label) => actualLabel.push(label.prop('label')));
+    let expectedLabel = 'Upload File';
+    expect(actualLabel.toString()).toEqual(expectedLabel);
+}
+
 /* Tests that createForm() correctly renders 4 Input components */
-test('Testing the createForm() function in Calculator', testCreateInputFields);
+test('Testing the createForm() function in Itinerary', testCreateInputFields);
+test('Testing the default labels in Itinerary', testDefaultLabel);
+
