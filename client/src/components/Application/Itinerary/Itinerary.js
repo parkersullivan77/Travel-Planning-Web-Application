@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'reactstrap'
+import { Container, Row, Col, Table } from 'reactstrap'
 import { CustomInput, FormGroup } from 'reactstrap';
 import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
@@ -8,6 +8,7 @@ import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer} from "react-leaflet";
+
 
 export default class Itinerary extends Component{
     constructor(props){
@@ -28,6 +29,8 @@ export default class Itinerary extends Component{
         }
 
     }
+
+
     render(){
         console.log(this.state);
         return (
@@ -46,10 +49,54 @@ export default class Itinerary extends Component{
                         {this.renderMap()}
                     </Col>
                 </Row>
+                <Row>
+                    <Col xs={12} sm={12} md={7} lg={6} xl={12}>
+                        {this.renderTable()}
+                    </Col>
+                </Row>
             </Container>
         );
     }
 
+   // renderTable(){
+   //      const places = this.state.places;
+   //      const distances = this.state.distances;
+   //
+   //      let retArray = "<br><h2>this.state.option</h2>"
+   // }
+
+    retrieveTableInfo(){
+        var table = [];
+        var total = 0;
+        for(let i = 0; i < this.state.places.length; i++){
+            let cell = [];
+            total += this.state.distances[i];
+            cell.push(<tr><td>{this.state.places[i]["name"]}</td><td>{this.state.places[i]["latitude"]}</td><td>{this.state.places[i]["longitude"]}</td><td>{this.state.distances[i]}</td></tr>);
+            table.push(cell);
+        }
+        return table;
+    }
+
+    renderTable(){
+        return (
+            <Pane header={"Get a good look at this trip"}
+                  bodyJSX={
+                        <Table>
+                            <thead>
+                            <tr>
+                                <th>Destination</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
+                                <th>Distance</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                                {this.retrieveTableInfo()}
+                            </tbody>
+                        </Table>
+                  }/>
+        )
+    }
     renderMap() {
         return (
             <Pane header={'Where Am I?'}
