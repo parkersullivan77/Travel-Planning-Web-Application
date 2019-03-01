@@ -7,7 +7,8 @@ import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
-import {Map, Marker, Popup, TileLayer} from "react-leaflet";
+import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
+import Coordinates from "coordinate-parser";
 
 
 export default class Itinerary extends Component{
@@ -18,12 +19,11 @@ export default class Itinerary extends Component{
         this.createItinerary = this.createItinerary.bind(this);
         this.createFileInput= this.createFileInput.bind(this);
         this.createInputField = this.createInputField.bind(this);
-
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
             options:{title: '',earthRadius: ' '},
-            places:{id: '', name:'', latitude: '',longitude: ''},
+            places:{id: '0', name:'a', latitude: '0',longitude: '0'},
             distances: [],
             filename: 'Upload File'
         }
@@ -50,7 +50,7 @@ export default class Itinerary extends Component{
                     </Col>
                 </Row>
                 <Row>
-                    <Col xs={12} sm={12} md={7} lg={6} xl={12}>
+                    <Col xs={12} sm={12} md={12} lg={12} xl={12}>
                         {this.renderTable()}
                     </Col>
                 </Row>
@@ -108,16 +108,23 @@ export default class Itinerary extends Component{
         // initial map placement can use either of these approaches:
         // 1: bounds={this.coloradoGeographicBoundaries()}
         // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
+        var points = [];
+        if(this.state.places.length !== 0){
+            console.log("in if statement");
+            points = this.getPositions();
+            console.log("after if statement");
+        }
+        console.log("points" + points);
         return (
             <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
                  style={{height: 500, maxwidth: 700}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-                />
+                           attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"/>
                 <Marker position={this.csuOvalGeographicCoordinates()}
                         icon={this.markerIcon()}>
                     <Popup className="font-weight-extrabold">Colorado State University</Popup>
                 </Marker>
+                <Polyline color= "black"  positions = {points} />
             </Map>
         )
     }
@@ -249,6 +256,8 @@ export default class Itinerary extends Component{
         var fileName = this.state.filename;
         var data = this.state;
         delete(data["filename"]);
+        delete(data["origin"]);
+        delete(data["destination"]);
 
         var json = JSON.stringify(data),
             blob = new Blob([json], {type: "octet/stream"}),
@@ -262,6 +271,27 @@ export default class Itinerary extends Component{
     updateLocationOnChange(stateVar, field, value) {
         let location = Object.assign({}, this.state[stateVar]);
         location[field] = value;
-        this.setState({[stateVar]: location});
+        var position = new Coordinates('40:7:22.8N 74:7:22.8W');
+        console.log("value",position.validate());
+        if(position){
+            this.setState({[stateVar]: location});
+        }
+
     }
+    getPositions(){
+        console.log("in getPositions");
+
+        var length = this.state.places.length;
+        console.log("length: ",length);
+        var points= []
+        for(var i = 0;  i<length+1; i++){
+            points[i] =[this.state.places[i % length].latitude,this.state.places[i % length].longitude];
+            console.log("chicken" +points);
+        }
+        console.log("got points about to return");
+
+
+        return points;
+    }
+
 }

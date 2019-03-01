@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ -z "$PORT" ]; then
-  PORT=8088
+  PORT=9088
 fi
 if [ -z "$LOGLEVEL" ]; then
   LOGLEVEL=trace
