@@ -1,9 +1,9 @@
-# Sprint e - *your team number* - *your team name*
+# Sprint 3 - *t19* - *We Them Boys*
 
 ## Goal
 
 ### Shorter trips to more places!
-### Sprint Leader: *firstname lastname*
+### Sprint Leader: Parker Sullivan
 
 ## Definition of Done
 
@@ -42,19 +42,25 @@
 
 This sprint will complete the following Epics.
 
-* *#0 epic title: description*
-*
+* *#82 User: Enter latitudes and longitudes in the calculator using degree-minute-second and other formats.*
+* *#155 User: I may need distances in other units of measure*
+* *#157 User: Make my trip shorter*
+* *#158 User: Data shouldn't go away when I change tabs*
 
-***(Include a discussion of you plan with key diagrams here and remove this!)***
+
+Key planning decisions for this sprint include:
+* having less on our plate so we could get the thing we said done and done correctly
+* making a more managleable list of tasks to do
+* starting to complete tasks early
 
 
 ## Metrics
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *value* | *value* |
-| Tasks |  *value*   | *value* | 
-| Story Points |  *value*  | *value* | 
+| Epics | 4 | *value* |
+| Tasks |  13   | *value* | 
+| Story Points |  15  | *value* | 
 
 
 ## Scrums
