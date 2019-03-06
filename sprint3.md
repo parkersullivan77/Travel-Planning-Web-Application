@@ -44,12 +44,12 @@ This sprint will complete the following Epics.
 
 * *#82 User: Enter latitudes and longitudes in the calculator using degree-minute-second and other formats.*
 * *#155 User: I may need distances in other units of measure*
-* * #157 User: Make my trip shorter*
-* * #158 User: Data shouldn't go away when I change tabs*
+* *#157 User: Make my trip shorter*
+* *#158 User: Data shouldn't go away when I change tabs*
 
 
 Key planning decisions for this sprint include:
-* having less on our plate so we could get the thing we said done and doen correctly
+* having less on our plate so we could get the thing we said done and done correctly
 * making a more managleable list of tasks to do
 * starting to complete tasks early
 
