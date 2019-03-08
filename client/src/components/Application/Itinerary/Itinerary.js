@@ -245,7 +245,8 @@ export default class Itinerary extends Component{
             });
     }
 
-    saveFile() {
+    saveFile(event) {
+        event.preventDefault();
         var a = document.createElement("a");
         document.body.appendChild(a);
         a.style = "display: none";
