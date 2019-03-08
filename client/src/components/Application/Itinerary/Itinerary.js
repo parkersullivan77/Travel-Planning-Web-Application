@@ -19,6 +19,7 @@ export default class Itinerary extends Component{
         this.createItinerary = this.createItinerary.bind(this);
         this.createFileInput= this.createFileInput.bind(this);
         this.createInputField = this.createInputField.bind(this);
+        this.saveFile = this.saveFile.bind(this);
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
@@ -32,7 +33,7 @@ export default class Itinerary extends Component{
 
 
     render(){
-        console.log(this.state);
+        //console.log(this.state);
         return (
             <Container>
                 <Row>
@@ -110,11 +111,8 @@ export default class Itinerary extends Component{
         // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
         var points = [];
         if(this.state.places.length !== 0){
-            console.log("in if statement");
             points = this.getPositions();
-            console.log("after if statement");
         }
-        console.log("points" + points);
         return (
             <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
                  style={{height: 500, maxwidth: 700}}>
@@ -152,7 +150,7 @@ export default class Itinerary extends Component{
         return(
             <Pane header={'Load In Your Itinerary'}
                   bodyJSX={
-                      <Form onSubmit= {this.createItinerary}>
+                      <Form onSubmit= {this.saveFile}>
                           <FormGroup>
                               <Label for="itinerary">File Browser</Label>
                               <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
@@ -219,23 +217,22 @@ export default class Itinerary extends Component{
         reader.onload = function(e) {
             var parsed = JSON.parse(e.target.result);
             scope.setState(parsed);
-            console.log(parsed);
+            scope.createItinerary(e);
+
         }
         this.setState({filename: event.target.files[0].name})
-
         reader.readAsText(file);
     }
 
     createItinerary(event){
         event.preventDefault();
-        //var filename = event.target.files[0].name;
         const tipConfigRequest = {
             'type': 'itinerary',
             'version':2,
             'options':this.state.options,
             'places': this.state.places
         }
-
+        console.warn("Places that I have: ", this.state.places);
         sendServerRequestWithBody('itinerary',tipConfigRequest, this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
@@ -244,12 +241,12 @@ export default class Itinerary extends Component{
                         places: response.body.places,
                         distances: response.body.distances
                     });
-                    this.saveFile();
                 }
             });
     }
 
-    saveFile() {
+    saveFile(event) {
+        event.preventDefault();
         var a = document.createElement("a");
         document.body.appendChild(a);
         a.style = "display: none";
@@ -272,23 +269,18 @@ export default class Itinerary extends Component{
         let location = Object.assign({}, this.state[stateVar]);
         location[field] = value;
         var position = new Coordinates('40:7:22.8N 74:7:22.8W');
-        console.log("value",position.validate());
         if(position){
             this.setState({[stateVar]: location});
         }
 
     }
     getPositions(){
-        console.log("in getPositions");
 
         var length = this.state.places.length;
-        console.log("length: ",length);
         var points= []
         for(var i = 0;  i<length+1; i++){
             points[i] =[this.state.places[i % length].latitude,this.state.places[i % length].longitude];
-            console.log("chicken" +points);
         }
-        console.log("got points about to return");
 
 
         return points;
