@@ -27,6 +27,14 @@ public class TIPItinerary extends TIPHeader{
             this.places = places;
       }
 
+      TIPItinerary(Integer version, JsonObject options, List<JsonObject> places,double earthRadius){
+            this();
+            this.requestVersion = version;
+            this.options = options;
+            this.places = places;
+            this.earthRadius = earthRadius;
+      }
+
       private TIPItinerary() {
             this.requestType = "itinerary";
       }
@@ -46,8 +54,9 @@ public class TIPItinerary extends TIPHeader{
             double lon1 = places.get(origin).get("longitude").getAsDouble();
             double lat2 = places.get(dest).get("latitude").getAsDouble();
             double lon2 = places.get(dest).get("longitude").getAsDouble();
-            this.earthRadius = Double.parseDouble(this.options.get("earthRadius").toString().replaceAll("\"",""));
-
+            if(this.earthRadius == null) {
+                  this.earthRadius = Double.parseDouble(this.options.get("earthRadius").toString().replaceAll("\"", ""));
+            }
             return GreatCircleDistance.haversine(lat1, lon1, lat2, lon2, earthRadius);
       }
 }

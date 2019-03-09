@@ -230,9 +230,11 @@ export default class Itinerary extends Component{
             'type': 'itinerary',
             'version':2,
             'options':this.state.options,
-            'places': this.state.places
+            'places': this.state.places,
+            'earthRadius' : this.props.options.units[this.props.options.activeUnit]
         }
-        console.warn("Places that I have: ", this.state.places);
+        console.warn(this.props.options.units[this.props.options.activeUnit]);
+
         sendServerRequestWithBody('itinerary',tipConfigRequest, this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
