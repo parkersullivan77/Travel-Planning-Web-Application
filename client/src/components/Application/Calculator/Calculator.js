@@ -4,7 +4,7 @@ import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
-
+import Coordinates from "coordinate-parser";
 
 //Wrong value returned for miles.json after intelliJ restful api test
 export default class Calculator extends Component {
@@ -70,27 +70,36 @@ export default class Calculator extends Component {
                  style={{width: "100%"}}/>
       );
   }
-
   validateInput() {
       // Check if every input is a valid number (works for negative numbers now)
-      var nan1 = /^-?\d*\.?\d+$/.test(this.state.origin['latitude']);
-      var nan2 = /^-?\d*\.?\d+$/.test(this.state.origin['longitude']);
-      var nan3 = /^-?\d*\.?\d+$/.test(this.state.destination['latitude']);
-      var nan4 = /^-?\d*\.?\d+$/.test(this.state.destination['longitude']);  // old reg: /^\d*\.?\d+$/
-      // If every input is valid, parse them to floats and check ranges
-      if(nan1 === true && nan2 === true && nan3 === true && nan4 === true) {
-          var lat1 = Number.parseFloat((this.state.origin['latitude']));
-          var long1 = Number.parseFloat((this.state.origin['longitude']));
-          var lat2 = Number.parseFloat((this.state.destination['latitude']));
-          var long2 = Number.parseFloat((this.state.destination['longitude']));
-          if(lat1 > 90 || lat1 < -90 || lat2 > 90 || lat2 < -90)
-              return true;
-          if(long1 > 180 || long1 < -180 || long2 > 180 || long2 < -180)
-              return true;
-      } else {
-          return true;
+      // var nan1 = /^-?\d*\.?\d+$/.test(this.state.origin['latitude']);
+      // var nan2 = /^-?\d*\.?\d+$/.test(this.state.origin['longitude']);
+      // var nan3 = /^-?\d*\.?\d+$/.test(this.state.destination['latitude']);
+      // var nan4 = /^-?\d*\.?\d+$/.test(this.state.destination['longitude']);  // old reg: /^\d*\.?\d+$/
+      // // If every input is valid, parse them to floats and check ranges
+      // if(nan1 === true && nan2 === true && nan3 === true && nan4 === true) {
+      //     var lat1 = Number.parseFloat((this.state.origin['latitude']));
+      //     var long1 = Number.parseFloat((this.state.origin['longitude']));
+      //     var lat2 = Number.parseFloat((this.state.destination['latitude']));
+      //     var long2 = Number.parseFloat((this.state.destination['longitude']));
+      //     if(lat1 > 90 || lat1 < -90 || lat2 > 90 || lat2 < -90)
+      //         return true;
+      //     if(long1 > 180 || long1 < -180 || long2 > 180 || long2 < -180)
+      //         return true;
+      // } else {
+      //     return true;
+      // }
+      // return false;
+      let origCoord = new Coordinates(this.state.origin['latitude'] + " " + this.state.origin['longitude']);
+      let isValid;
+      try{
+          isValid = true;
+          new Coordinates(this.state.destination['latitude'] + " " + this.state.destination['longitude']);
+          return isValid
+      }catch (error) {
+          isValid = false;
+          return isValid;
       }
-      return false;
   }
 
   createForm(stateVar) {

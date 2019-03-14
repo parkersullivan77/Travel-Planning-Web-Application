@@ -27,7 +27,7 @@ public class TIPItinerary extends TIPHeader{
             this.places = places;
       }
 
-      private TIPItinerary() {
+      public TIPItinerary() {
             this.requestType = "itinerary";
       }
 
