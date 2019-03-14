@@ -61,14 +61,6 @@ public class TestTIPDistance {
     long actual = trip.getDistance();
     assertEquals("Distance between CSU and Rams village ", expect, actual);
   }
-//  @Test
-//   public void testVeryLargeInputs(){ //Distance between two very large inputs
-//    TIPDistance trip = new TIPDistance(version, LargeInput, VeryLargeInput, radiusMiles);
-//    trip.buildResponse();
-//    int expect = 5544;
-//    long actual = trip.getDistance();
-//    assertEquals("Distance between two very Large distances ", expect, actual);
-//  }
 
 }
 
