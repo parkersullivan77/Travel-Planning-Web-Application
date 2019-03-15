@@ -100,7 +100,7 @@ export default class Itinerary extends Component{
     renderMap() {
         return (
             <Pane header={'Where Am I?'}>
-                this.renderLeafletMap();
+                {this.renderLeafletMap()}
             </Pane>
         );
     }
