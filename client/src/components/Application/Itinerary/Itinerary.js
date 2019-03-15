@@ -80,28 +80,28 @@ export default class Itinerary extends Component{
 
     renderTable(){
         return (
-            <Pane header={"Get a good look at this trip"}
-                  bodyJSX={
-                        <Table>
-                            <thead>
-                            <tr>
-                                <th>Destination</th>
-                                <th>Latitude</th>
-                                <th>Longitude</th>
-                                <th>Distance</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                {this.retrieveTableInfo()}
-                            </tbody>
-                        </Table>
-                  }/>
+            <Pane header={"Get a good look at this trip"}>
+            <Table>
+                <thead>
+                    <tr>
+                        <th>Destination</th>
+                        <th>Latitude</th>
+                        <th>Longitude</th>
+                        <th>Distance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {this.retrieveTableInfo()}
+                </tbody>
+            </Table>
+            </Pane>
         )
     }
     renderMap() {
         return (
-            <Pane header={'Where Am I?'}
-                  bodyJSX={this.renderLeafletMap()}/>
+            <Pane header={'Where Am I?'}>
+                this.renderLeafletMap();
+            </Pane>
         );
     }
 
@@ -148,29 +148,31 @@ export default class Itinerary extends Component{
 
     createFileInput (){
         return(
-            <Pane header={'Load In Your Itinerary'}
-                  bodyJSX={
-                      <Form onSubmit= {this.saveFile}>
-                          <FormGroup>
-                              <Label for="itinerary">File Browser</Label>
-                              <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
-                          </FormGroup>
-                          <FormGroup>
-                              <Button
-                                  type ="submit">
-                                  Download
-                              </Button>
-                          </FormGroup>
-                      </Form>
-                  }/>
+            <Pane header={'Load In Your Itinerary'}>
+                <Form onSubmit= {this.saveFile}>
+                    <FormGroup>
+                        <Label for="itinerary">File Browser</Label>
+                        <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Button
+                            type ="submit">
+                            Download
+                        </Button>
+                    </FormGroup>
+                </Form>
+            </Pane>
         )
     }
 
 
     createHeader() {
         return (
-            <Pane header={'Itinerary'}
-                  bodyJSX={<div><b>Plan your Trip Boyyyysss</b></div>}/>
+            <Pane header={'Itinerary'}>
+            <div>
+                <b>Plan your Trip Boyyyysss</b>
+            </div>
+            </Pane>
         );
     }
 
@@ -191,22 +193,21 @@ export default class Itinerary extends Component{
     }
     createForm(stateVar,stateVar2) {
         return (
-            <Pane header={'Type a Trip'}
-                  bodyJSX={
-                      <Form >
-                          <label> <b>Start Location</b></label>
-                          <FormGroup>
-                          {this.createInputField(stateVar, 'latitude')}
-                          {this.createInputField(stateVar, 'longitude')}
-                          </FormGroup>
-                          <label> <b>Finish Location</b></label>
-                          <FormGroup>
-                          {this.createInputField(stateVar2, 'latitude')}
-                          {this.createInputField(stateVar2, 'longitude')}
-                          </FormGroup>
-                      </Form>
-                  }
-            />);
+            <Pane header={'Type a Trip'}>
+                <Form >
+                    <label> <b>Start Location</b></label>
+                    <FormGroup>
+                        {this.createInputField(stateVar, 'latitude')}
+                        {this.createInputField(stateVar, 'longitude')}
+                    </FormGroup>
+                    <label> <b>Finish Location</b></label>
+                    <FormGroup>
+                        {this.createInputField(stateVar2, 'latitude')}
+                        {this.createInputField(stateVar2, 'longitude')}
+                    </FormGroup>
+                </Form>
+            </Pane>
+            );
     }
 
     updateField(event) {
