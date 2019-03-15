@@ -29,7 +29,7 @@ export default class Home extends Component {
   renderMap() {
     return (
       <Pane header={'Where Am I?'}>
-        this.renderLeafletMap();
+        {this.renderLeafletMap()}
       </Pane>
         );
   }
