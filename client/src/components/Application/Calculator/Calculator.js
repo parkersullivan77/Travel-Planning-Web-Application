@@ -4,7 +4,7 @@ import { Button } from 'reactstrap'
 import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
-
+import Coordinates from "coordinate-parser";
 
 //Wrong value returned for miles.json after intelliJ restful api test
 export default class Calculator extends Component {
@@ -73,9 +73,8 @@ export default class Calculator extends Component {
                  style={{width: "100%"}}/>
       );
   }
-
   validateInput() {
-      // Check if every input is a valid number (works for negative numbers now)
+      //Check if every input is a valid number (works for negative numbers now)
       var nan1 = /^-?\d*\.?\d+$/.test(this.state.origin['latitude']);
       var nan2 = /^-?\d*\.?\d+$/.test(this.state.origin['longitude']);
       var nan3 = /^-?\d*\.?\d+$/.test(this.state.destination['latitude']);
@@ -92,8 +91,18 @@ export default class Calculator extends Component {
               return true;
       } else {
           return true;
-      }
+       }
       return false;
+      /*let origCoord = new Coordinates(this.state.origin['latitude'] + " " + this.state.origin['longitude']);
+      let isValid;
+      try{
+          isValid = true;
+          new Coordinates(this.state.destination['latitude'] + " " + this.state.destination['longitude']);
+          return isValid
+      }catch (error) {
+          isValid = false;
+          return isValid;
+      }*/
   }
 
   createForm(stateVar) {
