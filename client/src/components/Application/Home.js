@@ -28,9 +28,10 @@ export default class Home extends Component {
 
   renderMap() {
     return (
-      <Pane header={'Where Am I?'}
-            bodyJSX={this.renderLeafletMap()}/>
-    );
+      <Pane header={'Where Am I?'}>
+        this.renderLeafletMap();
+      </Pane>
+        );
   }
 
   renderLeafletMap() {
