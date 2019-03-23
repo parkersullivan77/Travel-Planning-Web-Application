@@ -27,7 +27,7 @@ public class TIPConfig extends TIPHeader {
 
   public TIPConfig() {
     this.requestType = "config";
-    this.requestVersion = 2;
+    this.requestVersion = 3;
   }
 
 
