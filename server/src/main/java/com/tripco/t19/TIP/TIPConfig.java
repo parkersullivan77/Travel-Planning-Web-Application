@@ -56,9 +56,12 @@ public class TIPConfig extends TIPHeader {
     return this.serverName;
   }
 
-
   List<String> getPlaceAttributes() {
     return this.placeAttributes;
   }
+  List<String> getOptimizationAttributes() {
+    return this.optimizations;
+  }
+
 
 }
