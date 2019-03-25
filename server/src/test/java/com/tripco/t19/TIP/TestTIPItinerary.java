@@ -10,16 +10,4 @@ public class TestTIPItinerary {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 }
