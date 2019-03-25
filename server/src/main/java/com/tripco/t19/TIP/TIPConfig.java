@@ -22,19 +22,21 @@ import java.util.List;
 public class TIPConfig extends TIPHeader {
   private String serverName;
   private List<String> placeAttributes;
+  private List<String> optimizations;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
   public TIPConfig() {
     this.requestType = "config";
-    this.requestVersion = 2;
+    this.requestVersion = 3;
   }
 
 
   @Override
   public void buildResponse() {
     this.serverName = "T19 We Them Boys";
-    this.placeAttributes = Arrays.asList("latitude", "longitude", "name", "id", "municipality", "altitude");
+    this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "altitude");
+    this.optimizations = Arrays.asList("none", "short");
     log.trace("buildResponse -> {}", this);
   }
   @Override
@@ -54,9 +56,12 @@ public class TIPConfig extends TIPHeader {
     return this.serverName;
   }
 
-
   List<String> getPlaceAttributes() {
     return this.placeAttributes;
   }
+  List<String> getOptimizationAttributes() {
+    return this.optimizations;
+  }
+
 
 }
