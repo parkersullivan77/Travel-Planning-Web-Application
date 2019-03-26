@@ -20,6 +20,7 @@ export default class Itinerary extends Component{
         this.createFileInput= this.createFileInput.bind(this);
         this.createInputField = this.createInputField.bind(this);
         this.saveFile = this.saveFile.bind(this);
+        this.deleteLocations = this.deleteLocations.bind(this);
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
@@ -80,6 +81,10 @@ export default class Itinerary extends Component{
                 <Button
                     onClick={this.deleteLocation.bind(this)}>
                     Remove Selected
+                </Button>
+                <Button color="danger"
+                    onClick={this.deleteLocations}>
+                    Remove All
                 </Button>
                 <Button>
                     Rearrange
@@ -153,7 +158,7 @@ export default class Itinerary extends Component{
     createFileInput (){
         return(
             <Pane header={'Load In Your Itinerary'}>
-                <Form onSubmit= {this.saveFile}>
+                <Form onSubmit= {this.deleteLocations.bind(this)}>
                     <FormGroup>
                         <Label for="itinerary">File Browser</Label>
                         <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
@@ -296,4 +301,11 @@ export default class Itinerary extends Component{
         console.log(this.state.places);
         this.setState(this.state);
     }
+
+    deleteLocations(e) {
+        e.preventDefault()
+        delete(this.state.places);
+        this.setState({places:{id: '0', name:'', latitude: '0',longitude: '0'}})
+    }
+
 }
