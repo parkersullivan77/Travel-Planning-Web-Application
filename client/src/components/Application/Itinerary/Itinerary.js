@@ -78,8 +78,9 @@ export default class Itinerary extends Component{
                 <Button>
                     Reverse
                 </Button>
-                <Button>
-                    Remove
+                <Button
+                    onClick={this.deleteLocation.bind(this)}>
+                    Remove Selected
                 </Button>
                 <Button color="danger"
                     onClick={this.deleteLocations}>
@@ -291,6 +292,11 @@ export default class Itinerary extends Component{
 
 
         return points;
+    }
+
+    deleteLocation(){
+        this.state.places.splice(0, 1);
+        this.setState(this.state);
     }
 
     deleteLocations(e) {
