@@ -150,14 +150,5 @@ public class TIPFind extends TIPHeader{
 
         System.out.printf("  ]\n}\n");
     }
-    class entry{
-        public String id;
-        public String name;
-        public String altitude;
-        public String latitude;
-        public String longitude;
-        public String municipality;
 
-
-    }
 }
