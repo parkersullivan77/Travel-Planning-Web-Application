@@ -295,10 +295,7 @@ export default class Itinerary extends Component{
     }
 
     deleteLocation(){
-        console.log(this.state.places);
-        console.log("bepis");
         this.state.places.splice(0, 1);
-        console.log(this.state.places);
         this.setState(this.state);
     }
 
