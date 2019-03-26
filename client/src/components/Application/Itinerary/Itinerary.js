@@ -24,7 +24,7 @@ export default class Itinerary extends Component{
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
             options:{title: '',earthRadius: ' '},
-            places:{id: '0', name:'a', latitude: '0',longitude: '0'},
+            places:{id: '0', name:'', latitude: '0',longitude: '0'},
             distances: [],
             filename: 'Upload File'
         }
@@ -33,7 +33,6 @@ export default class Itinerary extends Component{
 
 
     render(){
-        //console.log(this.state);
         return (
             <Container>
                 <Row>
@@ -44,7 +43,7 @@ export default class Itinerary extends Component{
                 <Row>
                     <Col xs={12} sm={12} md={7} lg={6} xl={4}>
                         {this.createFileInput()}
-                        {this.createForm('origin','destination')}
+                        {this.createForm('places')}
                     </Col>
                     <Col xs={12} sm={12} md={7} lg={6} xl={8}>
                         {this.renderMap()}
@@ -59,12 +58,6 @@ export default class Itinerary extends Component{
         );
     }
 
-   // renderTable(){
-   //      const places = this.state.places;
-   //      const distances = this.state.distances;
-   //
-   //      let retArray = "<br><h2>this.state.option</h2>"
-   // }
 
     retrieveTableInfo(){
         var table = [];
@@ -81,6 +74,16 @@ export default class Itinerary extends Component{
     renderTable(){
         return (
             <Pane header={"Get a good look at this trip"}>
+                <Button>
+                    Reverse
+                </Button>
+                <Button>
+                    Remove
+                </Button>
+                <Button>
+                    Rearrange
+                </Button>
+
             <Table>
                 <thead>
                     <tr>
@@ -191,25 +194,25 @@ export default class Itinerary extends Component{
                    style={{width: "100%"}}/>
         );
     }
-    createForm(stateVar,stateVar2) {
+    createForm(stateVar) {
         return (
-            <Pane header={'Type a Trip'}>
+            <Pane header={'Type a Location'}>
                 <Form >
-                    <label> <b>Start Location</b></label>
+                    <label> <b>Add Location</b></label>
                     <FormGroup>
-                        {this.createInputField(stateVar, 'latitude')}
-                        {this.createInputField(stateVar, 'longitude')}
+                        {this.createInputField(stateVar, 'name')}
+                        {console.log(this.state.places)}
                     </FormGroup>
-                    <label> <b>Finish Location</b></label>
-                    <FormGroup>
-                        {this.createInputField(stateVar2, 'latitude')}
-                        {this.createInputField(stateVar2, 'longitude')}
-                    </FormGroup>
+                    <Button>
+                        Search
+                    </Button>
+                    <Button>
+                        Add
+                    </Button>
                 </Form>
             </Pane>
             );
     }
-
     updateField(event) {
         var file = event.target.files[0];
         var reader = new FileReader();
@@ -229,7 +232,7 @@ export default class Itinerary extends Component{
         event.preventDefault();
         const tipConfigRequest = {
             'type': 'itinerary',
-            'version':2,
+            'version':3,
             'options':this.state.options,
             'places': this.state.places,
             'earthRadius' : this.props.options.units[this.props.options.activeUnit]
@@ -271,11 +274,7 @@ export default class Itinerary extends Component{
     updateLocationOnChange(stateVar, field, value) {
         let location = Object.assign({}, this.state[stateVar]);
         location[field] = value;
-        var position = new Coordinates('40:7:22.8N 74:7:22.8W');
-        if(position){
-            this.setState({[stateVar]: location});
-        }
-
+        this.setState({[stateVar]: location});
     }
     getPositions(){
 
