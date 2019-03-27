@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,13 +20,14 @@ public class TIPFind extends TIPHeader{
     protected String match;
     protected int limit;
     protected int found;
-    protected List<Map> places;
+    protected ArrayList<Map> places;
+
 
     // db configuration information
     private final static String myDriver = "com.mysql.jdbc.Driver";
-    private String myUrl = "";
-    private String user="cs314-db";
-    private String pass="eiK5liet1uej";
+    private transient String myUrl = "";
+    private transient String user="cs314-db";
+    private transient String pass="eiK5liet1uej";
 
     // fill in SQL queries to count the number of records and to retrieve the data
     private final static String count = "select count(*) from colorado;;";
@@ -40,12 +42,17 @@ public class TIPFind extends TIPHeader{
 
     @Override
     public void buildResponse() {
+        //this.places = new List<Map>();
         setup();
         fillPlaces();
-       log.trace("buildResponse -> {}", this);
+        log.trace("buildResponse -> {}", this);
     }
+
     private TIPFind() {
+        this.limit = 0;
         this.found = 0;
+        this.places = new ArrayList<Map>();
+        this.match = "";
     }
 
     @Override
@@ -53,10 +60,14 @@ public class TIPFind extends TIPHeader{
         return "{match: " + match + ", limit: " + limit + ", found: " + found + ", places:" + places ;
     }
 
-    TIPFind(String match, int limit){
+    TIPFind(String match, int limit, ArrayList<Map> places, int found){
+        log.trace("in gere");
         this.match = match;
         this.limit = limit;
+        this.places = places;
+        this.found = found;
     }
+
     public void setup() {
         if(isTravis != null && isTravis.equals("true")) {
             myUrl = "jdbc:mysql://127.0.0.1/cs314";
@@ -84,7 +95,6 @@ public class TIPFind extends TIPHeader{
     public String buildQuery(){
         String query1 = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name";
         return query1;
-
     }
     public void fillPlaces(){
         //query SOMETHING to fill places with limit items
@@ -99,7 +109,6 @@ public class TIPFind extends TIPHeader{
                  ResultSet rsQuery = stQuery.executeQuery(search)
 
             ) {
-//                this.found = places.size();
                 printJSON(rsCount, rsQuery);
 
             }
@@ -114,14 +123,12 @@ public class TIPFind extends TIPHeader{
         System.out.printf("\"type\": \"find\",\n");
         System.out.printf("\"title\": \"%s\",\n",search);
         System.out.printf("\"places\": [\n");
-
         // determine the number of results that match the query
         count.next();
         int results = count.getInt(1);
 
         // iterate through query results and print out the airport codes
         List<String> chicken;
-
         while (query.next()) {
             //System.out.printf("  \"%s\"", query.getString("name"));
             Map<String, String> temp = new HashMap ();
@@ -146,8 +153,6 @@ public class TIPFind extends TIPHeader{
                 System.out.printf(",\n");
             found++;
         }
-
-
         System.out.printf("  ]\n}\n");
     }
 

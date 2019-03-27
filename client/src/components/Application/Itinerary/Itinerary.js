@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Table } from 'reactstrap'
+import { Container, Row, Col, Table, ButtonGroup } from 'reactstrap'
 import { CustomInput, FormGroup } from 'reactstrap';
 import { Button } from 'reactstrap'
-import { Form, Label, Input } from 'reactstrap'
+import { Form, Label, Input,} from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
@@ -14,7 +14,6 @@ import Coordinates from "coordinate-parser";
 export default class Itinerary extends Component{
     constructor(props){
         super(props);
-
         this.updateField= this.updateField.bind(this);
         this.createItinerary = this.createItinerary.bind(this);
         this.createFileInput= this.createFileInput.bind(this);
@@ -27,13 +26,14 @@ export default class Itinerary extends Component{
             options:{title: '',earthRadius: ' '},
             places:{id: '0', name:'', latitude: '0',longitude: '0'},
             distances: [],
-            filename: 'Upload File'
+            filename: 'Upload File',
+            match: {matcher: ''}
         }
 
     }
 
-
     render(){
+        console.log(this.state)
         return (
             <Container>
                 <Row>
@@ -44,7 +44,7 @@ export default class Itinerary extends Component{
                 <Row>
                     <Col xs={12} sm={12} md={7} lg={6} xl={4}>
                         {this.createFileInput()}
-                        {this.createForm('places')}
+                        {this.createForm('match')}
                     </Col>
                     <Col xs={12} sm={12} md={7} lg={6} xl={8}>
                         {this.renderMap()}
@@ -59,14 +59,26 @@ export default class Itinerary extends Component{
         );
     }
 
-
     retrieveTableInfo(){
         var table = [];
         var total = 0;
         for(let i = 0; i < this.state.places.length; i++){
             let cell = [];
             total += this.state.distances[i];
-            cell.push(<tr><td>{this.state.places[i]["name"]}</td><td>{this.state.places[i]["latitude"]}</td><td>{this.state.places[i]["longitude"]}</td><td>{this.state.distances[i]}</td></tr>);
+            cell.push(
+                <tr>
+                <td>{this.state.places[i]["name"]}</td>
+                <td>{this.state.places[i]["latitude"]}</td>
+                <td>{this.state.places[i]["longitude"]}</td>
+                <td>{this.state.distances[i]}</td>
+                <td>
+                    <ButtonGroup>
+                        <Button> \/</Button>
+                        <Button> /\ </Button>
+                        <Button>  X </Button>
+                </ButtonGroup>
+                </td>
+            </tr>);
             table.push(cell);
         }
         return table;
@@ -78,18 +90,10 @@ export default class Itinerary extends Component{
                 <Button>
                     Reverse
                 </Button>
-                <Button
-                    onClick={this.deleteLocation.bind(this)}>
-                    Remove Selected
-                </Button>
                 <Button color="danger"
                     onClick={this.deleteLocations}>
                     Remove All
                 </Button>
-                <Button>
-                    Rearrange
-                </Button>
-
             <Table>
                 <thead>
                     <tr>
@@ -97,6 +101,7 @@ export default class Itinerary extends Component{
                         <th>Latitude</th>
                         <th>Longitude</th>
                         <th>Distance</th>
+                        <th>Options</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,6 +111,7 @@ export default class Itinerary extends Component{
             </Pane>
         )
     }
+
     renderMap() {
         return (
             <Pane header={'Where Am I?'}>
@@ -193,7 +199,7 @@ export default class Itinerary extends Component{
 
         let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
         return (
-            <Input name={coordinate} placeholder={capitalizedCoordinate}
+            <Input name={coordinate} placeholder={'Location'}
                    id={`${stateVar}${capitalizedCoordinate}`}
                    value={this.state[stateVar][coordinate]}
                    onChange={updateStateVarOnChange}
@@ -206,15 +212,12 @@ export default class Itinerary extends Component{
                 <Form >
                     <label> <b>Add Location</b></label>
                     <FormGroup>
-                        {this.createInputField(stateVar, 'name')}
+                        {this.createInputField(stateVar,'matcher')}
                         {console.log(this.state.places)}
                     </FormGroup>
-                    <Button>
+                    <Button onClick={this.sendFindRequest.bind(this)}>
                         Search
-                    </Button>
-                    <Button>
-                        Add
-                    </Button>
+                    </Button>a
                 </Form>
             </Pane>
             );
@@ -236,7 +239,7 @@ export default class Itinerary extends Component{
 
     createItinerary(event){
         event.preventDefault();
-        const tipConfigRequest = {
+        const tipItineraryRequest = {
             'type': 'itinerary',
             'version':3,
             'options':this.state.options,
@@ -245,7 +248,7 @@ export default class Itinerary extends Component{
         }
         console.warn(this.props.options.units[this.props.options.activeUnit]);
 
-        sendServerRequestWithBody('itinerary',tipConfigRequest, this.props.settings.serverPort)
+        sendServerRequestWithBody('itinerary',tipItineraryRequest, this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
                     this.setState({
@@ -303,6 +306,24 @@ export default class Itinerary extends Component{
         e.preventDefault()
         delete(this.state.places);
         this.setState({places:{id: '0', name:'', latitude: '0',longitude: '0'}})
+    }
+    sendFindRequest(){
+        const tipFindRequest = {
+            'requestType': 'find',
+            'requestVersion':3,
+            'limit' : 1,
+            'match': this.state.match.matcher
+        }
+        console.log("hello:")
+        console.log(this.state)
+        sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
+            .then((response) => {
+            if (response.statusCode >= 200 && response.statusCode <= 299) {
+                this.setState({
+                    places: response.body.places
+                });
+            }
+        });
     }
 
 }
