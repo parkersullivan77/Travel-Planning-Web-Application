@@ -217,7 +217,7 @@ export default class Itinerary extends Component{
                     </FormGroup>
                     <Button onClick={this.sendFindRequest.bind(this)}>
                         Search
-                    </Button>a
+                    </Button>
                 </Form>
             </Pane>
             );
