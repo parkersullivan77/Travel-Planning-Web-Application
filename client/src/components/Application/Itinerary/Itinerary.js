@@ -24,7 +24,7 @@ export default class Itinerary extends Component{
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
             options:{title: '',earthRadius: ' '},
-            places:{id: '0', name:'', latitude: '0',longitude: '0'},
+            places:[{id: '0', name:'', latitude: '0',longitude: '0'}],
             distances: [],
             filename: 'Upload File',
             match: {matcher: ''}
@@ -34,6 +34,7 @@ export default class Itinerary extends Component{
 
     render(){
         console.log(this.state)
+        alert(JSON.stringify(this.state.places))
         return (
             <Container>
                 <Row>
@@ -85,9 +86,11 @@ export default class Itinerary extends Component{
     }
 
     renderTable(){
+        console.log("CALLED RENDERTABLE")
         return (
             <Pane header={"Get a good look at this trip"}>
-                <Button>
+                <Button
+                    onClick={this.reversePlaces.bind(this)}>
                     Reverse
                 </Button>
                 <Button color="danger"
@@ -307,6 +310,21 @@ export default class Itinerary extends Component{
         delete(this.state.places);
         this.setState({places:{id: '0', name:'', latitude: '0',longitude: '0'}})
     }
+
+    reversePlaces(e) {
+        e.preventDefault()
+        let tempPlacesArray = []
+        if(this.state.places.length > 2) {
+            tempPlacesArray.push(this.state.places[0])
+            var j = 1
+            for(var i = this.state.places.length-1; i > 0; i--) {
+                tempPlacesArray.push(this.state.places[i])
+                j++
+            }
+        }
+        this.setState({ places: tempPlacesArray })
+    }
+
     sendFindRequest(){
         const tipFindRequest = {
             'requestType': 'find',
