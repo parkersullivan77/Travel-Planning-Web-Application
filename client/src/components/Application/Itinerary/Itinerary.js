@@ -34,7 +34,6 @@ export default class Itinerary extends Component{
 
     render(){
         console.log(this.state)
-        alert(JSON.stringify(this.state.places))
         return (
             <Container>
                 <Row>
