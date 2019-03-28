@@ -241,7 +241,8 @@ export default class Itinerary extends Component{
     }
 
     createItinerary(event){
-        event.preventDefault();
+        if(event !== null){event.preventDefault();}
+
         const tipItineraryRequest = {
             'type': 'itinerary',
             'version':3,
@@ -337,8 +338,9 @@ export default class Itinerary extends Component{
                     places: response.body.places
                 });
             }
+            this.createItinerary(null);
         });
-        this.createItinerary()
+
     }
     moveDown(index){
         let swappedPlaces = [];
@@ -348,6 +350,7 @@ export default class Itinerary extends Component{
             this.state.places[index + 1] = temp;
             swappedPlaces = this.state.places;
             this.setState({places:swappedPlaces});
+            this.createItinerary(null);
         }
     }
 
@@ -359,6 +362,7 @@ export default class Itinerary extends Component{
             this.state.places[index] = temp;
             swappedPlaces = this.state.places;
             this.setState({places: swappedPlaces});
+            this.createItinerary(null);
         }
     }
     
@@ -369,6 +373,7 @@ export default class Itinerary extends Component{
         deletedList = this.state.places;
         console.warn(deletedList);
         this.setState({places: deletedList});
+        this.createItinerary(null);
     }
 
 }
