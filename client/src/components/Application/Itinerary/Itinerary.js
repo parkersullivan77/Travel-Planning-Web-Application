@@ -73,9 +73,9 @@ export default class Itinerary extends Component{
                 <td>{this.state.distances[i]}</td>
                 <td>
                     <ButtonGroup>
-                        <Button> \/</Button>
-                        <Button> /\ </Button>
-                        <Button>  X </Button>
+                        <Button onClick={(event) => {this.moveDown(i);}}> \/ </Button>
+                        <Button onClick={(event) => {this.moveUP(i);}}> /\ </Button>
+                        <Button onClick={(event) => {this.deleteClicked(i);}}> X </Button>
                 </ButtonGroup>
                 </td>
             </tr>);
@@ -299,25 +299,21 @@ export default class Itinerary extends Component{
         return points;
     }
 
-    deleteLocation(){
-        this.state.places.splice(0, 1);
-        this.setState(this.state);
-    }
 
     deleteLocations(e) {
-        e.preventDefault()
+        e.preventDefault();
         delete(this.state.places);
         this.setState({places:{id: '0', name:'', latitude: '0',longitude: '0'}})
     }
 
     reversePlaces(e) {
-        e.preventDefault()
-        let tempPlacesArray = []
+        e.preventDefault();
+        let tempPlacesArray = [];
         if(this.state.places.length > 2) {
-            tempPlacesArray.push(this.state.places[0])
-            var j = 1
+            tempPlacesArray.push(this.state.places[0]);
+            var j = 1;
             for(var i = this.state.places.length-1; i > 0; i--) {
-                tempPlacesArray.push(this.state.places[i])
+                tempPlacesArray.push(this.state.places[i]);
                 j++
             }
         }
@@ -341,6 +337,36 @@ export default class Itinerary extends Component{
                 });
             }
         });
+    }
+    moveDown(index){
+        let swappedPlaces = [];
+        if(index !== this.state.places.length -1) {
+            let temp = this.state.places[index];
+            this.state.places[index] = this.state.places[index + 1];
+            this.state.places[index + 1] = temp;
+            swappedPlaces = this.state.places;
+            this.setState({places:swappedPlaces});
+        }
+    }
+
+    moveUP(index){
+        let swappedPlaces = [];
+        if(index !== 0) {
+            let temp = this.state.places[index - 1];
+            this.state.places[index - 1] = this.state.places[index]
+            this.state.places[index] = temp;
+            swappedPlaces = this.state.places;
+            this.setState({places: swappedPlaces});
+        }
+    }
+    
+    deleteClicked(index){
+        console.log("IN HERE");
+        let deletedList = [];
+        this.state.places.splice(index,1);
+        deletedList = this.state.places;
+        console.warn(deletedList);
+        this.setState({places: deletedList});
     }
 
 }
