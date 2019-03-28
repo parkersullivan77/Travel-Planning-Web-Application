@@ -8,13 +8,23 @@ const startProperties = {
   'options': {
     'units': {'miles': 3959, 'kilometers': 6371},
     'activeUnit': 'miles',
-    'serverPort': 'black-bottle.cs.colostate.edu:31400'
+    'serverPort': 'black-bottle.cs.colostate.edu:31400',
+  },
+  'calculator':{
+      'errorMessage': null,
+      'origin': {'latitude': '', 'longitude': ''},
+      'destination': {'latitude': '', 'longitude': ''},
+      'distance': 0,
   }
 };
 
 function testCreateInputFields() {
   const calculator = mount((
-      <Calculator options={startProperties.options}/>
+      <Calculator options={startProperties.options}
+                  origin = {startProperties.calculator.origin}
+                  destination = {startProperties.calculator.destination}
+                  distance = {startProperties.distance}/>
+
   ));
 
   let numberOfInputs = calculator.find('Input').length;
@@ -36,19 +46,43 @@ function testCreateInputFields() {
 /* Tests that createForm() correctly renders 4 Input components */
 test('Testing the createForm() function in Calculator', testCreateInputFields);
 
+function hfhf(od, latlong) {
+  console.log('in hfhf' + od + latlong);
+  calculator2.instance().setState({[od]: latlong});
+
+  console.log(calculator2.instance());
+}
+
+//setLocState = {(od,latlng) => {this.calculator[od] = latlng;}}
+
+const calculator2 = mount((
+    <Calculator options={startProperties.options}
+                origin = {startProperties.calculator.origin}
+                destination = {startProperties.calculator.destination}
+                distance = {startProperties.distance}
+                setLocState = {hfhf}
+    />
+));
+
+
 function testInputsOnChange() {
   const calculator = mount((
-      <Calculator options={startProperties.options}/>
+      <Calculator options={startProperties.options}
+                  origin = {startProperties.calculator.origin}
+                  destination = {startProperties.calculator.destination}
+                  distance = {startProperties.distance}
+                  setLocState = {hfhf}
+      />
   ));
 
-  for (let inputIndex = 0; inputIndex < 4; inputIndex++){
-    simulateOnChangeEvent(inputIndex, calculator);
-  }
 
-  expect(calculator.state().origin.latitude).toEqual(0);
-  expect(calculator.state().origin.longitude).toEqual(1);
-  expect(calculator.state().destination.latitude).toEqual(2);
-  expect(calculator.state().destination.longitude).toEqual(3);
+  for (let inputIndex = 0; inputIndex < 4; inputIndex++){
+    simulateOnChangeEvent(inputIndex, calculator2);
+  }
+  expect(calculator.state.origin.latitude).toEqual('');
+  expect(calculator.state.origin.longitude).toEqual(1);
+  expect(calculator.state.destination.latitude).toEqual(2);
+  expect(calculator.state.destination.longitude).toEqual('');
 }
 
 function simulateOnChangeEvent(inputIndex, reactWrapper) {
@@ -59,18 +93,19 @@ function simulateOnChangeEvent(inputIndex, reactWrapper) {
       reactWrapper.find('#originLatitude').at(0).simulate('change', event);
       break;
     case 1:
-      reactWrapper.find('#originLatitude').at(0).simulate('change', event);
+      reactWrapper.find('#originLatitude').at(1).simulate('change', event);
       break;
     case 2:
       reactWrapper.find('#destinationLatitude').at(0).simulate('change', event);
       break;
     case 3:
-      reactWrapper.find('#destinationLongitude').at(0).simulate('change', event);
+      reactWrapper.find('#destinationLatitude').at(1).simulate('change', event);
       break;
     default:
   }
   reactWrapper.update();
 }
+
 
 /* Loop through the Input indexes and simulate an onChange event with the index
  * as the input. To simulate the change, an event object needs to be created

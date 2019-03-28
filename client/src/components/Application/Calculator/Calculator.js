@@ -15,13 +15,17 @@ export default class Calculator extends Component {
     this.calculateDistance = this.calculateDistance.bind(this);
     this.createInputField = this.createInputField.bind(this);
 
+    this.state={
+        isDisabled: true
+    }
 
   }
   render() {
-      this.validateInput();
+      this.state.isDisabled = this.validateInput();
+      console.log(this.state);
       return (
       <Container>
-        { this.props.errorMessage }
+        {this.props.errorMessage }
         <Row>
           <Col>
             {this.createHeader()}
@@ -62,13 +66,12 @@ export default class Calculator extends Component {
       return (
           <Input name={coordinate} placeholder={capitalizedCoordinate}
                  id={`${stateVar}${capitalizedCoordinate}`}
-                 value={this.state[stateVar][coordinate]}
+                 value={this.props[stateVar][coordinate]}
                  onChange={updateStateVarOnChange}
                  style={{width: "100%"}}/>
       );
   }
   validateInput() {
-      var retBool = false;
       //Check if every input is a valid number (works for negative numbers now)
       var nan1 = /^-?\d*\.?\d+$/.test(this.props.origin['latitude']);
       var nan2 = /^-?\d*\.?\d+$/.test(this.props.origin['longitude']);
@@ -80,22 +83,14 @@ export default class Calculator extends Component {
           var long1 = Number.parseFloat((this.props.origin['longitude']));
           var lat2 = Number.parseFloat((this.props.destination['latitude']));
           var long2 = Number.parseFloat((this.props.destination['longitude']));
-          retBool = true;
-      }
-      this.props.setSubmit(retBool);
-      /*let origCoord = new Coordinates(this.state.origin['latitude'] + " " + this.state.origin['longitude']);
-      let isValid;
-      try{
-          isValid = true;
-          new Coordinates(this.state.destination['latitude'] + " " + this.state.destination['longitude']);
-          return isValid
-      }catch (error) {
-          isValid = false;
           if(lat1 > 90 || lat1 < -90 || lat2 > 90 || lat2 < -90)
               return true;
           if(long1 > 180 || long1 < -180 || long2 > 180 || long2 < -180)
-          return isValid;
-      }*/
+              return true;
+      } else {
+          return true;
+      }
+      return false;
   }
 
   createForm(stateVar) {
@@ -115,7 +110,7 @@ export default class Calculator extends Component {
       <div>
           <h5>{this.props.distance} {this.props.options.activeUnit}</h5>
           <Button
-              disabled={this.props.isDisabled}
+              disabled={this.state.isDisabled}
               onClick={this.calculateDistance}>
               Calculate
           </Button>
@@ -144,8 +139,12 @@ export default class Calculator extends Component {
     }
 
   updateLocationOnChange(stateVar, field, value) {
-    let location = Object.assign({}, this.state[stateVar]);
+    let location = Object.assign({}, this.props[stateVar]);
     location[field] = value;
+    console.log(this.props);
+    console.log(location);
+    console.log(stateVar);
     this.props.setLocState(stateVar, location);
+    console.log(this.props);
   }
 }
