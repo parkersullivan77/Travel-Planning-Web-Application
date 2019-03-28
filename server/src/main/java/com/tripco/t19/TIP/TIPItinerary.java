@@ -26,7 +26,6 @@ public class TIPItinerary extends TIPHeader{
             this.options = options;
             this.places = places;
       }
-
       TIPItinerary(Integer version, JsonObject options, List<JsonObject> places,double earthRadius){
             this();
             this.requestVersion = version;

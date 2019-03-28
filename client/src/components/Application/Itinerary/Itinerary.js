@@ -29,7 +29,6 @@ export default class Itinerary extends Component{
             filename: 'Upload File',
             match: {matcher: ''}
         }
-
     }
 
     render(){
