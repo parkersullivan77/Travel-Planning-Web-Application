@@ -24,7 +24,7 @@ export default class Application extends Component {
     this.setCalcState = this.setCalcState.bind(this);
     this.setErrState = this.setErrState.bind(this);
     this.setLocState = this.setLocState.bind(this);
-    this.setSubmit = this.setSubmit.bind(this);
+    // this.setSubmit = this.setSubmit.bind(this);
 
     this.state = {
       serverConfig: null,
@@ -40,7 +40,6 @@ export default class Application extends Component {
       origin: {latitude: '', longitude: ''},
       destination: {latitude: '', longitude: ''},
       distance: 0,
-      isDisabled: true
     };
 
     this.updateServerConfig();
@@ -48,11 +47,11 @@ export default class Application extends Component {
 
 
   render() {
-    let pageToRender = this.props.serverConfig ? this.props.page : 'settings';
-
+    let pageToRender = this.state.serverConfig ? this.props.page : 'settings';
+    //console.log(pageToRender)
     return (
       <div className='application-width'>
-        { this.props.errorMessage }{ this.createApplicationPage(pageToRender) }
+        { this.state.errorMessage }{ this.createApplicationPage(pageToRender) }
       </div>
     );
   }
@@ -75,7 +74,7 @@ export default class Application extends Component {
 
   updateServerConfig() {
     sendServerRequest('config', this.state.clientSettings.serverPort).then(config => {
-      console.log(config);
+      //console.log(config);
       this.processConfigResponse(config);
     });
   }
@@ -89,6 +88,7 @@ export default class Application extends Component {
   }
 
   createApplicationPage(pageToRender) {
+    //console.log(pageToRender);
     switch(pageToRender) {
 
       case 'itinerary' :
@@ -109,9 +109,11 @@ export default class Application extends Component {
                            distance={this.state.distance}
                            isDisabled={this.state.isDisabled}
                            createErrorBanner={this.createErrorBanner}
+                           setLocState = {this.setLocState}
                            setCalcState={this.setCalcState}
                            setErrState={this.setErrState}
-                           setSubmit={this.setSubmit}/>;
+                           // setSubmit = {this.setSubmit}
+                           />;
 
       case 'options':
         return <Options options={this.state.planOptions}
@@ -123,12 +125,14 @@ export default class Application extends Component {
                          updateSetting={this.updateClientSetting}/>;
       default:
         return <Home/>;
+
     }
+
   }
 
   processConfigResponse(config) {
     if(config.statusCode >= 200 && config.statusCode <= 299) {
-      console.log("Switching to server ", this.state.clientSettings.serverPort);
+      //console.log("Switching to server ", this.state.clientSettings.serverPort);
       this.setState({
         serverConfig: config.body,
         errorMessage: null
@@ -157,8 +161,7 @@ export default class Application extends Component {
     this.setState({
       errorMessage: this.props.createErrorBanner(
       response.statusText,
-      response.statusCode,
-`Request to ${this.props.settings.serverPort} failed.`
+      response.statusCode, `Request to ${this.state.settings.serverPort} failed.`
       )
     });
   }
@@ -167,10 +170,10 @@ export default class Application extends Component {
     this.setState({[stateVar]: location});
   }
 
-  setSubmit(flag){
-    this.setState({
-      isDisabled: flag,
-      errorMessage: null
-    });
-  }
+  // setSubmit(flag){
+  //   this.setState({
+  //     isDisabled: flag,
+  //     errorMessage: null
+  //   });
+  // }
 }

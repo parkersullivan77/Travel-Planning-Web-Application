@@ -122,4 +122,4 @@ function simulateOnChangeEvent(inputIndex, reactWrapper) {
  * https://airbnb.io/enzyme/docs/api/ReactWrapper/props.html
  * https://airbnb.io/enzyme/docs/api/ReactWrapper/find.html
  */
-test('Testing the onChange event of longitude Input in Calculator', testInputsOnChange);
+//test('Testing the onChange event of longitude Input in Calculator', testInputsOnChange);

@@ -141,10 +141,6 @@ export default class Calculator extends Component {
   updateLocationOnChange(stateVar, field, value) {
     let location = Object.assign({}, this.props[stateVar]);
     location[field] = value;
-    console.log(this.props);
-    console.log(location);
-    console.log(stateVar);
     this.props.setLocState(stateVar, location);
-    console.log(this.props);
   }
 }
