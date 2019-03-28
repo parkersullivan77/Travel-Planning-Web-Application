@@ -14,6 +14,7 @@ public class TIPItinerary extends TIPHeader{
       protected Long[] distances;
       protected Double earthRadius;
 
+
       private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
       public String toString(){

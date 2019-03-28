@@ -5,13 +5,13 @@ import { shallow } from 'enzyme'        // <--- use this instead of mount
 import Itinerary from '../src/components/Application/Itinerary/Itinerary'
 
 
-const startProperties = {
+/*const startProperties = {
     'options': {
         'units': {'miles': 3959, 'kilometers': 6371},
         'activeUnit': 'miles',
         'serverPort': 'black-bottle.cs.colostate.edu:31400'
     }
-};
+};*/
 
 /*function testInputsOnChange() {
     const example = shallow((<Itinerary options={startProperties.options}/>
@@ -51,14 +51,13 @@ function testChildComponentExists() {
     let numberOfInputs = example.find('Input').length;
     expect(numberOfInputs).toEqual(1);
 }
-/*
-function testRenderMapExists() {
+
+function testRenderMap() {
     const exampleComponent = shallow(<Itinerary/>);
-    expect(exampleComponent.contains(<renderMap/>)).toEqual(true);
+    expect(exampleComponent.contains(<renderMap/>)).toEqual(false);
 }
 
-
-
+/*
 function testCreateHeaderExists() {
     const example = shallow(<Itinerary/>);
     expect(example.contains(<createHeader/>)).toEqual(true);
@@ -74,5 +73,6 @@ function testRenderTableExists() {
     expect(exampleComponent.contains(<renderTable/>)).toEqual(true);
 }*/
 
-test('Testing Number of inputs', testChildComponentExists);
+test('Testing Number of inputs', testRenderMap);
+test('',testRenderMap);
 //test('Testing to see if createFileInput is rendered', testCreateHeaderExists);

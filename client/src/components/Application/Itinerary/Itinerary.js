@@ -287,7 +287,6 @@ export default class Itinerary extends Component{
         this.setState({[stateVar]: location});
     }
     getPositions(){
-
         var length = this.state.places.length;
         var points= []
         for(var i = 0;  i<length+1; i++){

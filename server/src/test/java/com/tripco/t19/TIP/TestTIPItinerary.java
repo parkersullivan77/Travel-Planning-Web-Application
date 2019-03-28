@@ -9,33 +9,35 @@ import java.util.List;
 
 public class TestTIPItinerary {
 
-
-*/
-/* values shared by test cases *//*
-
-
     private final int version = 2;  //Version will be constant
-    JsonObject testOptions = new JsonObject();
-
-    testOptions.addProperty("test", 2);
-
-
+    JsonObject testOptions;
     List<JsonObject> testPlaces;
-
     private final double testRadius = 3958;
 
 
     @Before
     public void createValuesForTestCases() {
 
+        testOptions =  new JsonObject();
+
+        testOptions.addProperty("title","My Trip");
+        testOptions.addProperty("earthRadius","3958.8");
+        testOptions.addProperty("optimization","none");
+
+        JsonObject myPlace = new JsonObject();
+        myPlace.addProperty("name","Denver");
+        myPlace.addProperty("latitude", "39.7");
+        myPlace.addProperty("longitude","-105.0");
+
+        //testPlaces.add(myPlace);
     }
 
     @Test
     public void testOriginDestinationSame() {
         TIPItinerary trip = new TIPItinerary(version, testOptions, testPlaces,testRadius);
-        trip.buildResponse();
-        int expect = 50;
-        long actual = trip.getDistance(0,50);
+       // trip.buildResponse();
+       // int expect;
+       // long actual = trip.getDistance(0,50);
     }
 
     @Test

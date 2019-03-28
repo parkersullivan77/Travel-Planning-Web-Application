@@ -109,13 +109,11 @@ public class TIPFind extends TIPHeader{
 
             ) {
                 printJSON(rsCount, rsQuery);
-
             }
         } catch (Exception e) {
             System.err.println("Exception: "+e.getMessage());
         }
     }
-
 
     private void printJSON(ResultSet count, ResultSet query) throws SQLException {
         System.out.printf("\n{\n");
@@ -154,5 +152,4 @@ public class TIPFind extends TIPHeader{
         }
         System.out.printf("  ]\n}\n");
     }
-
 }
