@@ -1,5 +1,4 @@
 package com.tripco.t19.TIP;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
@@ -143,7 +142,7 @@ public class TIPFind extends TIPHeader{
             temp.put("longitude", longitude);
             String altitude = query.getString("altitude");
             temp.put("altitude", altitude);
-            String municipality =query.getString("municipality");
+            String municipality = query.getString("municipality");
             temp.put("municipality", municipality);
             this.places.add(temp);
             //System.out.println("name: "+ name + " " + lat + " " +id +" " +alt + " " + municipality + " " + longitude);

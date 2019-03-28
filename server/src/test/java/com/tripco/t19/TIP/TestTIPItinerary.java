@@ -1,3 +1,4 @@
+/*
 
 package com.tripco.t19.TIP;
 
@@ -9,11 +10,14 @@ import java.util.List;
 public class TestTIPItinerary {
 
 
-/* values shared by test cases */
+*/
+/* values shared by test cases *//*
+
 
     private final int version = 2;  //Version will be constant
     JsonObject testOptions = new JsonObject();
-    testOptions.add("test", "gfsg");
+
+    testOptions.addProperty("test", 2);
 
 
     List<JsonObject> testPlaces;
@@ -53,3 +57,4 @@ public class TestTIPItinerary {
 
 
 }
+*/
