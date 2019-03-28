@@ -85,7 +85,8 @@ export default class Itinerary extends Component{
     }
 
     renderTable(){
-        console.log("CALLED RENDERTABLE")
+        console.log("CALLED RENDERTABLE");
+
         return (
             <Pane header={"Get a good look at this trip"}>
                 <Button
@@ -341,6 +342,7 @@ export default class Itinerary extends Component{
                 });
             }
         });
+        this.createItinerary()
     }
 
 }
