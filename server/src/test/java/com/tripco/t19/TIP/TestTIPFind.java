@@ -10,6 +10,7 @@ import static org.junit.Assert.assertEquals;
 public class TestTIPFind {
     ArrayList<Map> myPlaces = new ArrayList();
 
+
     @Before
     public void createValuesForTestCases() {
        /* Map<String,String> RandomMap = new <String,String>HashMap();
@@ -52,5 +53,4 @@ public class TestTIPFind {
         String expect = "{match: subscribe 2 pewdiepie, limit: 22, found: 0, places:[]";
         assertEquals("Some test", expect, actual);
     }
-
 }
