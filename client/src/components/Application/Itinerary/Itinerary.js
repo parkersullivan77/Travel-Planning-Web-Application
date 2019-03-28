@@ -351,13 +351,15 @@ export default class Itinerary extends Component{
 
     moveUP(index){
         let swappedPlaces = [];
-        let temp = this.state.places[index-1];
-        this.state.places[index-1] = this.state.places[index]
-        this.state.places[index] = temp;
-        swappedPlaces = this.state.places;
-        this.setState({places: swappedPlaces});
-
+        if(index !== 0) {
+            let temp = this.state.places[index - 1];
+            this.state.places[index - 1] = this.state.places[index]
+            this.state.places[index] = temp;
+            swappedPlaces = this.state.places;
+            this.setState({places: swappedPlaces});
+        }
     }
+    
     deleteClicked(index){
         console.log("IN HERE");
         let deletedList = [];
