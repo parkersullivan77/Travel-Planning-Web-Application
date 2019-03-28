@@ -34,7 +34,7 @@ public class TestTIPFind {
     }
 
     @Test
-    public void testExistingString() {
+    public void testExistingString() { //test string that actually exists
         TIPFind find = new TIPFind("Fort Collins Downtown Airport", 22, myPlaces, 0);
         find.buildResponse();        //String expect = "random ";
         String actual = find.toString();
@@ -43,7 +43,7 @@ public class TestTIPFind {
     }
 
     @Test
-    public void testStringNotInPlace() {  //Test for string not in places
+    public void testStringNotInPlaces() {  //Test for string not in places
         TIPFind find = new TIPFind("subscribe 2 pewdiepie", 22, myPlaces, 0);
         find.buildResponse();
         String actual = find.toString();
