@@ -79,7 +79,7 @@ public class TIPFind extends TIPHeader{
         // environment variable (see the other guide) for connecting through an SSH
         // tunnel
         else if(isDevelopment != null && isDevelopment.equals("development")) {
-            myUrl = "jdbc:mysql://127.0.0.1:some-port/cs314";
+            myUrl = "jdbc:mysql://127.0.0.1:3306/cs314";
             user = "cs314-db";
             pass = "eiK5liet1uej";
         }
