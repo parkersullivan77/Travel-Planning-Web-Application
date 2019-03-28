@@ -340,14 +340,15 @@ export default class Itinerary extends Component{
     }
     moveDown(index){
         let swappedPlaces = [];
-        let temp = this.state.places[index];
-        this.state.places[index] = this.state.places[index+1];
-        this.state.places[index+1] = temp;
-        swappedPlaces = this.state.places;
-        this.setState({places:swappedPlaces});
-
-
+        if(index !== this.state.places.length -1) {
+            let temp = this.state.places[index];
+            this.state.places[index] = this.state.places[index + 1];
+            this.state.places[index + 1] = temp;
+            swappedPlaces = this.state.places;
+            this.setState({places:swappedPlaces});
+        }
     }
+
     moveUP(index){
         let swappedPlaces = [];
         let temp = this.state.places[index-1];
