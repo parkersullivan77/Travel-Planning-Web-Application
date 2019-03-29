@@ -1,11 +1,15 @@
- /*
+
 
 package com.tripco.t19.TIP;
 
 import com.google.gson.JsonObject;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class TestTIPItinerary {
 
@@ -18,6 +22,7 @@ public class TestTIPItinerary {
     @Before
     public void createValuesForTestCases() {
 
+        testPlaces = new ArrayList<>();
         testOptions =  new JsonObject();
 
         testOptions.addProperty("title","My Trip");
@@ -29,22 +34,25 @@ public class TestTIPItinerary {
         myPlace.addProperty("latitude", "39.7");
         myPlace.addProperty("longitude","-105.0");
 
-        //testPlaces.add(myPlace);
+        JsonObject myPlace2 = new JsonObject();
+        myPlace2.addProperty("optimization","none");
+        testPlaces.add(myPlace);
     }
 
     @Test
     public void testOriginDestinationSame() {
         TIPItinerary trip = new TIPItinerary(version, testOptions, testPlaces,testRadius);
-       // trip.buildResponse();
-       // int expect;
-       // long actual = trip.getDistance(0,50);
+        trip.buildResponse();
+        Long expect = 0L;
+        Long actual = trip.getDistance(0,0);
+        assertEquals("Difference ", expect, actual);
     }
-
+/*
     @Test
     public void anotherTest() {
         TIPItinerary trip = new TIPItinerary(version, testOptions, testPlaces,testRadius);
         trip.buildResponse();
-        int expect = 50;
+        long expect = 6050;
         long actual = trip.getDistance(0,50);
     }
 
@@ -54,9 +62,8 @@ public class TestTIPItinerary {
         trip.buildResponse();
         int expect = 50;
         long actual = trip.getDistance(0,50);
-    }
+    }*/
 
 
 
 }
-*/
