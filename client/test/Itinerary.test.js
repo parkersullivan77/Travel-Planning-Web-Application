@@ -77,6 +77,7 @@ function testRenderTableExists() {
 }
 
 test('Testing Number of inputs', testValidInput);
+//test('random test',testRenderMap);
 //test('Testing to see if createFileInput is rendered', testCreateHeaderExists);
 
 
