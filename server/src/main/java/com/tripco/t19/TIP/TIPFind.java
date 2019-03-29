@@ -1,5 +1,4 @@
 package com.tripco.t19.TIP;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
@@ -48,7 +47,7 @@ public class TIPFind extends TIPHeader{
         log.trace("buildResponse -> {}", this);
     }
 
-    private TIPFind() {
+        TIPFind() {
         this.limit = 0;
         this.found = 0;
         this.places = new ArrayList<Map>();
@@ -110,13 +109,11 @@ public class TIPFind extends TIPHeader{
 
             ) {
                 printJSON(rsCount, rsQuery);
-
             }
         } catch (Exception e) {
             System.err.println("Exception: "+e.getMessage());
         }
     }
-
 
     private void printJSON(ResultSet count, ResultSet query) throws SQLException {
         System.out.printf("\n{\n");
@@ -143,7 +140,7 @@ public class TIPFind extends TIPHeader{
             temp.put("longitude", longitude);
             String altitude = query.getString("altitude");
             temp.put("altitude", altitude);
-            String municipality =query.getString("municipality");
+            String municipality = query.getString("municipality");
             temp.put("municipality", municipality);
             this.places.add(temp);
             //System.out.println("name: "+ name + " " + lat + " " +id +" " +alt + " " + municipality + " " + longitude);
@@ -155,5 +152,4 @@ public class TIPFind extends TIPHeader{
         }
         System.out.printf("  ]\n}\n");
     }
-
 }

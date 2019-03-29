@@ -18,6 +18,12 @@ const startProperties = {
   }
 };
 
+
+
+
+/* Deep render (mount) Units to be able to test the properties of the Buttons
+ * that get rendered inside of it.
+ */
 function testCreateInputFields() {
   const calculator = mount((
       <Calculator options={startProperties.options}
@@ -42,19 +48,44 @@ function testCreateInputFields() {
 
   expect(actualInputs).toEqual(expectedInputs);
 }
+function testCreateInputFields2() {
+    const calculator = mount((
+        <Calculator options={startProperties.options}
+                    origin = {startProperties.calculator.origin}
+                    destination = {startProperties.calculator.destination}
+                    distance = {startProperties.distance}/>
+
+    ));
+
+    let numberOfInputs = calculator.find('Input').length;
+    expect(numberOfInputs).toEqual(4);
+
+    let actualInputs = [];
+    calculator.find('Input').map((input) => actualInputs.push(input.prop('name')));
+
+    let expectedInputs = [
+        'latitude',
+        'longitude',
+        'latitude',
+        'longitude'
+    ];
+
+    expect(actualInputs).toEqual(expectedInputs);
+}
 
 /* Tests that createForm() correctly renders 4 Input components */
 test('Testing the createForm() function in Calculator', testCreateInputFields);
 
-function hfhf(od, latlong) {
+
+/*function hfhf(od, latlong) {
   console.log('in hfhf' + od + latlong);
   calculator2.instance().setState({[od]: latlong});
 
   console.log(calculator2.instance());
-}
+}*/
 
 //setLocState = {(od,latlng) => {this.calculator[od] = latlng;}}
-
+/*
 const calculator2 = mount((
     <Calculator options={startProperties.options}
                 origin = {startProperties.calculator.origin}
@@ -62,22 +93,22 @@ const calculator2 = mount((
                 distance = {startProperties.distance}
                 setLocState = {hfhf}
     />
-));
+));*/
 
 
 function testInputsOnChange() {
+    let setMockState = jest.fn();
   const calculator = mount((
       <Calculator options={startProperties.options}
                   origin = {startProperties.calculator.origin}
                   destination = {startProperties.calculator.destination}
                   distance = {startProperties.distance}
-                  setLocState = {hfhf}
+                  setLocstate = {setMockState}
       />
   ));
 
-
   for (let inputIndex = 0; inputIndex < 4; inputIndex++){
-    simulateOnChangeEvent(inputIndex, calculator2);
+    simulateOnChangeEvent(inputIndex, calculator);
   }
   expect(calculator.state.origin.latitude).toEqual('');
   expect(calculator.state.origin.longitude).toEqual(1);
