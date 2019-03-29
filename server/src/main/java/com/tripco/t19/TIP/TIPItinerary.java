@@ -41,12 +41,16 @@ public class TIPItinerary extends TIPHeader{
 
       @Override
       public void buildResponse(){
-            this.distances = new Long[places.size()];
-            for (int i = 0; i < this.distances.length - 1; i++) {
-                  this.distances[i] = getDistance(i, i + 1);
-            }
-            this.distances[distances.length-1] = getDistance(distances.length-1, 0);
+          calculateDistances();
             log.trace("buildResponse -> {}", this);
+      }
+
+      public void calculateDistances(){
+          this.distances = new Long[places.size()];
+          for (int i = 0; i < this.distances.length - 1; i++) {
+              this.distances[i] = getDistance(i, i + 1);
+          }
+          this.distances[distances.length-1] = getDistance(distances.length-1, 0);
       }
 
       Long getDistance(int origin, int dest){
