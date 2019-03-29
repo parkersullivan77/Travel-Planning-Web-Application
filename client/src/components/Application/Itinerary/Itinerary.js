@@ -24,7 +24,7 @@ export default class Itinerary extends Component{
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
             options:{title: '',earthRadius: ' '},
-            places:[{id: '0', name:'', latitude: '0',longitude: '0'}],
+            places:{id: '0', name:'', latitude: '0',longitude: '0'},
             distances: [],
             filename: 'Upload File',
             match: {matcher: ''}
