@@ -47,7 +47,7 @@ public class TIPFind extends TIPHeader{
         log.trace("buildResponse -> {}", this);
     }
 
-    private TIPFind() {
+        TIPFind() {
         this.limit = 0;
         this.found = 0;
         this.places = new ArrayList<Map>();

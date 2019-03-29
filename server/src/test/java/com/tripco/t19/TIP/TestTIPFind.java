@@ -38,7 +38,7 @@ public class TestTIPFind {
 
 */
 
- /*   @Test
+/*    @Test
     public void testExistingString() {
         TIPFind find = new TIPFind("Fort Collins Downtown Airport", 22, myPlaces, 0);
         find.buildResponse();        //String expect = "random ";
@@ -61,5 +61,10 @@ public class TestTIPFind {
         String actual = find.toString();
         String expect = "{match: nonexistent string, limit: 22, found: 0, places:[]";
         assertEquals("Some test", expect, actual);
+    }
+    @Test
+    public void randomTest() {
+        TIPFind empty = new TIPFind();
+        empty.buildResponse();
     }
 }
