@@ -61,6 +61,5 @@ public class TestTIPDistance {
     long actual = trip.getDistance();
     assertEquals("Distance between CSU and Rams village ", expect, actual);
   }
-
 }
 

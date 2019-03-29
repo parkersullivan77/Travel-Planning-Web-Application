@@ -14,6 +14,7 @@ public class TIPItinerary extends TIPHeader{
       protected Long[] distances;
       protected Double earthRadius;
 
+
       private final transient Logger log = LoggerFactory.getLogger(TIPItinerary.class);
 
       public String toString(){
@@ -26,7 +27,6 @@ public class TIPItinerary extends TIPHeader{
             this.options = options;
             this.places = places;
       }
-
       TIPItinerary(Integer version, JsonObject options, List<JsonObject> places,double earthRadius){
             this();
             this.requestVersion = version;

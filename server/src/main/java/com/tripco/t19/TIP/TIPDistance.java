@@ -21,7 +21,7 @@ import java.util.Map;
  * The getDistance method is called to obtain the distance value for comparisons.
  *
  */
-public class TIPDistance extends TIPHeader {
+public class TIPDistance extends TIPHeader{
   private Map origin;
   private Map destination;
   private Double earthRadius;
@@ -32,7 +32,7 @@ public class TIPDistance extends TIPHeader {
   public String toString(){
     return "{origin:" + origin + ",destination:" + destination + ",earthRadius:" + earthRadius + ",distance:" + distance + "}";
   }
-  TIPDistance(int version, Map origin, Map destination, double earthRadius) {
+  TIPDistance(int version, Map origin, Map destination, double earthRadius){
     this();
     this.requestVersion = version;
     this.origin = origin;
@@ -40,7 +40,6 @@ public class TIPDistance extends TIPHeader {
     this.earthRadius = earthRadius;
     this.distance = 0L;
   }
-
 
   private TIPDistance() {
     this.requestType = "distance";
