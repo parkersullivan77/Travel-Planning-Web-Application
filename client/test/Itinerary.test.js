@@ -3,9 +3,10 @@
 import './enzyme.config.js'
 import React from 'react'
 import { shallow } from 'enzyme'        // <--- use this instead of mount
+import { mount } from 'enzyme'        // <--- use this instead of mount
+
 import Itinerary from '../src/components/Application/Itinerary/Itinerary'
 
-/*
 
 const startProperties = {
     'options': {
@@ -15,55 +16,35 @@ const startProperties = {
     }
 };
 
-function testInputsOnChange() {
-    const example = shallow((<Itinerary options={startProperties.options}/>
-    ));
-for (let inputIndex = 0; inputIndex < 4; inputIndex++){
-    simulateOnChangeEvent(inputIndex, example);
-}
 
-expect(example.state().origin.latitude).toEqual(0);
-expect(example.state().origin.longitude).toEqual(1);
-expect(example.state().destination.latitude).toEqual(2);
-expect(example.state().destination.longitude).toEqual(3);
-}
-function simulateOnChangeEvent(inputIndex, reactWrapper) {
-    let eventName = (inputIndex % 2 === 0) ? 'latitude' : 'longitude';
-    let event = {target: {name: eventName, value: inputIndex}};
-    switch(inputIndex) {
-        case 0:
-            reactWrapper.find('#originLatitude').at(0).simulate('change', event);
-            break;
-        case 1:
-            reactWrapper.find('#originLatitude').at(0).simulate('change', event);
-            break;
-        case 2:
-            reactWrapper.find('#destinationLatitude').at(0).simulate('change', event);
-            break;
-        case 3:
-            reactWrapper.find('#destinationLongitude').at(0).simulate('change', event);
-            break;
-        default:
-    }
-    reactWrapper.update();
-}
-*/
+
+
+
 
 function testValidInput() {
     const example = shallow(<Itinerary/>);
     let numberOfInputs = example.find('Input').length;
     expect(numberOfInputs).toEqual(1);
 }
-
+function findSomething(){
+    const example = mount(<Itinerary/>)
+    Itinerary(this.props);
+    <Itinerary options={this.state.planOptions}
+                      settings={this.state.clientSettings}
+                      createErrorBanner={this.createErrorBanner}/>
+}
 function testRenderMap() {
     const exampleComponent = shallow(<Itinerary/>);
     expect(exampleComponent.contains(<renderMap/>)).toEqual(false);
 }
 
+function SaveFileTest() {
+    const testComponenet = shallow(<Itinerary/>);
 
+}
 function testCreateHeaderExists() {
     const example = shallow(<Itinerary/>);
-    expect(example.contains(<createHeader/>)).toEqual(true);
+    expect(example.contains(<createHeader/>)).toEqual(false);
 }
 function testCreateFormExists() {
     const exampleComponent = shallow(<Itinerary/>);
@@ -77,7 +58,5 @@ function testRenderTableExists() {
 }
 
 test('Testing Number of inputs', testValidInput);
-//test('random test',testRenderMap);
-//test('Testing to see if createFileInput is rendered', testCreateHeaderExists);
 
 
