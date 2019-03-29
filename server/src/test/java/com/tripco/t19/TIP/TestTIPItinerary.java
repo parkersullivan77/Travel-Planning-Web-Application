@@ -36,7 +36,12 @@ public class TestTIPItinerary {
 
         JsonObject myPlace2 = new JsonObject();
         myPlace2.addProperty("optimization","none");
+        myPlace2.addProperty("name","Fort Collins");
+        myPlace2.addProperty("earthRadius","4231.8");
+
         testPlaces.add(myPlace);
+        testPlaces.add(myPlace);
+
     }
 
     @Test
@@ -45,6 +50,14 @@ public class TestTIPItinerary {
         trip.buildResponse();
         Long expect = 0L;
         Long actual = trip.getDistance(0,0);
+        assertEquals("Difference ", expect, actual);
+    }
+    @Test
+    public void testing (){
+        TIPItinerary trip = new TIPItinerary(version, testOptions, testPlaces,testRadius);
+        trip.buildResponse();
+        Long expect = 0L;
+        Long actual = trip.getDistance(1,1);
         assertEquals("Difference ", expect, actual);
     }
 /*
