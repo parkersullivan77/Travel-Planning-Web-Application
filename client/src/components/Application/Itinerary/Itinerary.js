@@ -365,13 +365,11 @@ export default class Itinerary extends Component{
     }
     
     deleteClicked(index){
-        console.log("IN HERE");
-        let deletedList = [];
         this.state.places.splice(index,1);
-        deletedList = this.state.places;
-        console.warn(deletedList);
+        let deletedList = this.state.places;
         this.setState({places: deletedList});
-        this.createItinerary(null);
+        if(this.state.places.length !== 0)
+            this.createItinerary(null);
     }
 
 }
