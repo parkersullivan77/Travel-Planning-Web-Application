@@ -24,7 +24,7 @@ export default class Itinerary extends Component{
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
             options:{title: '',earthRadius: ' '},
-            places:{id: '0', name:'', latitude: '0',longitude: '0'},
+            places:[],
             distances: [],
             filename: 'Upload File',
             match: {matcher: ''}
@@ -333,7 +333,7 @@ export default class Itinerary extends Component{
             .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
                 this.setState({
-                    places: response.body.places
+                    places: this.state.places.concat(response.body.places)
                 });
             }
             this.createItinerary(null);
