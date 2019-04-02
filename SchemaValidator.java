@@ -24,6 +24,7 @@ public class SchemaValidator {
       return;
     }
 
+    
     String jsonPath = args[0];
     String schemaPath = args[1];
 
