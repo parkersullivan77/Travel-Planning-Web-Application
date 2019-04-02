@@ -53,7 +53,6 @@ Key planning decisions for this sprint include:
 * Setting more realistic goals and making sure to get done with the more important tasks.
 * Starting tasks earlier
 
-***(Include a discussion of you plan with key diagrams here and remove this!)***
 
 ![](https://github.com/csucs314s19/t19/blob/master/team/images/diagram.png)
 *Diagram describing the requests made to/from the server* 
