@@ -106,7 +106,6 @@ class MicroServer {
 
   private String processTIPdistanceRequest(Request request, Response response) {
     return processTIPrequest(TIPDistance.class, request, response);
-
   }
   private String processTIPitineraryRequest(Request request, Response response) {
     return processTIPrequest(TIPItinerary.class, request, response);
@@ -218,7 +217,7 @@ class MicroServer {
       return parsedObject;
     }
   }
-  public String[] getStringsFromFile() {
+  public String[] getStringsFromFile(String filename) {
     ArrayList<String> retVals = new ArrayList<>();
     BufferedReader read;
     try{
