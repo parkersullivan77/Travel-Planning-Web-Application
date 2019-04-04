@@ -7,8 +7,10 @@ import com.tripco.t19.TIP.TIPDistance;
 import com.tripco.t19.TIP.TIPHeader;
 import com.tripco.t19.TIP.TIPItinerary;
 import com.tripco.t19.TIP.TIPFind;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 import org.json.JSONObject;
 import spark.Request;
@@ -18,6 +20,18 @@ import static spark.Spark.secure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.io.IOException;
+
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import org.everit.json.schema.SchemaException;
+import org.everit.json.schema.ValidationException;
+import org.json.JSONException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.loader.SchemaLoader;
 
 
 /** A micro server for a single page web application that serves the static files
@@ -157,29 +171,6 @@ class MicroServer {
   }
 
 
-
-  private static JSONObject parseJsonFile(String path) {
-    // Here, we simply dump the contents of a file into a String (and then an object);
-    // there are other ways of creating a JSONObject, like from an InputStream...
-    // (https://github.com/everit-org/json-schema#quickstart)
-    JSONObject parsedObject = null;
-    try {
-      byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
-      parsedObject = new JSONObject(new String(jsonBytes));
-    }
-    catch (IOException e) {
-      log.error("Caught exception when reading files!");
-      e.printStackTrace();
-    }
-    catch (JSONException e) {
-      log.error("Caught exception when constructing JSON objects!");
-      e.printStackTrace();
-    }
-    finally {
-      return parsedObject;
-    }
-  }
-
   private static boolean performValidation(JSONObject json, JSONObject jsonSchema) {
     boolean validationResult = true;
     try {
@@ -205,6 +196,45 @@ class MicroServer {
     finally {
       return validationResult;
     }
+  }
+  private static JSONObject parseJsonFile(String path) {
+    // Here, we simply dump the contents of a file into a String (and then an object);
+    // there are other ways of creating a JSONObject, like from an InputStream...
+    // (https://github.com/everit-org/json-schema#quickstart)
+    JSONObject parsedObject = null;
+    try {
+      byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
+      parsedObject = new JSONObject(new String(jsonBytes));
+    }
+    catch (IOException e) {
+      log.error("Caught exception when reading files!");
+      e.printStackTrace();
+    }
+    catch (JSONException e) {
+      log.error("Caught exception when constructing JSON objects!");
+      e.printStackTrace();
+    }
+    finally {
+      return parsedObject;
+    }
+  }
+  public String[] getStringsFromFile() {
+    ArrayList<String> retVals = new ArrayList<>();
+    BufferedReader read;
+    try{
+      read = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/hello.txt")));
+    }
+    catch(Exception e){
+      return new String[0];
+    }
+    String line = "";
+    try{
+      while((line = read.readLine()) != null) {
+        retVals.add(line);
+        }
+    }
+    catch (Exception e){}
+    return retVals.toArray(new String[retVals.size()]);
   }
 
 }
