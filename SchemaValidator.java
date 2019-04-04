@@ -1,49 +1,35 @@
-package example;
-
+package com.tripco.t19.TIP;
+package com.tripco.t19.server;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import org.everit.json.schema.SchemaException;
-import org.everit.json.schema.loader.SchemaLoader;
-import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
 import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+// ...
+
+
+
 
 public class SchemaValidator {
 
   private static final Logger log = LoggerFactory.getLogger(SchemaValidator.class);
 
-  public static void main(String[] args) {
-    if (args.length != 2) {
-      log.error("Requires two arguments! Usage: SchemaValidator <json-file> <schema-file>");
-      return;
+  SchemaValidator(JSONObject json, String path) {
+      try (InputStream inputStream = getClass().getResourceAsStream("/path/to/your/schema.json")) {
+      JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
+      Schema schema = SchemaLoader.load(rawSchema);
+      schema.performValidation(new JSONObject("{\"hello\" : \"world\"}")); // throws a ValidationException if this object is invalid
     }
-
-    
-    String jsonPath = args[0];
-    String schemaPath = args[1];
-
-    // Schema files should probably be placed in src/main/resources (see Maven guide)
-    JSONObject jsonString = parseJsonFile(jsonPath);
-    JSONObject schemaString = parseJsonFile(schemaPath);
-
-    if (null == jsonString || null == schemaString) {
-      log.error("Failed to read JSON strings!");
-      return;
-    }
-
-    log.trace(jsonString.toString());
-    log.trace(schemaString.toString());
-    log.trace("Starting validation");
-
-    boolean isValid = performValidation(jsonString, schemaString);
-    log.info("Was JSON body valid when checked against the schema?: {}", isValid);
   }
+
 
   private static JSONObject parseJsonFile(String path) {
     // Here, we simply dump the contents of a file into a String (and then an object);

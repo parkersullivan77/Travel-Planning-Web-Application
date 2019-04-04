@@ -10,6 +10,7 @@ import com.tripco.t19.TIP.TIPFind;
 
 import java.lang.reflect.Type;
 
+import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
@@ -91,6 +92,7 @@ class MicroServer {
 
   private String processTIPdistanceRequest(Request request, Response response) {
     return processTIPrequest(TIPDistance.class, request, response);
+
   }
   private String processTIPitineraryRequest(Request request, Response response) {
     return processTIPrequest(TIPItinerary.class, request, response);
@@ -154,5 +156,55 @@ class MicroServer {
         + "}";
   }
 
+
+
+  private static JSONObject parseJsonFile(String path) {
+    // Here, we simply dump the contents of a file into a String (and then an object);
+    // there are other ways of creating a JSONObject, like from an InputStream...
+    // (https://github.com/everit-org/json-schema#quickstart)
+    JSONObject parsedObject = null;
+    try {
+      byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
+      parsedObject = new JSONObject(new String(jsonBytes));
+    }
+    catch (IOException e) {
+      log.error("Caught exception when reading files!");
+      e.printStackTrace();
+    }
+    catch (JSONException e) {
+      log.error("Caught exception when constructing JSON objects!");
+      e.printStackTrace();
+    }
+    finally {
+      return parsedObject;
+    }
+  }
+
+  private static boolean performValidation(JSONObject json, JSONObject jsonSchema) {
+    boolean validationResult = true;
+    try {
+      Schema schema = SchemaLoader.load(jsonSchema);
+      // This is the line that will throw a ValidationException if anything doesn't conform to the schema!
+      schema.validate(json);
+    }
+    catch (SchemaException e) {
+      log.error("Caught a schema exception!");
+      e.printStackTrace();
+      validationResult = false;
+    }
+    catch (ValidationException e) {
+      log.error("Caught validation exception when validating schema! Root message: {}", e.getErrorMessage());
+      log.error("All messages from errors (including nested):");
+      // For now, messages are probably just good for debugging, to see why something failed
+      List<String> allMessages = e.getAllMessages();
+      for (String message : allMessages) {
+        log.error(message);
+      }
+      validationResult = false;
+    }
+    finally {
+      return validationResult;
+    }
+  }
 
 }
