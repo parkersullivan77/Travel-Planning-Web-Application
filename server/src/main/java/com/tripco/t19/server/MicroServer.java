@@ -28,8 +28,8 @@ import java.util.List;
 import org.everit.json.schema.SchemaException;
 import org.everit.json.schema.ValidationException;
 import org.json.JSONException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
+
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
 
@@ -171,7 +171,7 @@ class MicroServer {
   }
 
 
-  private static boolean performValidation(JSONObject json, JSONObject jsonSchema) {
+  private boolean performValidation(JSONObject json, JSONObject jsonSchema) {
     boolean validationResult = true;
     try {
       Schema schema = SchemaLoader.load(jsonSchema);
@@ -197,7 +197,7 @@ class MicroServer {
       return validationResult;
     }
   }
-  private static JSONObject parseJsonFile(String path) {
+  private JSONObject parseJsonFile(String path) {
     // Here, we simply dump the contents of a file into a String (and then an object);
     // there are other ways of creating a JSONObject, like from an InputStream...
     // (https://github.com/everit-org/json-schema#quickstart)
