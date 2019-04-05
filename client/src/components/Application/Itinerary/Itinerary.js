@@ -27,12 +27,13 @@ export default class Itinerary extends Component{
             places:[],
             distances: [],
             filename: 'Upload File',
-            match: {matcher: ''}
+            match: {matcher: ''},
+            itineraryPlaces: []
         }
     }
-
     render(){
-        console.log(this.state)
+        console.log(this.state);
+        console.warn(this.state.itineraryPlaces)
         return (
             <Container>
                 <Row>
@@ -45,20 +46,19 @@ export default class Itinerary extends Component{
                         {this.createFileInput()}
                         {this.createForm('match')}
                     </Col>
-                    <Col xs={12} sm={12} md={7} lg={6} xl={8}>
-                        {this.renderMap()}
-                    </Col>
+                    <Col>{this.renderMap()}</Col>
                 </Row>
                 <Row>
-                    <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                        {this.renderTable()}
-                    </Col>
+                <Col xs={12} sm={12} md={7} lg={6} xl={8}>
+                    {this.renderSearchTable()}
+                </Col>
+                <Col>{this.renderItinTable()}</Col>
                 </Row>
             </Container>
         );
     }
 
-    retrieveTableInfo(){
+    retrieveSearchTableInfo(){
         var table = [];
         var total = 0;
         for(let i = 0; i < this.state.places.length; i++){
@@ -72,9 +72,7 @@ export default class Itinerary extends Component{
                 <td>{this.state.distances[i]}</td>
                 <td>
                     <ButtonGroup>
-                        <Button onClick={(event) => {this.moveDown(i);}}> \/ </Button>
-                        <Button onClick={(event) => {this.moveUP(i);}}> /\ </Button>
-                        <Button onClick={(event) => {this.deleteClicked(i);}}> X </Button>
+                        <Button onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
                 </ButtonGroup>
                 </td>
             </tr>);
@@ -83,9 +81,38 @@ export default class Itinerary extends Component{
         return table;
     }
 
-    renderTable(){
-        console.log("CALLED RENDERTABLE");
+    addToItinerary(index){
+            console.warn(this.state.places[index]);
+            this.setState({itineraryPlaces:this.state.itineraryPlaces.concat(this.state.places[index])});
 
+    }
+    retrieveItinTableInfo(){
+        var table = [];
+        var total = 0;
+        for(let i = 0; i < this.state.itineraryPlaces.length; i++){
+            let cell = [];
+            total += this.state.distances[i];
+            cell.push(
+                <tr>
+                    <td>{this.state.itineraryPlaces[i]["name"]}</td>
+                    <td>{this.state.itineraryPlaces[i]["latitude"]}</td>
+                    <td>{this.state.itineraryPlaces[i]["longitude"]}</td>
+                    <td>{this.state.distances[i]}</td>
+                    <td>
+                        <ButtonGroup>
+                            <Button onClick={(event) => {this.moveUP(i);}}> /\ </Button>
+                            <Button onClick={(event) => {this.moveDown(i);}}> \/ </Button>
+                            <Button onClick={(event) => {this.deleteClicked(i);}}> X </Button>
+                        </ButtonGroup>
+                    </td>
+                </tr>);
+            table.push(cell);
+        }
+        return table;
+    }
+
+    renderItinTable(){
+        console.log("CALLED RENDERTABLE");
         return (
             <Pane header={"Get a good look at this trip"}>
                 <Button
@@ -106,13 +133,30 @@ export default class Itinerary extends Component{
                         <th>Options</th>
                     </tr>
                 </thead>
-                <tbody>
-                {this.retrieveTableInfo()}
-                </tbody>
+                <tbody> {this.retrieveItinTableInfo()}</tbody>
             </Table>
             </Pane>
         )
     }
+    renderSearchTable(){
+          return (
+            <Table>
+                <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Distance</th>
+                    <th>Options</th>
+                </tr>
+                </thead>
+                <tbody>
+                {this.retrieveSearchTableInfo()}
+                </tbody>
+            </Table>
+
+    )
+}
 
     renderMap() {
         return (
@@ -299,27 +343,6 @@ export default class Itinerary extends Component{
         return points;
     }
 
-
-    deleteLocations(e) {
-        e.preventDefault();
-        delete(this.state.places);
-        this.setState({places:{id: '0', name:'', latitude: '0',longitude: '0'}})
-    }
-
-    reversePlaces(e) {
-        e.preventDefault();
-        let tempPlacesArray = [];
-        if(this.state.places.length > 2) {
-            tempPlacesArray.push(this.state.places[0]);
-            var j = 1;
-            for(var i = this.state.places.length-1; i > 0; i--) {
-                tempPlacesArray.push(this.state.places[i]);
-                j++
-            }
-        }
-        this.setState({ places: tempPlacesArray })
-    }
-
     sendFindRequest(){
         const tipFindRequest = {
             'requestType': 'find',
@@ -342,12 +365,12 @@ export default class Itinerary extends Component{
     }
     moveDown(index){
         let swappedPlaces = [];
-        if(index !== this.state.places.length -1) {
-            let temp = this.state.places[index];
-            this.state.places[index] = this.state.places[index + 1];
-            this.state.places[index + 1] = temp;
-            swappedPlaces = this.state.places;
-            this.setState({places:swappedPlaces});
+        if(index !== this.state.itineraryPlaces.length -1) {
+            let temp = this.state.itineraryPlaces[index];
+            this.state.itineraryPlaces[index] = this.state.itineraryPlaces[index + 1];
+            this.state.itineraryPlaces[index + 1] = temp;
+            swappedPlaces = this.state.itineraryPlaces;
+            this.setState({itineraryPlaces:swappedPlaces});
             this.createItinerary(null);
         }
     }
@@ -355,21 +378,41 @@ export default class Itinerary extends Component{
     moveUP(index){
         let swappedPlaces = [];
         if(index !== 0) {
-            let temp = this.state.places[index - 1];
-            this.state.places[index - 1] = this.state.places[index]
-            this.state.places[index] = temp;
-            swappedPlaces = this.state.places;
-            this.setState({places: swappedPlaces});
+            let temp = this.state.itineraryPlaces[index - 1];
+            this.state.itineraryPlaces[index - 1] = this.state.itineraryPlaces[index]
+            this.state.itineraryPlaces[index] = temp;
+            swappedPlaces = this.state.itineraryPlaces;
+            this.setState({itineraryPlaces: swappedPlaces});
             this.createItinerary(null);
         }
     }
     
     deleteClicked(index){
-        this.state.places.splice(index,1);
-        let deletedList = this.state.places;
-        this.setState({places: deletedList});
-        if(this.state.places.length !== 0)
+        this.state.itineraryPlaces.splice(index,1);
+        let deletedList = this.state.itineraryPlaces;
+        this.setState({itineraryPlaces: deletedList});
+        if(this.state.itineraryPlaces.length !== 0)
             this.createItinerary(null);
+    }
+
+    reversePlaces(e) {
+        e.preventDefault();
+        let tempPlacesArray = [];
+        if(this.state.itineraryPlaces.length > 2) {
+            tempPlacesArray.push(this.state.itineraryPlaces[0]);
+            var j = 1;
+            for(var i = this.state.itineraryPlaces.length-1; i > 0; i--) {
+                tempPlacesArray.push(this.state.places[i]);
+                j++
+            }
+        }
+        this.setState({ itineraryPlaces: tempPlacesArray })
+    }
+
+    deleteLocations(e) {
+        e.preventDefault();
+        delete(this.state.itineraryPlaces);
+        this.setState({itineraryPlaces:{id: '0', name:'', latitude: '0',longitude: '0'}})
     }
 
 }
