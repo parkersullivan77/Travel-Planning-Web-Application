@@ -18,5 +18,5 @@
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
 | Itinerary.js:266 | User can only save the itinerary file when user uploads a file, but can't after searching the database | low | Dziugas Butkus | #248 |
-| Itinerary.js:415 | User cant retrieve data once its delted from itinerary page | med | Parker Sullivan |#232|
+| Itinerary.js:415 | User cant retrieve data once it's deleted from itinerary page | med | Parker Sullivan |#232|
  
