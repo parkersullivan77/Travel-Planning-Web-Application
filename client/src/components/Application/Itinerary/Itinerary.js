@@ -336,7 +336,11 @@ export default class Itinerary extends Component{
                     places: this.state.places.concat(response.body.places)
                 });
             }
-            this.createItinerary(null);
+
+            console.warn("RETURNED PLACES:", this.state.places)
+            if (this.state.places.length !== 0) {
+                this.createItinerary(null);
+            }
         });
 
     }

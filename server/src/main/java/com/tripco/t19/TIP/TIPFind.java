@@ -29,7 +29,7 @@ public class TIPFind extends TIPHeader{
     private transient String pass="eiK5liet1uej";
 
     // fill in SQL queries to count the number of records and to retrieve the data
-    private final static String count = "select count(*) from colorado;;";
+    private final static String count = "select count(*) from colorado;";
     public static String search = "";
 
     // Here are some environment variables. The first one is set by default in
