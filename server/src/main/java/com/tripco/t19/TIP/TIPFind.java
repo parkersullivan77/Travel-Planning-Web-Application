@@ -47,7 +47,7 @@ public class TIPFind extends TIPHeader{
         log.trace("buildResponse -> {}", this);
     }
 
-        TIPFind() {
+    TIPFind() {
         this.limit = 0;
         this.found = 0;
         this.places = new ArrayList<Map>();
@@ -92,6 +92,7 @@ public class TIPFind extends TIPHeader{
     }
 
     public String buildQuery(){
+        if()
         String query1 = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name";
         return query1;
     }

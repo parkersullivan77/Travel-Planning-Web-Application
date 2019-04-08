@@ -27,7 +27,8 @@ export default class Itinerary extends Component{
             places:[],
             distances: [],
             filename: 'Upload File',
-            match: {matcher: ''}
+            match: {matcher: ''},
+            limit: 0
         }
     }
 
@@ -324,7 +325,7 @@ export default class Itinerary extends Component{
         const tipFindRequest = {
             'requestType': 'find',
             'requestVersion':3,
-            'limit' : 1,
+            'limit' : this.state.limit,
             'match': this.state.match.matcher
         }
         console.log("hello:")
