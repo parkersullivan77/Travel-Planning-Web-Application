@@ -143,6 +143,7 @@ class MicroServer {
   }
 
 
+  //Converts an HTTP request to Json string
   private String HTTPrequestToJson(Request request) {
     return "{\n"
         + "\"attributes\":\"" + request.attributes() + "\",\n"

@@ -15,12 +15,6 @@ const startProperties = {
         'serverPort': 'black-bottle.cs.colostate.edu:31400'
     }
 };
-
-
-
-
-
-
 function testValidInput() {
     const example = shallow(<Itinerary/>);
     let numberOfInputs = example.find('Input').length;
