@@ -92,10 +92,13 @@ public class TIPFind extends TIPHeader{
     }
 
     public String buildQuery(){
-        if()
-        String query1 = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name";
-        return query1;
+        String query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name";
+        if(this.limit != 0) {
+            query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name limit " + Integer.toString(limit) + "";
+        }
+        return query;
     }
+
     public void fillPlaces(){
         //query SOMETHING to fill places with limit items
         try  {
