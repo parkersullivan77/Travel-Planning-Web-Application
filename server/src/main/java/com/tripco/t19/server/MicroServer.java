@@ -36,6 +36,7 @@ import java.io.InputStream;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONTokener;
+import java.util.Arrays;
 
 /** A micro server for a single page web application that serves the static files
  * and processes restful API requests.
@@ -119,23 +120,15 @@ class MicroServer {
 
 
 
-  private String processTIPrequest(Type tipType, Request request, Response response) {  //tipdist.class
+  private String processTIPrequest(Type tipType, Request request, Response response) {
     //If request tiptype = tipdistance
     // validate using tipdistance schema
     //.... 2 more
     //
-    if(tipType == TIPDistance.class){
-      JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
-      performValidation(TIPDistanceObject,);
-    }
-    if(tipType == TIPItinerary.class) {
-      log.debug("Tipitiner");
-
-    }
-    if(tipType == TIPFind.class){
-      log.debug("Tipfind");
-
-    }
+    //if(tipType == TIPDistance.class){
+    //  JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
+    //  performValidation(TIPDistanceObject,);
+   // }
 
 
     log.info("TIP Request: {}", HTTPrequestToJson(request));
@@ -148,12 +141,24 @@ class MicroServer {
       tipRequest.buildResponse();
       String responseBody = jsonConverter.toJson(tipRequest);
       log.trace("TIP Response: {}", responseBody);
-      String SchemaPath  = "";
-      if(tipType == TIPDistance.class){
-        SchemaPath = "/TIPDistanceSchema.json";
-        JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
 
-        performValidation(TIPDistanceObject,);
+      String SchemaPath  = "";  //This will be set to the schema path depending on request type
+      if(tipType == TIPDistance.class){
+        SchemaPath = "/TIPDistanceRequestSchema.json";
+        String [] testArray = getStringsFromFile("/TIPDistanceScheme.json");  //should find it in server in /resources
+        JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
+        //JSONObject schema = parseJsonFile(SchemaPath);
+        //log.debug(schema.toString());
+        // performValidation(TIPDistanceObject,schema);  //validate
+      }
+      else if(tipType == TIPItinerary.class) {
+        SchemaPath = "/TIPItineraryRequestSchema.json";
+        log.debug("Tipitinerary");
+      }
+      else if(tipType == TIPFind.class){
+        SchemaPath = "/TIPFindRequestSchema.json";
+        log.debug("Tipfind");
+
       }
 
       return responseBody;
@@ -163,7 +168,7 @@ class MicroServer {
       response.status(500);
       return request.body();
     }
-    //deal with 400 error exception here
+    //deal with 400 exception here
   }
 
 
@@ -248,15 +253,15 @@ class MicroServer {
   }
 
 
-// Not sure what this function does
 
   private JSONObject parseJsonFile(String path) {
     // Here, we simply dump the contents of a file into a String (and then an object);
     // there are other ways of creating a JSONObject, like from an InputStream...
     // (https://github.com/everit-org/json-schema#quickstart)
-    //InputStream inputStream = getClass().getResourceAsStream(path);
     JSONObject parsedObject = null;
     try {
+     InputStream inputStream = getClass().getResourceAsStream(path);
+     JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
       byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
       parsedObject = new JSONObject(new String(jsonBytes));
     }
