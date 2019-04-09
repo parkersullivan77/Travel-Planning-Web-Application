@@ -2,6 +2,7 @@ package com.tripco.t19.server;
 
 import com.google.gson.Gson;
 
+import com.google.gson.JsonObject;
 import com.tripco.t19.TIP.TIPConfig;
 import com.tripco.t19.TIP.TIPDistance;
 import com.tripco.t19.TIP.TIPHeader;
@@ -16,6 +17,8 @@ import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
 import spark.Spark;
+
+import static spark.Spark.init;
 import static spark.Spark.secure;
 
 import org.slf4j.Logger;
@@ -28,11 +31,11 @@ import java.util.List;
 import org.everit.json.schema.SchemaException;
 import org.everit.json.schema.ValidationException;
 import org.json.JSONException;
-
+import java.io.InputStream;
 
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
-
+import org.json.JSONTokener;
 
 /** A micro server for a single page web application that serves the static files
  * and processes restful API requests.
@@ -116,7 +119,25 @@ class MicroServer {
 
 
 
-  private String processTIPrequest(Type tipType, Request request, Response response) {
+  private String processTIPrequest(Type tipType, Request request, Response response) {  //tipdist.class
+    //If request tiptype = tipdistance
+    // validate using tipdistance schema
+    //.... 2 more
+    //
+    if(tipType == TIPDistance.class){
+      JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
+      performValidation(TIPDistanceObject,);
+    }
+    if(tipType == TIPItinerary.class) {
+      log.debug("Tipitiner");
+
+    }
+    if(tipType == TIPFind.class){
+      log.debug("Tipfind");
+
+    }
+
+
     log.info("TIP Request: {}", HTTPrequestToJson(request));
     response.type("application/json");
     response.header("Access-Control-Allow-Origin", "*");
@@ -127,12 +148,22 @@ class MicroServer {
       tipRequest.buildResponse();
       String responseBody = jsonConverter.toJson(tipRequest);
       log.trace("TIP Response: {}", responseBody);
+      String SchemaPath  = "";
+      if(tipType == TIPDistance.class){
+        SchemaPath = "/TIPDistanceSchema.json";
+        JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
+
+        performValidation(TIPDistanceObject,);
+      }
+
       return responseBody;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       log.error("Exception: {}", e);
       response.status(500);
       return request.body();
     }
+    //deal with 400 error exception here
   }
 
 
@@ -197,10 +228,33 @@ class MicroServer {
       return validationResult;
     }
   }
+  public String[] getStringsFromFile(String filename) {
+    ArrayList<String> retVals = new ArrayList<>();
+    BufferedReader read;
+    try{
+      read = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename)));
+    }
+    catch(Exception e){
+      return new String[0];
+    }
+    String line = "";
+    try{
+      while((line = read.readLine()) != null) {
+        retVals.add(line);
+        }
+    }
+    catch (Exception e){}
+    return retVals.toArray(new String[retVals.size()]);
+  }
+
+
+// Not sure what this function does
+
   private JSONObject parseJsonFile(String path) {
     // Here, we simply dump the contents of a file into a String (and then an object);
     // there are other ways of creating a JSONObject, like from an InputStream...
     // (https://github.com/everit-org/json-schema#quickstart)
+    //InputStream inputStream = getClass().getResourceAsStream(path);
     JSONObject parsedObject = null;
     try {
       byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
@@ -217,24 +271,6 @@ class MicroServer {
     finally {
       return parsedObject;
     }
-  }
-  public String[] getStringsFromFile(String filename) {
-    ArrayList<String> retVals = new ArrayList<>();
-    BufferedReader read;
-    try{
-      read = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/hello.txt")));
-    }
-    catch(Exception e){
-      return new String[0];
-    }
-    String line = "";
-    try{
-      while((line = read.readLine()) != null) {
-        retVals.add(line);
-        }
-    }
-    catch (Exception e){}
-    return retVals.toArray(new String[retVals.size()]);
   }
 
 }
