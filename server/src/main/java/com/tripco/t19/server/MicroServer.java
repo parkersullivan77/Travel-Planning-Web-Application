@@ -121,14 +121,6 @@ class MicroServer {
 
 
   private String processTIPrequest(Type tipType, Request request, Response response) {
-    //If request tiptype = tipdistance
-    // validate using tipdistance schema
-    //.... 2 more
-    //
-    //if(tipType == TIPDistance.class){
-    //  JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
-    //  performValidation(TIPDistanceObject,);
-   // }
 
 
     log.info("TIP Request: {}", HTTPrequestToJson(request));
@@ -147,9 +139,9 @@ class MicroServer {
         SchemaPath = "/TIPDistanceRequestSchema.json";
         String [] testArray = getStringsFromFile("/TIPDistanceScheme.json");  //should find it in server in /resources
         JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
-        //JSONObject schema = parseJsonFile(SchemaPath);
-        //log.debug(schema.toString());
-        // performValidation(TIPDistanceObject,schema);  //validate
+
+        //JSONObject schema = parseJsonFile(SchemaPath);  <--- causing error due to file path
+        // performValidation(TIPDistanceObject,schema);  //validate and you're done
       }
       else if(tipType == TIPItinerary.class) {
         SchemaPath = "/TIPItineraryRequestSchema.json";
@@ -168,7 +160,8 @@ class MicroServer {
       response.status(500);
       return request.body();
     }
-    //deal with 400 exception here
+    //deal with 400 exception below
+
   }
 
 
@@ -263,7 +256,7 @@ class MicroServer {
      InputStream inputStream = getClass().getResourceAsStream(path);
      JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
       byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
-      parsedObject = new JSONObject(new String(jsonBytes));
+      parsedObject = rawSchema;
     }
     catch (IOException e) {
       log.error("Caught exception when reading files!");
