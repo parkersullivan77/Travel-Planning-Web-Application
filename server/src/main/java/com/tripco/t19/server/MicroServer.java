@@ -19,7 +19,6 @@ import spark.Response;
 import spark.Spark;
 
 import static spark.Spark.init;
-import static spark.Spark.secure;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -37,6 +36,7 @@ import org.everit.json.schema.Schema;
 import org.everit.json.schema.loader.SchemaLoader;
 import org.json.JSONTokener;
 import java.util.Arrays;
+import static spark.Spark.secure;
 
 /** A micro server for a single page web application that serves the static files
  * and processes restful API requests.
