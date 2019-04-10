@@ -24,7 +24,7 @@ export default class Itinerary extends Component{
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
             options:{title: '',earthRadius: ' '},
-            places:{id: '0', name:'', latitude: '0',longitude: '0'},
+            places:[],
             distances: [],
             filename: 'Upload File',
             match: {matcher: ''}
@@ -333,7 +333,7 @@ export default class Itinerary extends Component{
             .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
                 this.setState({
-                    places: response.body.places
+                    places: this.state.places.concat(response.body.places)
                 });
             }
             this.createItinerary(null);
@@ -365,13 +365,11 @@ export default class Itinerary extends Component{
     }
     
     deleteClicked(index){
-        console.log("IN HERE");
-        let deletedList = [];
         this.state.places.splice(index,1);
-        deletedList = this.state.places;
-        console.warn(deletedList);
+        let deletedList = this.state.places;
         this.setState({places: deletedList});
-        this.createItinerary(null);
+        if(this.state.places.length !== 0)
+            this.createItinerary(null);
     }
 
 }
