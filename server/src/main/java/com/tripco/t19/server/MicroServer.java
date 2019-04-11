@@ -129,6 +129,9 @@ class MicroServer {
     response.header("Access-Control-Allow-Origin", "*");
     response.status(200);
     try {
+
+      boolean isSchemaValid = true;
+
       Gson jsonConverter = new Gson();
       TIPHeader tipRequest = jsonConverter.fromJson(request.body(), tipType);
       tipRequest.buildResponse();
@@ -141,23 +144,26 @@ class MicroServer {
         //String [] testArray = getStringsFromFile("/TIPDistanceScheme.json");  //should find it in server in /resources
         JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
         JSONObject schema = parseJsonFile(SchemaPath);
-        performValidation(TIPDistanceObject,schema);  //validate and you're done
+        isSchemaValid = performValidation(TIPDistanceObject,schema);  //validate and you're done
       }
       if(tipType == TIPItinerary.class) {
         SchemaPath = "/TIPItineraryRequestSchema.json";
         JSONObject TIPItineraryObject = new JSONObject(request.body());
         JSONObject itinerarySchema = parseJsonFile(SchemaPath);
-        performValidation(TIPItineraryObject,itinerarySchema);
-        //log.debug("Tipitinerary!!!!!!");
+        isSchemaValid = performValidation(TIPItineraryObject,itinerarySchema);
+        log.debug("Tipitinerary!!!!!!");
       }
       if(tipType == TIPFind.class){
         SchemaPath = "/TIPFindRequestSchema.json";
         JSONObject TIPFindObject = new JSONObject(request.body());
         JSONObject TIPFindSchema = parseJsonFile(SchemaPath);
-        performValidation(TIPFindObject ,TIPFindSchema);
+        isSchemaValid = performValidation(TIPFindObject ,TIPFindSchema);
        // log.debug("Tipfind!!!!!!");
       }
-
+      if(isSchemaValid == false){
+        response.status(400);
+        return request.body();
+      }
       return responseBody;
     }
     catch (Exception e) {
