@@ -148,14 +148,14 @@ class MicroServer {
         JSONObject TIPItineraryObject = new JSONObject(request.body());
         JSONObject itinerarySchema = parseJsonFile(SchemaPath);
         performValidation(TIPItineraryObject,itinerarySchema);
-        log.debug("Tipitinerary!!!!!!");
+        //log.debug("Tipitinerary!!!!!!");
       }
       if(tipType == TIPFind.class){
         SchemaPath = "/TIPFindRequestSchema.json";
         JSONObject TIPFindObject = new JSONObject(request.body());
         JSONObject TIPFindSchema = parseJsonFile(SchemaPath);
         performValidation(TIPFindObject ,TIPFindSchema);
-        log.debug("Tipfind!!!!!!");
+       // log.debug("Tipfind!!!!!!");
       }
 
       return responseBody;
