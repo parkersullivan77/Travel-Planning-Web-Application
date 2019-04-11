@@ -115,6 +115,7 @@ class MicroServer {
     return processTIPrequest(TIPItinerary.class, request, response);
   }
   private String processTIPfindRequest(Request request, Response response) {
+    log.trace("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     return processTIPrequest(TIPFind.class, request, response);
   }
 
@@ -142,20 +143,21 @@ class MicroServer {
         JSONObject schema = parseJsonFile(SchemaPath);
         performValidation(TIPDistanceObject,schema);  //validate and you're done
       }
-      else if(tipType == TIPItinerary.class) {
+      if(tipType == TIPItinerary.class) {
         SchemaPath = "/TIPItineraryRequestSchema.json";
         JSONObject TIPItineraryObject = new JSONObject(request.body());
         JSONObject itinerarySchema = parseJsonFile(SchemaPath);
         performValidation(TIPItineraryObject,itinerarySchema);
+        log.debug("Tipitinerary!!!!!!");
       }
-      else if(tipType == TIPFind.class){
+      if(tipType == TIPFind.class){
         SchemaPath = "/TIPFindRequestSchema.json";
-        log.debug("Tipfind");
+        JSONObject TIPFindObject = new JSONObject(request.body());
+        JSONObject TIPFindSchema = parseJsonFile(SchemaPath);
+        performValidation(TIPFindObject ,TIPFindSchema);
+        log.debug("Tipfind!!!!!!");
       }
-      else if(tipType == TIPConfig.class){
-        SchemaPath = "/TIPFindRequestSchema.json";
-        log.debug("Tipfind");
-      }
+
       return responseBody;
     }
     catch (Exception e) {
