@@ -137,22 +137,25 @@ class MicroServer {
       String SchemaPath  = "";  //This will be set to the schema path depending on request type
       if(tipType == TIPDistance.class){
         SchemaPath = "/TIPDistanceRequestSchema.json";
-        String [] testArray = getStringsFromFile("/TIPDistanceScheme.json");  //should find it in server in /resources
+        //String [] testArray = getStringsFromFile("/TIPDistanceScheme.json");  //should find it in server in /resources
         JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
-
-        //JSONObject schema = parseJsonFile(SchemaPath);  <--- causing error due to file path
-        // performValidation(TIPDistanceObject,schema);  //validate and you're done
+        JSONObject schema = parseJsonFile(SchemaPath);
+        performValidation(TIPDistanceObject,schema);  //validate and you're done
       }
       else if(tipType == TIPItinerary.class) {
         SchemaPath = "/TIPItineraryRequestSchema.json";
-        log.debug("Tipitinerary");
+        JSONObject TIPItineraryObject = new JSONObject(request.body());
+        JSONObject itinerarySchema = parseJsonFile(SchemaPath);
+        performValidation(TIPItineraryObject,itinerarySchema);
       }
       else if(tipType == TIPFind.class){
         SchemaPath = "/TIPFindRequestSchema.json";
         log.debug("Tipfind");
-
       }
-
+      else if(tipType == TIPConfig.class){
+        SchemaPath = "/TIPFindRequestSchema.json";
+        log.debug("Tipfind");
+      }
       return responseBody;
     }
     catch (Exception e) {
@@ -251,12 +254,11 @@ class MicroServer {
     // Here, we simply dump the contents of a file into a String (and then an object);
     // there are other ways of creating a JSONObject, like from an InputStream...
     // (https://github.com/everit-org/json-schema#quickstart)
-    JSONObject parsedObject = null;
-    try {
-     InputStream inputStream = getClass().getResourceAsStream(path);
-     JSONObject rawSchema = new JSONObject(new JSONTokener(inputStream));
-      byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
-      parsedObject = rawSchema;
+    JSONObject rawSchema = null;
+    try (InputStream inputStream = getClass().getResourceAsStream(path)){
+     //InputStream inputStream = getClass().getResourceAsStream(path);
+     rawSchema = new JSONObject(new JSONTokener(inputStream));
+     // byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
     }
     catch (IOException e) {
       log.error("Caught exception when reading files!");
@@ -267,7 +269,7 @@ class MicroServer {
       e.printStackTrace();
     }
     finally {
-      return parsedObject;
+      return rawSchema;
     }
   }
 
