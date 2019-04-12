@@ -49,7 +49,7 @@ export default class Itinerary extends Component{
                     <Col>{this.renderMap()}</Col>
                 </Row>
                 <Row>
-                <Col xs={12} sm={12} md={7} lg={6} xl={8}>
+                <Col>
                     {this.renderSearchTable()}
                 </Col>
                 <Col>{this.renderItinTable()}</Col>
@@ -72,7 +72,7 @@ export default class Itinerary extends Component{
                 <td>{this.state.distances[i]}</td>
                 <td>
                     <ButtonGroup>
-                        <Button onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
+                        <Button size={"sm"} onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
                 </ButtonGroup>
                 </td>
             </tr>);
@@ -100,9 +100,9 @@ export default class Itinerary extends Component{
                     <td>{this.state.distances[i]}</td>
                     <td>
                         <ButtonGroup>
-                            <Button onClick={(event) => {this.moveUP(i);}}> /\ </Button>
-                            <Button onClick={(event) => {this.moveDown(i);}}> \/ </Button>
-                            <Button onClick={(event) => {this.deleteClicked(i);}}> X </Button>
+                            <Button size={"sm"} onClick={(event) => {this.moveUP(i);}}> /\ </Button>
+                            <Button size={"sm"} onClick={(event) => {this.moveDown(i);}}> \/ </Button>
+                            <Button size={"sm"} onClick={(event) => {this.deleteClicked(i);}}> X </Button>
                         </ButtonGroup>
                     </td>
                 </tr>);
@@ -123,7 +123,7 @@ export default class Itinerary extends Component{
                     onClick={this.deleteLocations}>
                     Remove All
                 </Button>
-            <Table>
+            <Table size={"sm"}>
                 <thead>
                     <tr>
                         <th>Destination</th>
@@ -140,7 +140,7 @@ export default class Itinerary extends Component{
     }
     renderSearchTable(){
           return (
-            <Table>
+            <Table  size ={"sm"}>
                 <thead>
                 <tr>
                     <th>Destination</th>
