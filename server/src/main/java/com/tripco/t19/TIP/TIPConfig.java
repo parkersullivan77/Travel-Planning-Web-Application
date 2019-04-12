@@ -23,20 +23,22 @@ public class TIPConfig extends TIPHeader {
   private String serverName;
   private List<String> placeAttributes;
   private List<String> optimizations;
+  private List<List<String>> filters;
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
   public TIPConfig() {
     this.requestType = "config";
-    this.requestVersion = 3;
+    this.requestVersion = 4;
   }
 
 
   @Override
   public void buildResponse() {
     this.serverName = "T19 We Them Boys";
-    this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "altitude");
-    this.optimizations = Arrays.asList("none", "short");
+    this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "region", "country", "continent", "altitude");
+    this.optimizations = Arrays.asList("none");
+    this.filters = Arrays.asList(Arrays.asList("values", "airport", "heliport", "balloonport", "closed"));
     log.trace("buildResponse -> {}", this);
   }
   @Override
@@ -59,9 +61,8 @@ public class TIPConfig extends TIPHeader {
   List<String> getPlaceAttributes() {
     return this.placeAttributes;
   }
-  List<String> getOptimizationAttributes() {
-    return this.optimizations;
-  }
+  List<String> getOptimizationAttributes() { return this.optimizations; }
+  List<List<String>> getFilters() {return this.filters;}
 
 
 }

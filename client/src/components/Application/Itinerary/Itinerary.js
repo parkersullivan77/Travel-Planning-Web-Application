@@ -243,7 +243,7 @@ export default class Itinerary extends Component{
 
         const tipItineraryRequest = {
             'requestType': 'itinerary',
-            'requestVersion':3,
+            'requestVersion':4,
             'options':this.state.options,
             'places': this.state.places,
             'earthRadius' : this.props.options.units[this.props.options.activeUnit]
@@ -320,7 +320,7 @@ export default class Itinerary extends Component{
     sendFindRequest(){
         const tipFindRequest = {
             'requestType': 'find',
-            'requestVersion':3,
+            'requestVersion':4,
             'limit' : this.state.limit,
             'match': this.state.match.matcher
         }
