@@ -2,7 +2,7 @@
  
 | Inspection | Details |
 | ----- | ----- |
-| Subject | *Itinerary.js: saveFile()* |
+| Subject | *TestTIPFind*, *RefomatTIPItinerary* |
 | Meeting | *04/08/2019, 3pm during the class, Stadium 1205* |
 | Checklist | *reference, URL, etc.* |
 
@@ -11,12 +11,15 @@
 | Name | Preparation Time |
 | ---- | ---- |
 | Dziugas Butkus | 1hr |
-|  |  |
+|Parker Sullivan | 1hr |
+| Kareem Youssef | 1hr |
+|Westin Musser | 1hr |
 
 ### Problems found
 
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
-| Itinerary.js:266 | User can only save the itinerary file when user uploads a file, but can't after searching the database | low | Dziugas Butkus | #248 |
-|  | | | | |
- 
+| TestTIPFind.js:58 | Current tests do not take limit into account. We also need to test the funcionality more | med | Dziugas Butkus | #248 |
+| TIPItinerary.java: 56 |Reformat get distance to match across Itinerary and Distance | med | Parker Sullivan |#232|
+| Itinerary.js:220 | User should not see any map markers when the search field is empty | low | Kareem Youssef |#255|
+| TestTIPItinerary.java:65 | multiple unused test cases | med | Westin Musser | #257 |
