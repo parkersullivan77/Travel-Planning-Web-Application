@@ -28,7 +28,7 @@ export default class Itinerary extends Component{
             distances: [],
             filename: 'Upload File',
             match: {matcher: ''},
-            limit: 0
+            limit: 10
         }
     }
 
@@ -44,7 +44,7 @@ export default class Itinerary extends Component{
                 <Row>
                     <Col xs={12} sm={12} md={7} lg={6} xl={4}>
                         {this.createFileInput()}
-                        {this.createForm('match')}
+                        {this.createForm('match', 'limit')}
                     </Col>
                     <Col xs={12} sm={12} md={7} lg={6} xl={8}>
                         {this.renderMap()}
@@ -85,8 +85,6 @@ export default class Itinerary extends Component{
     }
 
     renderTable(){
-        console.log("CALLED RENDERTABLE");
-
         return (
             <Pane header={"Get a good look at this trip"}>
                 <Button
@@ -295,8 +293,6 @@ export default class Itinerary extends Component{
         for(var i = 0;  i<length+1; i++){
             points[i] =[this.state.places[i % length].latitude,this.state.places[i % length].longitude];
         }
-
-
         return points;
     }
 
@@ -328,8 +324,7 @@ export default class Itinerary extends Component{
             'limit' : this.state.limit,
             'match': this.state.match.matcher
         }
-        console.log("hello:")
-        console.log(this.state)
+        console.log(this.state.limit)
         sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
             .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {

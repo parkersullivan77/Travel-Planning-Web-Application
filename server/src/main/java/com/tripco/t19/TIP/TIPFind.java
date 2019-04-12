@@ -60,7 +60,6 @@ public class TIPFind extends TIPHeader{
     }
 
     TIPFind(String match, int limit, ArrayList<Map> places, int found){
-        log.trace("in gere");
         this.match = match;
         this.limit = limit;
         this.places = places;
@@ -92,9 +91,10 @@ public class TIPFind extends TIPHeader{
     }
 
     public String buildQuery(){
-        String query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name";
+        String query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
+        //log.trace(query);
         if(this.limit != 0) {
-            query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name limit " + Integer.toString(limit) + "";
+            query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name limit " + Integer.toString(limit) + ";";
         }
         return query;
     }
