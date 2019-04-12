@@ -76,7 +76,9 @@ Key planning decisions for this sprint include:
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
 
-| *01/04/2019* | *None*  | *Create Sprint4.md and Diagrams* | *none* | 
+| *04/01/2019* | *#247*  | *#230* | *none* |
+
+| *04/08/2019* | *#249,#251,#255*  | *#230,233* | *none* | 
 
 
 ## Review (focus on solution and technology)

@@ -27,7 +27,8 @@ export default class Itinerary extends Component{
             places:[],
             distances: [],
             filename: 'Upload File',
-            match: {matcher: ''}
+            match: {matcher: ''},
+            limit: 10
         }
     }
 
@@ -84,8 +85,6 @@ export default class Itinerary extends Component{
     }
 
     renderTable(){
-        console.log("CALLED RENDERTABLE");
-
         return (
             <Pane header={"Get a good look at this trip"}>
                 <Button
@@ -294,8 +293,6 @@ export default class Itinerary extends Component{
         for(var i = 0;  i<length+1; i++){
             points[i] =[this.state.places[i % length].latitude,this.state.places[i % length].longitude];
         }
-
-
         return points;
     }
 
@@ -324,11 +321,10 @@ export default class Itinerary extends Component{
         const tipFindRequest = {
             'requestType': 'find',
             'requestVersion':4,
-            'limit' : 1,
+            'limit' : this.state.limit,
             'match': this.state.match.matcher
         }
-        console.log("hello:")
-        console.log(this.state)
+        console.log(this.state.limit)
         sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
             .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
@@ -336,7 +332,11 @@ export default class Itinerary extends Component{
                     places: this.state.places.concat(response.body.places)
                 });
             }
-            this.createItinerary(null);
+
+            console.warn("RETURNED PLACES:", this.state.places)
+            if (this.state.places.length !== 0) {
+                this.createItinerary(null);
+            }
         });
 
     }
