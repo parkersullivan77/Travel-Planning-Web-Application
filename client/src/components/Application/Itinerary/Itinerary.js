@@ -242,8 +242,8 @@ export default class Itinerary extends Component{
         if(event !== null){event.preventDefault();}
 
         const tipItineraryRequest = {
-            'type': 'itinerary',
-            'version':4,
+            'requestType': 'itinerary',
+            'requestVersion':4,
             'options':this.state.options,
             'places': this.state.places,
             'earthRadius' : this.props.options.units[this.props.options.activeUnit]
