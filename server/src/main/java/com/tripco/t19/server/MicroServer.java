@@ -264,9 +264,7 @@ class MicroServer {
     // (https://github.com/everit-org/json-schema#quickstart)
     JSONObject rawSchema = null;
     try (InputStream inputStream = getClass().getResourceAsStream(path)){
-     //InputStream inputStream = getClass().getResourceAsStream(path);
      rawSchema = new JSONObject(new JSONTokener(inputStream));
-     // byte[] jsonBytes = Files.readAllBytes(Paths.get(path));
     }
     catch (IOException e) {
       log.error("Caught exception when reading files!");
