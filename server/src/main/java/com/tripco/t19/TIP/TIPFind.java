@@ -29,7 +29,7 @@ public class TIPFind extends TIPHeader{
     private transient String pass="eiK5liet1uej";
 
     // fill in SQL queries to count the number of records and to retrieve the data
-    private final static String count = "select count(*) from colorado;;";
+    private final static String count = "select count(*) from colorado;";
     public static String search = "";
 
     // Here are some environment variables. The first one is set by default in
@@ -47,7 +47,7 @@ public class TIPFind extends TIPHeader{
         log.trace("buildResponse -> {}", this);
     }
 
-        TIPFind() {
+    TIPFind() {
         this.limit = 0;
         this.found = 0;
         this.places = new ArrayList<Map>();
@@ -60,7 +60,6 @@ public class TIPFind extends TIPHeader{
     }
 
     TIPFind(String match, int limit, ArrayList<Map> places, int found){
-        log.trace("in gere");
         this.match = match;
         this.limit = limit;
         this.places = places;
@@ -92,9 +91,14 @@ public class TIPFind extends TIPHeader{
     }
 
     public String buildQuery(){
-        String query1 = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name";
-        return query1;
+        String query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
+        //log.trace(query);
+        if(this.limit != 0) {
+            query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name limit " + Integer.toString(limit) + ";";
+        }
+        return query;
     }
+
     public void fillPlaces(){
         //query SOMETHING to fill places with limit items
         try  {
