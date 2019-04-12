@@ -7,7 +7,7 @@
 
     <groupId>com.tripco.t19</groupId>
     <artifactId>TripCo</artifactId>
-    <version>4.0</version>
+    <version>3.5</version>
     <packaging>pom</packaging>
 
     <modules>
