@@ -64,14 +64,6 @@ public class TestTIPFind {
     }
 
     @Test
-    public void testLimit() {  //Test for string not in places
-        TIPFind find = new TIPFind("fort", 1, myPlaces, 0);
-        find.buildResponse();
-        String actual = find.toString();
-        String expect = "{match: fort, limit: 1, found: 1, places:[{altitude=6300, latitude=38.49639892578125, name=Brown's Fort Heliport, municipality=Canon City, id=CO63, longitude=-105.31099700927734}]";
-        assertEquals("Places returned", expect, actual);
-    }
-    @Test
     public void randomTest() {
         TIPFind empty = new TIPFind();
         empty.buildResponse();
