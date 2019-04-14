@@ -48,9 +48,11 @@ public class TestTIPConfig {
     assertEquals("optimization attribute size", 1, attr.size());
   }
 
+  /*
   @Test
   public void testFilters(){
     List<List<String>> filters = conf.getFilters();
     assertEquals("config filters size", 1, filters.size());
   }
+  */
 }
