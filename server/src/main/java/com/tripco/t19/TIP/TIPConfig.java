@@ -51,8 +51,8 @@ public class TIPConfig extends TIPHeader {
   @Override
   public String toString()
   {
-    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes +
-            " Filters : " + filters;
+    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes
+            + " Filters : " + filters;
   }
 
   int getVersion() {
