@@ -55,4 +55,11 @@ public class TestTIPConfig {
     assertEquals("config filters size", 2, filters.size());
   }
 
+  @Test
+  public void testToString(){
+    String output = conf.toString();
+    assertEquals("toString function output", "ServerName : T19 We Them Boys Place Attributes : [name, latitude, longitude, id, municipality, region, country, continent, altitude] Filters" +
+            " : {\"name\":\"type\",\"values\":[\"airport\",\"heliport\",\"balloonport\",\"closed\"]}", output);
+  }
+
 }
