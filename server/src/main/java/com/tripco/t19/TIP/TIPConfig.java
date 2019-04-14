@@ -51,7 +51,8 @@ public class TIPConfig extends TIPHeader {
   @Override
   public String toString()
   {
-    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes + " Filters : " + filters;
+    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes +
+            " Filters : " + filters;
   }
 
   int getVersion() {
@@ -66,7 +67,12 @@ public class TIPConfig extends TIPHeader {
     return this.placeAttributes;
   }
 
-  List<String> getOptimizationAttributes() { return this.optimizations; }
-  JsonObject getFilters() {return this.filters;}
+  List<String> getOptimizationAttributes() {
+    return this.optimizations;
+  }
+
+  JsonObject getFilters() {
+    return this.filters;
+  }
 
 }
