@@ -25,9 +25,7 @@ public class TIPConfig extends TIPHeader {
   private String serverName;
   private List<String> placeAttributes;
   private List<String> optimizations;
-  //private List<List<String>> filters;
-  private JsonObject filtersJ = new JsonObject();
-  private Map filters;
+  private JsonObject filters = new JsonObject();
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
@@ -42,27 +40,19 @@ public class TIPConfig extends TIPHeader {
     this.serverName = "T19 We Them Boys";
     this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "region", "country", "continent", "altitude");
     this.optimizations = Arrays.asList("none");
-    Map<String, List> temp = new HashMap<>();
-    List<String> tempListOfTypes = Arrays.asList("type");
-    JsonArray je = new JsonArray();
-    je.add("airport");
-    je.add("heliport");
-    je.add("balloonport");
-    je.add("closed");
-    List<String> tempListOfValues = Arrays.asList("airport", "heliport", "balloonport", "closed");
-    //filtersJ.add();
-    filtersJ.addProperty("name", "type");
-    filtersJ.add("values", je);
-    temp.put("values", tempListOfValues);
-    this.filters = temp;
-    //temp.put("values", Arrays.asList("airport"));
-    //this.filters = Arrays.asList(Arrays.asList("values", "airport", "heliport", "balloonport", "closed"));
+    JsonArray tempValuesArray = new JsonArray();
+    tempValuesArray.add("airport");
+    tempValuesArray.add("heliport");
+    tempValuesArray.add("balloonport");
+    tempValuesArray.add("closed");
+    filters.addProperty("name", "type");
+    filters.add("values", tempValuesArray);
     log.trace("buildResponse -> {}", this);
   }
   @Override
   public String toString()
   {
-    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes + " " + "Filters : " + filters + " FiltersJ : " + filtersJ;
+    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes + " Filters : " + filters;
    // return "{\"serverName\":"+ "\"" + serverName + "\"," + placeAttributes;
 
     //no need to return log
