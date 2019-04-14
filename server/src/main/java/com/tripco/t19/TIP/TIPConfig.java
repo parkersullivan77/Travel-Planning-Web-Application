@@ -1,12 +1,12 @@
 package com.tripco.t19.TIP;
 
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 /** This class defines the Config response that provides the client
  * with server specific configuration information.
@@ -33,7 +33,6 @@ public class TIPConfig extends TIPHeader {
     this.requestType = "config";
     this.requestVersion = 4;
   }
-
 
   @Override
   public void buildResponse() {
