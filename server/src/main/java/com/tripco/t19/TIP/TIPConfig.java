@@ -53,9 +53,6 @@ public class TIPConfig extends TIPHeader {
   public String toString()
   {
     return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes + " Filters : " + filters;
-   // return "{\"serverName\":"+ "\"" + serverName + "\"," + placeAttributes;
-
-    //no need to return log
   }
 
   int getVersion() {
@@ -69,8 +66,8 @@ public class TIPConfig extends TIPHeader {
   List<String> getPlaceAttributes() {
     return this.placeAttributes;
   }
-  List<String> getOptimizationAttributes() { return this.optimizations; }
-  //List<List<String>> getFilters() {return this.filters;}
 
+  List<String> getOptimizationAttributes() { return this.optimizations; }
+  JsonObject getFilters() {return this.filters;}
 
 }
