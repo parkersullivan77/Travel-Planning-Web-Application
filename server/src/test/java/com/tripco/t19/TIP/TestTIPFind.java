@@ -46,24 +46,24 @@ public class TestTIPFind {
         String expect = "{match: Fort Collins Downtown Airport, limit: 22, found: 1, places:[{altitude=4939, latitude=40.5882987976, name=Fort Collins Downtown Airport, municipality=null, id=K3V5, longitude=-105.041999817}]";
         assertEquals("Some test", expect, actual);
     }*/
-/*
+
     @Test
     public void testStringNotInPlaces() {  //Test for string not in places
-        TIPFind find = new TIPFind("subscribe 2 pewdiepie", 22, myPlaces, 0);
+        TIPFind find = new TIPFind("subscribe 2 pewdiepie", 22, myPlaces, 0, null);
         find.buildResponse();
         String actual = find.toString();
-        String expect = "{match: subscribe 2 pewdiepie, limit: 22, found: 0, places:[]";
+        String expect = "{match: subscribe 2 pewdiepie, limit: 22, found: 0, places: [], narrow: []";
         assertEquals("Some test", expect, actual);
     }
     @Test
     public void testAnotherStringNotInPlaces() {  //Test for string not in places
-        TIPFind find = new TIPFind("nonexistent string", 22, myPlaces, 0);
+        TIPFind find = new TIPFind("nonexistent string", 22, myPlaces, 0, null);
         find.buildResponse();
         String actual = find.toString();
-        String expect = "{match: nonexistent string, limit: 22, found: 0, places:[]";
+        String expect = "{match: nonexistent string, limit: 22, found: 0, places: [], narrow: []";
         assertEquals("Some test", expect, actual);
     }
-*/
+
     @Test
     public void randomTest() {
         TIPFind empty = new TIPFind();
