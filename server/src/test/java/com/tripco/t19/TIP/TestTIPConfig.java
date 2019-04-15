@@ -2,6 +2,7 @@ package com.tripco.t19.TIP;
 
 import java.util.List;
 
+import com.google.gson.JsonObject;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -50,7 +51,15 @@ public class TestTIPConfig {
 
   @Test
   public void testFilters(){
-    List<List<String>> filters = conf.getFilters();
-    assertEquals("config filters size", 1, filters.size());
+    JsonObject filters = conf.getFilters();
+    assertEquals("config filters size", 2, filters.size());
   }
+
+  @Test
+  public void testToString(){
+    String output = conf.toString();
+    assertEquals("toString function output", "ServerName : T19 We Them Boys Place Attributes : [name, latitude, longitude, id, municipality, region, country, continent, altitude] Filters" +
+            " : {\"name\":\"type\",\"values\":[\"airport\",\"heliport\",\"balloonport\",\"closed\"]}", output);
+  }
+
 }

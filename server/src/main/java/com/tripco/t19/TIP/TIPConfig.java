@@ -1,5 +1,7 @@
 package com.tripco.t19.TIP;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +25,7 @@ public class TIPConfig extends TIPHeader {
   private String serverName;
   private List<String> placeAttributes;
   private List<String> optimizations;
-  private List<List<String>> filters;
+  private JsonObject filters = new JsonObject();
 
   private final transient Logger log = LoggerFactory.getLogger(TIPConfig.class);
 
@@ -32,22 +34,25 @@ public class TIPConfig extends TIPHeader {
     this.requestVersion = 4;
   }
 
-
   @Override
   public void buildResponse() {
     this.serverName = "T19 We Them Boys";
     this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "region", "country", "continent", "altitude");
     this.optimizations = Arrays.asList("none");
-    this.filters = Arrays.asList(Arrays.asList("values", "airport", "heliport", "balloonport", "closed"));
+    JsonArray tempValuesArray = new JsonArray();
+    tempValuesArray.add("airport");
+    tempValuesArray.add("heliport");
+    tempValuesArray.add("balloonport");
+    tempValuesArray.add("closed");
+    filters.addProperty("name", "type");
+    filters.add("values", tempValuesArray);
     log.trace("buildResponse -> {}", this);
   }
   @Override
   public String toString()
   {
-    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes;
-   // return "{\"serverName\":"+ "\"" + serverName + "\"," + placeAttributes;
-
-    //no need to return log
+    return "ServerName : " + serverName + " " + "Place Attributes : " + placeAttributes
+            + " Filters : " + filters;
   }
 
   int getVersion() {
@@ -61,8 +66,13 @@ public class TIPConfig extends TIPHeader {
   List<String> getPlaceAttributes() {
     return this.placeAttributes;
   }
-  List<String> getOptimizationAttributes() { return this.optimizations; }
-  List<List<String>> getFilters() {return this.filters;}
 
+  List<String> getOptimizationAttributes() {
+    return this.optimizations;
+  }
+
+  JsonObject getFilters() {
+    return this.filters;
+  }
 
 }
