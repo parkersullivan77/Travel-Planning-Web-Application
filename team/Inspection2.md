@@ -11,12 +11,12 @@
 | Name | Preparation Time |
 | ---- | ---- |
 | Dziugas Butkus | 1hr |
-|  |  |
+| Westin Musser | 1hr |
 
 ### Problems found
 
 | file:line | problem | hi/med/low | who found | github#  |
 | --- | --- | :---: | :---: | --- |
 | Itinerary.js:265 | User can only save the itinerary file when user uploads a file, but can't after searching the database | low | Dziugas Butkus | #271 |
-|  | | | | |
+| Itinerary.js:138 | Marker renders on map by default | low | Westin Musser|  |
  
