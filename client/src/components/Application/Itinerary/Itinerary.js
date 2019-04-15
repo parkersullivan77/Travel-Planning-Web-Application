@@ -179,7 +179,7 @@ export default class Itinerary extends Component{
                  style={{height: 500, maxwidth: 700}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"/>
-                <Marker position={this.csuOvalGeographicCoordinates()}
+                <Marker position={this.getGeocoords()}
                         icon={this.markerIcon()}>
                     <Popup className="font-weight-extrabold">Colorado State University</Popup>
                 </Marker>
@@ -196,8 +196,17 @@ export default class Itinerary extends Component{
     csuOvalGeographicCoordinates() {
         return L.latLng(40.576179, -105.080773);
     }
+    getGeocoords(){
+        if(this.state.itineraryPlaces.length === 0){
+            return L.latLng(40.576179, -105.080773);
+        }
 
-    markerIcon() {
+        for(var i = 0; i < this.state.itineraryPlaces.length;i++) {
+            return L.latLng(this.state.itineraryPlaces[i].latitude, this.state.itineraryPlaces[i].longitude);
+        }
+    }
+
+    markerIcon(){
         // react-leaflet does not currently handle default marker icons correctly,
         // so we must create our own
         return L.icon({
@@ -333,10 +342,13 @@ export default class Itinerary extends Component{
         this.setState({[stateVar]: location});
     }
     getPositions(){
-        var length = this.state.places.length;
-        var points= []
+        var points= [];
+        if(this.state.itineraryPlaces.length === 0){
+            return points
+        }
+        var length = this.state.itineraryPlaces.length;
         for(var i = 0;  i<length+1; i++){
-            points[i] =[this.state.places[i % length].latitude,this.state.places[i % length].longitude];
+            points[i] =[this.state.itineraryPlaces[i % length].latitude,this.state.itineraryPlaces[i % length].longitude];
         }
 
 
