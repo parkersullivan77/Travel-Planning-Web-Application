@@ -2,22 +2,41 @@ package com.tripco.t19.server;
 
 import com.google.gson.Gson;
 
+import com.google.gson.JsonObject;
 import com.tripco.t19.TIP.TIPConfig;
 import com.tripco.t19.TIP.TIPDistance;
 import com.tripco.t19.TIP.TIPHeader;
 import com.tripco.t19.TIP.TIPItinerary;
 import com.tripco.t19.TIP.TIPFind;
-
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.util.ArrayList;
 
+import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
-import spark.Spark;
-import static spark.Spark.secure;
+
+import static spark.Spark.init;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import java.io.IOException;
 
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+import org.everit.json.schema.SchemaException;
+import org.everit.json.schema.ValidationException;
+import org.json.JSONException;
+import java.io.InputStream;
+
+import org.everit.json.schema.Schema;
+import org.everit.json.schema.loader.SchemaLoader;
+import org.json.JSONTokener;
+import java.util.Arrays;
+import spark.Spark;
+import static spark.Spark.secure;
 
 /** A micro server for a single page web application that serves the static files
  * and processes restful API requests.
@@ -96,28 +115,64 @@ class MicroServer {
     return processTIPrequest(TIPItinerary.class, request, response);
   }
   private String processTIPfindRequest(Request request, Response response) {
+    log.trace("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     return processTIPrequest(TIPFind.class, request, response);
   }
 
 
 
   private String processTIPrequest(Type tipType, Request request, Response response) {
+
+
     log.info("TIP Request: {}", HTTPrequestToJson(request));
     response.type("application/json");
     response.header("Access-Control-Allow-Origin", "*");
     response.status(200);
     try {
+
+      boolean isSchemaValid = true;
+
       Gson jsonConverter = new Gson();
       TIPHeader tipRequest = jsonConverter.fromJson(request.body(), tipType);
       tipRequest.buildResponse();
       String responseBody = jsonConverter.toJson(tipRequest);
       log.trace("TIP Response: {}", responseBody);
+
+      String SchemaPath  = "";  //This will be set to the schema path depending on request type
+      if(tipType == TIPDistance.class){
+        SchemaPath = "/TIPDistanceRequestSchema.json";
+        //String [] testArray = getStringsFromFile("/TIPDistanceScheme.json");  //should find it in server in /resources
+        JSONObject TIPDistanceObject = new JSONObject(request.body());  //json object to compare with schema
+        JSONObject schema = parseJsonFile(SchemaPath);
+        isSchemaValid = performValidation(TIPDistanceObject,schema);  //validate and you're done
+      }
+      if(tipType == TIPItinerary.class) {
+        SchemaPath = "/TIPItineraryRequestSchema.json";
+        JSONObject TIPItineraryObject = new JSONObject(request.body());
+        JSONObject itinerarySchema = parseJsonFile(SchemaPath);
+        isSchemaValid = performValidation(TIPItineraryObject,itinerarySchema);
+        log.debug("Tipitinerary!!!!!!");
+      }
+      if(tipType == TIPFind.class){
+        SchemaPath = "/TIPFindRequestSchema.json";
+        JSONObject TIPFindObject = new JSONObject(request.body());
+        JSONObject TIPFindSchema = parseJsonFile(SchemaPath);
+        isSchemaValid = performValidation(TIPFindObject ,TIPFindSchema);
+       // log.debug("Tipfind!!!!!!");
+      }
+      if(isSchemaValid == false){
+        response.status(400);
+        return request.body();
+      }
       return responseBody;
-    } catch (Exception e) {
+    }
+    catch (Exception e) {
       log.error("Exception: {}", e);
       response.status(500);
       return request.body();
     }
+    //deal with 400 exception below
+
   }
 
 
@@ -128,6 +183,7 @@ class MicroServer {
   }
 
 
+  //Converts an HTTP request to Json string
   private String HTTPrequestToJson(Request request) {
     return "{\n"
         + "\"attributes\":\"" + request.attributes() + "\",\n"
@@ -154,5 +210,73 @@ class MicroServer {
         + "}";
   }
 
+
+  private boolean performValidation(JSONObject json, JSONObject jsonSchema) {
+    boolean validationResult = true;
+    try {
+      Schema schema = SchemaLoader.load(jsonSchema);
+      // This is the line that will throw a ValidationException if anything doesn't conform to the schema!
+      schema.validate(json);
+    }
+    catch (SchemaException e) {
+      log.error("Caught a schema exception!");
+      e.printStackTrace();
+      validationResult = false;
+    }
+    catch (ValidationException e) {
+      log.error("Caught validation exception when validating schema! Root message: {}", e.getErrorMessage());
+      log.error("All messages from errors (including nested):");
+      // For now, messages are probably just good for debugging, to see why something failed
+      List<String> allMessages = e.getAllMessages();
+      for (String message : allMessages) {
+        log.error(message);
+      }
+      validationResult = false;
+    }
+    finally {
+      return validationResult;
+    }
+  }
+  public String[] getStringsFromFile(String filename) {
+    ArrayList<String> retVals = new ArrayList<>();
+    BufferedReader read;
+    try{
+      read = new BufferedReader(new InputStreamReader(getClass().getResourceAsStream(filename)));
+    }
+    catch(Exception e){
+      return new String[0];
+    }
+    String line = "";
+    try{
+      while((line = read.readLine()) != null) {
+        retVals.add(line);
+        }
+    }
+    catch (Exception e){}
+    return retVals.toArray(new String[retVals.size()]);
+  }
+
+
+
+  private JSONObject parseJsonFile(String path) {
+    // Here, we simply dump the contents of a file into a String (and then an object);
+    // there are other ways of creating a JSONObject, like from an InputStream...
+    // (https://github.com/everit-org/json-schema#quickstart)
+    JSONObject rawSchema = null;
+    try (InputStream inputStream = getClass().getResourceAsStream(path)){
+     rawSchema = new JSONObject(new JSONTokener(inputStream));
+    }
+    catch (IOException e) {
+      log.error("Caught exception when reading files!");
+      e.printStackTrace();
+    }
+    catch (JSONException e) {
+      log.error("Caught exception when constructing JSON objects!");
+      e.printStackTrace();
+    }
+    finally {
+      return rawSchema;
+    }
+  }
 
 }

@@ -1,0 +1,5 @@
+{
+  "comments": "The 'fooNum' in this object is not greater than 100.",
+  "fooNum": 100,
+  "fooString": "bar"
+}

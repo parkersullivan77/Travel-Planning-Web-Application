@@ -62,6 +62,7 @@ public class TestTIPFind {
         String expect = "{match: nonexistent string, limit: 22, found: 0, places:[]";
         assertEquals("Some test", expect, actual);
     }
+
     @Test
     public void randomTest() {
         TIPFind empty = new TIPFind();

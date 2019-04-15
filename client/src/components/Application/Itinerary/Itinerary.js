@@ -28,7 +28,9 @@ export default class Itinerary extends Component{
             distances: [],
             filename: 'Upload File',
             match: {matcher: ''},
-            itineraryPlaces: []
+            itineraryPlaces: [],
+            limit: 10
+
         }
     }
     render(){
@@ -80,6 +82,7 @@ export default class Itinerary extends Component{
         }
         return table;
     }
+
 
     addToItinerary(index){
             console.warn(this.state.places[index]);
@@ -296,8 +299,8 @@ export default class Itinerary extends Component{
         if(event !== null){event.preventDefault();}
 
         const tipItineraryRequest = {
-            'type': 'itinerary',
-            'version':3,
+            'requestType': 'itinerary',
+            'requestVersion':4,
             'options':this.state.options,
             'places': this.state.places,
             'earthRadius' : this.props.options.units[this.props.options.activeUnit]
@@ -350,20 +353,17 @@ export default class Itinerary extends Component{
         for(var i = 0;  i<length+1; i++){
             points[i] =[this.state.itineraryPlaces[i % length].latitude,this.state.itineraryPlaces[i % length].longitude];
         }
-
-
         return points;
     }
 
     sendFindRequest(){
         const tipFindRequest = {
             'requestType': 'find',
-            'requestVersion':3,
-            'limit' : 1,
+            'requestVersion':4,
+            'limit' : this.state.limit,
             'match': this.state.match.matcher
         }
-        console.log("hello:")
-        console.log(this.state)
+        console.log(this.state.limit)
         sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
             .then((response) => {
             if (response.statusCode >= 200 && response.statusCode <= 299) {
@@ -371,7 +371,11 @@ export default class Itinerary extends Component{
                     places: this.state.places.concat(response.body.places)
                 });
             }
-            this.createItinerary(null);
+
+            console.warn("RETURNED PLACES:", this.state.places)
+            if (this.state.places.length !== 0) {
+                this.createItinerary(null);
+            }
         });
 
     }

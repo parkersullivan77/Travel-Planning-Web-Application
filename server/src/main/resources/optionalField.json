@@ -1,0 +1,8 @@
+{
+  "comments": "This object includes an optional nested object which is well-formed. No violations here.",
+  "fooNum": 101,
+  "fooString": "foo",
+  "optionalFoo": {
+    "foo": "bar"
+  }
+}
