@@ -3,7 +3,7 @@
 | Inspection | Details |
 | ----- | ----- |
 | Subject | *Itinerary.js* |
-| Meeting | *04/08/2019, 3pm during the class, Stadium 1205* |
+| Meeting | *04/15/2019, 3pm during the class, Stadium 1205* |
 | Checklist | *reference, URL, etc.* |
 
 ### Roles
