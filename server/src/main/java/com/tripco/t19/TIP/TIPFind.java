@@ -1,5 +1,5 @@
 package com.tripco.t19.TIP;
-import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,8 @@ public class TIPFind extends TIPHeader{
     protected int limit;
     protected int found;
     protected ArrayList<Map> places;
+    private JsonArray narrow = new JsonArray();
+
 
 
     // db configuration information
@@ -56,14 +58,16 @@ public class TIPFind extends TIPHeader{
 
     @Override
     public String toString(){
-        return "{match: " + match + ", limit: " + limit + ", found: " + found + ", places:" + places ;
+        return "{match: " + match + ", limit: " + limit + ", found: " + found + ", places: " + places + ", narrow: " + narrow ;
     }
 
-    TIPFind(String match, int limit, ArrayList<Map> places, int found){
+    TIPFind(String match, int limit, ArrayList<Map> places, int found, JsonArray narrow){
         this.match = match;
         this.limit = limit;
         this.places = places;
         this.found = found;
+        if (narrow != null)
+            this.narrow = narrow;
     }
 
     public void setup() {
