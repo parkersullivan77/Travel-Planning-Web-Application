@@ -12,6 +12,7 @@
 | ---- | ---- |
 | Dziugas Butkus | 1hr |
 | Westin Musser | 1hr |
+| Parker Sullivan| 1hr|
 
 ### Problems found
 
@@ -19,4 +20,4 @@
 | --- | --- | :---: | :---: | --- |
 | Itinerary.js:265 | User can only save the itinerary file when user uploads a file, but can't after searching the database | low | Dziugas Butkus | #271 |
 | Itinerary.js:138 | Marker renders on map by default | low | Westin Musser|  |
- 
+| Itinerary.js:280| Once resverse or Remove all are clicked nothing new can be added to the itinerary|| med|Parker Sullivan|#232|
