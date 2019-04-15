@@ -133,11 +133,9 @@ public class TIPFind extends TIPHeader{
         int results = count.getInt(1);
 
         // iterate through query results and print out the airport codes
-        List<String> chicken;
         while (query.next()) {
             //System.out.printf("  \"%s\"", query.getString("name"));
             Map<String, String> temp = new HashMap ();
-            JsonObject json = new JsonObject();
             String id = query.getString("id");
             temp.put("id", id);
             String name = query.getString("name");
