@@ -35,7 +35,7 @@ public class TIPItinerary extends TIPHeader{
             this.earthRadius = earthRadius;
       }
 
-      private TIPItinerary() {
+      public TIPItinerary() {
             this.requestType = "itinerary";
       }
 
@@ -53,7 +53,7 @@ public class TIPItinerary extends TIPHeader{
           this.distances[distances.length-1] = getDistance(distances.length-1, 0);
       }
 
-      Long getDistance(int origin, int dest){
+      public Long getDistance(int origin, int dest){
             double lat1 = places.get(origin).get("latitude").getAsDouble();
             double lon1 = places.get(origin).get("longitude").getAsDouble();
             double lat2 = places.get(dest).get("latitude").getAsDouble();

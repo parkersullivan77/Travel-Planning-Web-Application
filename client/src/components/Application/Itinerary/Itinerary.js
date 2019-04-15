@@ -23,7 +23,7 @@ export default class Itinerary extends Component{
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
-            options:{title: '',earthRadius: ' '},
+            options:{title: '',earthRadius: ' ', optimization: 'none'},
             places:[],
             distances: [],
             filename: 'Upload File',
