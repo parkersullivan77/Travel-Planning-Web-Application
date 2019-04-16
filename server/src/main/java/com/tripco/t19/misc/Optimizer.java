@@ -9,6 +9,7 @@ public class Optimizer {
 
     private long[][] distances;
     private int[] tour;
+    private int[] shortestTour;
     private boolean[] visited;
     private List<JsonObject> places;
     private double earthRadius;
@@ -32,12 +33,23 @@ public class Optimizer {
         }
     }
 
+    public boolean unvisitedCities(){
+        for(boolean b: visited){
+            if(!b){
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void nearestNeighbor() {
         fillDistances();
         for(int i = 0; i < tour.length; i++){
             tour[0] = i;
             visited[i] = true;
+            while(!unvisitedCities()){
 
+            }
         }
 //        for each starting city
 //        add the starting city to the tour and remove from the list of unvisited cities
