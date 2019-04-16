@@ -95,11 +95,23 @@ public class TIPFind extends TIPHeader{
     }
 
     public String buildQuery(){
-        String query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
+        //String query = "SET @phrase=\"" + match +  "\";\n";
+        String query = "SELECT world.name, world.municipality, region.name, country.name, continent.name \n" +
+                "FROM continent\n" +
+                "INNER JOIN country WHERE continent.id = country.continent \n" +
+                "INNER JOIN region WHERE country.id = region.iso_country\n" +
+                "INNER JOIN world WHERE region.id = world.iso_region\n" +
+                "WHERE country.name LIKE \"%" + match +"%\" \n" +
+                "OR region.name LIKE \"%" + match +"%\" \n" +
+                "OR world.name LIKE  \"%" + match +"%\" \n" +
+                "OR world.municipality LIKE \"%" + match +"%\" \n" +
+                "ORDER BY continent.name, country.name, region.name, world.municipality, world.name ASC\n" +
+                "LIMIT 10;";
+        //String query = "select id,name,municipality,type,latitude,longitude,altitude from world where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
         //log.trace(query);
-        if(this.limit != 0) {
-            query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name limit " + Integer.toString(limit) + ";";
-        }
+        //if(this.limit != 0) {
+        //    query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name limit " + Integer.toString(limit) + ";";
+        //}
         return query;
     }
 
