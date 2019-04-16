@@ -21,4 +21,4 @@
 | Itinerary.js:265 | User can only save the itinerary file when user uploads a file, but can't after searching the database | low | Dziugas Butkus | #271 |
 | Itinerary.js:138 | Marker renders on map by default | low | Westin Musser|  |
 | Itinerary.js:280| Once resverse or Remove all are clicked nothing new can be added to the itinerary|| med|Parker Sullivan|#232|
-| Itinerary.js:220|  Searching with an empty string returns all marker which would be too many once world map is integrated|| med|Kareem Youssef|#241|
+| Itinerary.js:220| Searching with an empty string returns all marker which would be too many once world map is integrated | med | Kareem Youssef |#241|
