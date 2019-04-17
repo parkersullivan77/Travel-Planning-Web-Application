@@ -101,13 +101,17 @@ public class TIPFind extends TIPHeader{
     public String buildQuery(){
         //String query = "SET @phrase=\"" + match +  "\";\n";
         String query = "SELECT world.name, world.municipality, world.longitude, world.latitude, world.altitude FROM world INNER JOIN continent ON world.continent = continent.id INNER JOIN country ON world.iso_country = country.id " +
-                "INNER JOIN region ON world.iso_region = region.id WHERE continent.name LIKE \"%denver%\" OR country.name LIKE \"%denver%\" OR region.name LIKE \"%denver%\" OR world.name LIKE \"%denver%\" OR world.municipality LIKE \"%denver%\" " +
-                "LIMIT 100;";
+                "INNER JOIN region ON world.iso_region = region.id WHERE continent.name LIKE \"%" + match +"%\" OR country.name LIKE \"%" + match +"%\" OR region.name LIKE \"%" + match +"%\" OR world.name LIKE \"%" + match + "%\" OR world.municipality LIKE \"%" + match + "%\" ";
         //String query = "select id,name,municipality,type,latitude,longitude,altitude from world where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
         //log.trace(query);
-        //if(this.limit != 0) {
-        //    query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name limit " + Integer.toString(limit) + ";";
-        //}
+        log.trace("Before if:", query);
+
+        if(this.limit != 0) {
+            query = query + " LIMIT " + limit + ";";
+        } else {
+            query = query + ";";
+        }
+        log.trace("After if:", query);
         return query;
     }
 
