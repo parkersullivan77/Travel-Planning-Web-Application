@@ -20,7 +20,7 @@ public class TIPFind extends TIPHeader{
     protected int limit;
     protected int found;
     protected ArrayList<Map> places;
-    private JsonArray narrow = new JsonArray();
+    //private JsonArray narrow = new JsonArray();
 
 
 
@@ -31,7 +31,7 @@ public class TIPFind extends TIPHeader{
     private transient String pass="eiK5liet1uej";
 
     // fill in SQL queries to count the number of records and to retrieve the data
-    private final static String count = "select count(*) from colorado;";
+    private final static String count = "select count(*) from world;";
     public static String search = "";
 
     // Here are some environment variables. The first one is set by default in
@@ -58,16 +58,20 @@ public class TIPFind extends TIPHeader{
 
     @Override
     public String toString(){
-        return "{match: " + match + ", limit: " + limit + ", found: " + found + ", places: " + places + ", narrow: " + narrow ;
+        return "{match: " + match + ", limit: " + limit + ", found: " + found + ", places: " + places;
+        //  + ", narrow: " + narrow
     }
 
-    TIPFind(String match, int limit, ArrayList<Map> places, int found, JsonArray narrow){
+    TIPFind(String match, int limit, ArrayList<Map> places, int found) {
+        // , JsonArray narrow
         this.match = match;
         this.limit = limit;
         this.places = places;
         this.found = found;
+        /*
         if (narrow != null)
             this.narrow = narrow;
+            */
     }
 
     public void setup() {
@@ -96,17 +100,9 @@ public class TIPFind extends TIPHeader{
 
     public String buildQuery(){
         //String query = "SET @phrase=\"" + match +  "\";\n";
-        String query = "SELECT world.name, world.municipality, region.name, country.name, continent.name \n" +
-                "FROM continent\n" +
-                "INNER JOIN country WHERE continent.id = country.continent \n" +
-                "INNER JOIN region WHERE country.id = region.iso_country\n" +
-                "INNER JOIN world WHERE region.id = world.iso_region\n" +
-                "WHERE country.name LIKE \"%" + match +"%\" \n" +
-                "OR region.name LIKE \"%" + match +"%\" \n" +
-                "OR world.name LIKE  \"%" + match +"%\" \n" +
-                "OR world.municipality LIKE \"%" + match +"%\" \n" +
-                "ORDER BY continent.name, country.name, region.name, world.municipality, world.name ASC\n" +
-                "LIMIT 10;";
+        String query = "SELECT world.name, world.municipality, world.longitude, world.latitude, world.altitude FROM world INNER JOIN continent ON world.continent = continent.id INNER JOIN country ON world.iso_country = country.id " +
+                "INNER JOIN region ON world.iso_region = region.id WHERE continent.name LIKE \"%denver%\" OR country.name LIKE \"%denver%\" OR region.name LIKE \"%denver%\" OR world.name LIKE \"%denver%\" OR world.municipality LIKE \"%denver%\" " +
+                "LIMIT 100;";
         //String query = "select id,name,municipality,type,latitude,longitude,altitude from world where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
         //log.trace(query);
         //if(this.limit != 0) {
@@ -148,8 +144,8 @@ public class TIPFind extends TIPHeader{
         while (query.next()) {
             //System.out.printf("  \"%s\"", query.getString("name"));
             Map<String, String> temp = new HashMap ();
-            String id = query.getString("id");
-            temp.put("id", id);
+            //String id = query.getString("id");
+            //temp.put("id", id);
             String name = query.getString("name");
             temp.put("name", name);
             String latitude = query.getString("latitude");
