@@ -50,10 +50,9 @@ CREATE TABLE `world` (
 --
 -- Dumping data for table `world`
 --
--- WHERE:  name='Fort Collins Downtown Airport'
+-- WHERE:  name='Fort'
 
 LOCK TABLES `world` WRITE;
 /*!40000 ALTER TABLE `world` DISABLE KEYS */;
-INSERT INTO `world` VALUES (18748,'K3V5','closed','Fort Collins Downtown Airport','40.5882987976','-105.041999817','4939','NA','US','US-CO',NULL,'no','3V5',NULL,'3V5',NULL,'http://en.wikipedia.org/wiki/Fort_Collins_Downtown_Airport',NULL);
 /*!40000 ALTER TABLE `world` ENABLE KEYS */;
 UNLOCK TABLES;
