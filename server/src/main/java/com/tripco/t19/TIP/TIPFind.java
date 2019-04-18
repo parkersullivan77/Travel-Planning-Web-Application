@@ -1,5 +1,5 @@
 package com.tripco.t19.TIP;
-import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +20,8 @@ public class TIPFind extends TIPHeader{
     protected int limit;
     protected int found;
     protected ArrayList<Map> places;
+    //private JsonArray narrow = new JsonArray();
+
 
 
     // db configuration information
@@ -29,7 +31,7 @@ public class TIPFind extends TIPHeader{
     private transient String pass="eiK5liet1uej";
 
     // fill in SQL queries to count the number of records and to retrieve the data
-    private final static String count = "select count(*) from colorado;";
+    private final static String count = "select count(*) from world;";
     public static String search = "";
 
     // Here are some environment variables. The first one is set by default in
@@ -56,14 +58,20 @@ public class TIPFind extends TIPHeader{
 
     @Override
     public String toString(){
-        return "{match: " + match + ", limit: " + limit + ", found: " + found + ", places:" + places ;
+        return "{match: " + match + ", limit: " + limit + ", found: " + found + ", places: " + places;
+        //  + ", narrow: " + narrow
     }
 
-    TIPFind(String match, int limit, ArrayList<Map> places, int found){
+    TIPFind(String match, int limit, ArrayList<Map> places, int found) {
+        // , JsonArray narrow
         this.match = match;
         this.limit = limit;
         this.places = places;
         this.found = found;
+        /*
+        if (narrow != null)
+            this.narrow = narrow;
+            */
     }
 
     public void setup() {
@@ -91,11 +99,19 @@ public class TIPFind extends TIPHeader{
     }
 
     public String buildQuery(){
-        String query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
+        //String query = "SET @phrase=\"" + match +  "\";\n";
+        String query = "SELECT world.name, world.municipality, world.longitude, world.latitude, world.altitude FROM world INNER JOIN continent ON world.continent = continent.id INNER JOIN country ON world.iso_country = country.id " +
+                "INNER JOIN region ON world.iso_region = region.id WHERE continent.name LIKE \"%" + match +"%\" OR country.name LIKE \"%" + match +"%\" OR region.name LIKE \"%" + match +"%\" OR world.name LIKE \"%" + match + "%\" OR world.municipality LIKE \"%" + match + "%\" ";
+        //String query = "select id,name,municipality,type,latitude,longitude,altitude from world where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
         //log.trace(query);
+        log.trace("Before if:", query);
+
         if(this.limit != 0) {
-            query = "select id,name,municipality,type,latitude,longitude,altitude from colorado where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name limit " + Integer.toString(limit) + ";";
+            query = query + " LIMIT " + limit + ";";
+        } else {
+            query = query + ";";
         }
+        log.trace("After if:", query);
         return query;
     }
 
@@ -129,13 +145,11 @@ public class TIPFind extends TIPHeader{
         int results = count.getInt(1);
 
         // iterate through query results and print out the airport codes
-        List<String> chicken;
         while (query.next()) {
             //System.out.printf("  \"%s\"", query.getString("name"));
             Map<String, String> temp = new HashMap ();
-            JsonObject json = new JsonObject();
-            String id = query.getString("id");
-            temp.put("id", id);
+            //String id = query.getString("id");
+            //temp.put("id", id);
             String name = query.getString("name");
             temp.put("name", name);
             String latitude = query.getString("latitude");
