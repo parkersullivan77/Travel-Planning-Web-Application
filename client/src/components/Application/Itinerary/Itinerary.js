@@ -29,6 +29,7 @@ export default class Itinerary extends Component{
             filename: 'Upload File',
             match: {matcher: ''},
             itineraryPlaces: [],
+            toggleSwitch: [],
             limit: 10
 
         }
@@ -175,6 +176,7 @@ export default class Itinerary extends Component{
                             <Button size={"sm"} onClick={(event) => {this.moveUP(i);}}> /\ </Button>
                             <Button size={"sm"} onClick={(event) => {this.moveDown(i);}}> \/ </Button>
                             <Button size={"sm"} onClick={(event) => {this.deleteClicked(i);}}> X </Button>
+                            <Button size={"sm"} onClick={(event) => {this.toggleMarker(i);}}> Mark </Button>
                         </ButtonGroup>
                     </td>
                 </tr>);
@@ -237,16 +239,19 @@ export default class Itinerary extends Component{
     }
 
     coords(){
-        return this.state.itineraryPlaces.map(function(p){
+        return this.state.itineraryPlaces.map(function(p,i){
             var pos;
             pos = L.latLng(p.latitude,p.longitude);
-            console.warn(p.latitude);
+            console.warn(this.state.toggleSwitch)
+            if(this.state.toggleSwitch[i]){
             return(
                 <Marker position={pos}
                         icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">Colorado State University</Popup>
+                    <Popup className="font-weight-extrabold">{this.state.itineraryPlaces[i].name}</Popup>
                 </Marker>
             );
+            }
+            else return null;
         }.bind(this));
     }
 
@@ -420,6 +425,22 @@ export default class Itinerary extends Component{
         e.preventDefault();
         delete(this.state.itineraryPlaces);
         this.setState({itineraryPlaces:[]})
+    }
+    toggleMarker(index){
+        var toggle = [];
+        toggle = this.state.toggleSwitch;
+        if(this.state.toggleSwitch.length === 0)
+            toggle[index] = true;
+
+
+        else if(this.state.toggleSwitch[index])
+            toggle[index] = false;
+
+
+        else  toggle[index] = true;
+
+
+        this.setState({toggleSwitch: toggle})
     }
 
 }
