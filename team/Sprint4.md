@@ -80,6 +80,10 @@ Key planning decisions for this sprint include:
 
 | *04/08/2019* | *#249,#251,#255*  | *#230,233* | *none* | 
 
+| *04/15/2019* | *#279,#276,#272* | *#233,#283,#284* | *none* |
+
+| *04/17/2019* | *#281*| *#233,#283,#284,#285* | *none* |
+
 
 ## Review (focus on solution and technology)
 
