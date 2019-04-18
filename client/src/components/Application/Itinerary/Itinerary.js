@@ -70,6 +70,10 @@ export default class Itinerary extends Component{
                         onClick={this.deleteLocations}>
                     Remove All
                 </Button>
+                <Button color="primary"
+                        onClick={this.removeMarkers.bind(this)}>
+                    Clear Markers
+                </Button>
                 <Table responsive={true} hover={true} size={"sm"}>
                     <thead>
                     <tr>
@@ -242,7 +246,6 @@ export default class Itinerary extends Component{
         return this.state.itineraryPlaces.map(function(p,i){
             var pos;
             pos = L.latLng(p.latitude,p.longitude);
-            console.warn(this.state.toggleSwitch)
             if(this.state.toggleSwitch[i]){
             return(
                 <Marker position={pos}
@@ -441,6 +444,14 @@ export default class Itinerary extends Component{
 
 
         this.setState({toggleSwitch: toggle})
+    }
+    removeMarkers(){
+        var removalList = [];
+        console.warn(removalList);
+        for(var i =0; i< this.state.itineraryPlaces.length; i++){
+            removalList[i] = false
+        }
+        this.setState({toggleSwitch: removalList})
     }
 
 }
