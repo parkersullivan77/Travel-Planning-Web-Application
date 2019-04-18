@@ -121,7 +121,7 @@ export default class Itinerary extends Component{
             points = this.getPositions();
         }
         return (
-            <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
+            <Map center={this.csuOvalGeographicCoordinates()} zoom={2}
                  style={{height: 500, maxwidth: 700}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"/>
@@ -191,7 +191,7 @@ export default class Itinerary extends Component{
             'requestVersion':4,
             'options':this.state.options,
             'places': this.state.places,
-            
+
         }
 
         sendServerRequestWithBody('itinerary',tipItineraryRequest, this.props.settings.serverPort)
@@ -233,7 +233,7 @@ export default class Itinerary extends Component{
     }
 
     csuOvalGeographicCoordinates() {
-        return L.latLng(40.576179, -105.080773);
+        return L.latLng(31.7, -42.080773);
     }
 
     coords(){
@@ -409,7 +409,7 @@ export default class Itinerary extends Component{
             tempPlacesArray.push(this.state.itineraryPlaces[0]);
             var j = 1;
             for(var i = this.state.itineraryPlaces.length-1; i > 0; i--) {
-                tempPlacesArray.push(this.state.places[i]);
+                tempPlacesArray.push(this.state.itineraryPlaces[i]);
                 j++
             }
         }
@@ -419,7 +419,7 @@ export default class Itinerary extends Component{
     deleteLocations(e) {
         e.preventDefault();
         delete(this.state.itineraryPlaces);
-        this.setState({itineraryPlaces:{id: '0', name:'', latitude: '0',longitude: '0'}})
+        this.setState({itineraryPlaces:[]})
     }
 
 }
