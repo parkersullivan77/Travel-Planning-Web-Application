@@ -37,7 +37,7 @@ public class TestTIPFind {
 /*
 
 */
-
+/*
     @Test
     public void testExistingString() {
         TIPFind find = new TIPFind("Fort Collins Downtown Airport", 22, myPlaces, 0);
@@ -47,7 +47,7 @@ public class TestTIPFind {
                 "e=Fort Collins Downtown Airport, municipality=null, longitude=-105.041999817}]";
         assertEquals("Some test", expect, actual);
     }
-
+*/
     @Test
     public void testStringNotInPlaces() {  //Test for string not in places
         TIPFind find = new TIPFind("subscribe 2 pewdiepie", 22, myPlaces, 0);
