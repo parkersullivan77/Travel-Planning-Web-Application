@@ -191,15 +191,14 @@ export default class Itinerary extends Component{
     createItinerary(event){
 
         if(event !== null){event.preventDefault();}
-
         const tipItineraryRequest = {
             'requestType': 'itinerary',
             'requestVersion':4,
             'options':this.state.options,
             'places': this.state.places,
 
-        }
-
+    }
+        tipItineraryRequest.options.earthRadius = this.props.options.units[this.props.options.activeUnit].toString();
         sendServerRequestWithBody('itinerary',tipItineraryRequest, this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
