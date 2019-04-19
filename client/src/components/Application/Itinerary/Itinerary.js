@@ -180,7 +180,25 @@ export default class Itinerary extends Component{
             </Pane>
         )
     }
+    createOpts(){
+        return(
+            <Pane header={"Want a shorter trip?"}>
+                <Form>
+                    <FormGroup>
+                        <Button type={'button'}
+                                onClick={(event) => {this.sendShortRequest(event);}}>
+                            Short
+                        </Button>
+                    </FormGroup>
+                </Form>
+            </Pane>
+        )
+    }
 
+    sendShortRequest(e){
+        this.state.options.optimization = "short";
+        this.createItinerary(e);
+    }
 
     createHeader() {
         return (
