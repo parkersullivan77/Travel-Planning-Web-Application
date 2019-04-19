@@ -48,13 +48,13 @@ public class TestTIPFind {
         assertEquals("Some test", expect, actual);
     }
 */
-/*
+
     @Test
     public void testStringNotInPlaces() {  //Test for string not in places
         TIPFind find = new TIPFind("subscribe 2 pewdiepie", 22, myPlaces, 0, null);
         find.buildResponse();
         String actual = find.toString();
-        String expect = "{match: subscribe 2 pewdiepie, limit: 22, found: 0, places: [], narrow: []";
+        String expect = "{match: subscribe 2 pewdiepie, limit: 22, found: 0, places: [], narrow: null";
         assertEquals("Some test", expect, actual);
     }
     @Test
@@ -62,11 +62,10 @@ public class TestTIPFind {
         TIPFind find = new TIPFind("nonexistent string", 22, myPlaces, 0, null);
         find.buildResponse();
         String actual = find.toString();
-        String expect = "{match: nonexistent string, limit: 22, found: 0, places: [], narrow: []";
+        String expect = "{match: nonexistent string, limit: 22, found: 0, places: [], narrow: null";
         assertEquals("Some test", expect, actual);
     }
 
-*/
     @Test
     public void randomTest() {
         TIPFind empty = new TIPFind();
