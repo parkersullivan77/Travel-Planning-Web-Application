@@ -29,6 +29,7 @@ export default class Itinerary extends Component{
             filename: 'Upload File',
             match: {matcher: ''},
             itineraryPlaces: [],
+            toggleSwitch: [],
             limit: 10
 
         }
@@ -68,6 +69,10 @@ export default class Itinerary extends Component{
                 <Button color="danger"
                         onClick={this.deleteLocations}>
                     Remove All
+                </Button>
+                <Button color="primary"
+                        onClick={this.removeMarkers.bind(this)}>
+                    Clear Markers
                 </Button>
                 <Table responsive={true} hover={true} size={"sm"}>
                     <thead>
@@ -121,7 +126,7 @@ export default class Itinerary extends Component{
             points = this.getPositions();
         }
         return (
-            <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
+            <Map center={this.csuOvalGeographicCoordinates()} zoom={2}
                  style={{height: 500, maxwidth: 700}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"/>
@@ -175,6 +180,7 @@ export default class Itinerary extends Component{
                             <Button size={"sm"} onClick={(event) => {this.moveUP(i);}}> /\ </Button>
                             <Button size={"sm"} onClick={(event) => {this.moveDown(i);}}> \/ </Button>
                             <Button size={"sm"} onClick={(event) => {this.deleteClicked(i);}}> X </Button>
+                            <Button size={"sm"} onClick={(event) => {this.toggleMarker(i);}}> Mark </Button>
                         </ButtonGroup>
                     </td>
                 </tr>);
@@ -191,7 +197,7 @@ export default class Itinerary extends Component{
             'requestVersion':4,
             'options':this.state.options,
             'places': this.state.places,
-            
+
         }
 
         sendServerRequestWithBody('itinerary',tipItineraryRequest, this.props.settings.serverPort)
@@ -233,20 +239,22 @@ export default class Itinerary extends Component{
     }
 
     csuOvalGeographicCoordinates() {
-        return L.latLng(40.576179, -105.080773);
+        return L.latLng(31.7, -42.080773);
     }
 
     coords(){
-        return this.state.itineraryPlaces.map(function(p){
+        return this.state.itineraryPlaces.map(function(p,i){
             var pos;
             pos = L.latLng(p.latitude,p.longitude);
-            console.warn(p.latitude);
+            if(this.state.toggleSwitch[i]){
             return(
                 <Marker position={pos}
                         icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">Colorado State University</Popup>
+                    <Popup className="font-weight-extrabold">{this.state.itineraryPlaces[i].name}</Popup>
                 </Marker>
             );
+            }
+            else return null;
         }.bind(this));
     }
 
@@ -409,7 +417,7 @@ export default class Itinerary extends Component{
             tempPlacesArray.push(this.state.itineraryPlaces[0]);
             var j = 1;
             for(var i = this.state.itineraryPlaces.length-1; i > 0; i--) {
-                tempPlacesArray.push(this.state.places[i]);
+                tempPlacesArray.push(this.state.itineraryPlaces[i]);
                 j++
             }
         }
@@ -419,7 +427,31 @@ export default class Itinerary extends Component{
     deleteLocations(e) {
         e.preventDefault();
         delete(this.state.itineraryPlaces);
-        this.setState({itineraryPlaces:{id: '0', name:'', latitude: '0',longitude: '0'}})
+        this.setState({itineraryPlaces:[]})
+    }
+    toggleMarker(index){
+        var toggle = [];
+        toggle = this.state.toggleSwitch;
+        if(this.state.toggleSwitch.length === 0)
+            toggle[index] = true;
+
+
+        else if(this.state.toggleSwitch[index])
+            toggle[index] = false;
+
+
+        else  toggle[index] = true;
+
+
+        this.setState({toggleSwitch: toggle})
+    }
+    removeMarkers(){
+        var removalList = [];
+        console.warn(removalList);
+        for(var i =0; i< this.state.itineraryPlaces.length; i++){
+            removalList[i] = false
+        }
+        this.setState({toggleSwitch: removalList})
     }
 
 }
