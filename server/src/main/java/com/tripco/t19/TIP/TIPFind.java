@@ -19,6 +19,7 @@ public class TIPFind extends TIPHeader{
     protected ArrayList<Map> places;
     protected List<HashMap<String, Object>> narrow;
     protected List<List<String>> filterValues;
+    protected List<String> namesOfValues;
 
 
 
@@ -73,10 +74,11 @@ public class TIPFind extends TIPHeader{
 
     public List<List<String>> processFilters(List<HashMap<String, Object>> narrow) {
         List<List<String>> filters = new ArrayList<>();
-        Object temp = String.valueOf(narrow.get(0).get("values"));
-        //ArrayList namesOfValues = new ArrayList<>();
+        namesOfValues = new ArrayList<>();
         if(narrow.size() != 0) {
             for(int i = 0; i < narrow.size(); i++) {
+                String name = narrow.get(i).get("name").toString();
+                namesOfValues.add(name);
                 String values = String.valueOf(narrow.get(0).get("values"));
                 String[] splitValues = cleanValues(values);
                 filters.add(Arrays.asList(splitValues));
@@ -120,24 +122,33 @@ public class TIPFind extends TIPHeader{
 
         //String query = "SET @phrase=\"" + match +  "\";\n";
         String query = "SELECT world.name, world.municipality, world.longitude, world.latitude, world.altitude FROM world INNER JOIN continent ON world.continent = continent.id INNER JOIN country ON world.iso_country = country.id " +
-                "INNER JOIN region ON world.iso_region = region.id WHERE continent.name LIKE \"%" + match +"%\" OR country.name LIKE \"%" + match +"%\" OR region.name LIKE \"%" + match +"%\" OR world.name LIKE \"%" + match + "%\" OR world.municipality LIKE \"%" + match + "%\" ";
+                "INNER JOIN region ON world.iso_region = region.id WHERE (continent.name LIKE \"%" + match +"%\" OR country.name LIKE \"%" + match +"%\" OR region.name LIKE \"%" + match +"%\" OR world.name LIKE \"%" + match + "%\" OR world.municipality LIKE \"%" + match + "%\") ";
         //String query = "select id,name,municipality,type,latitude,longitude,altitude from world where name like \'%" + match + "%\' or municipality like \'%" + match + "%\' order by name;";
         //log.trace(query);
-/*
-        if(filterValues.size() != 0) {
-            for(int i = 0; i < filterValues.size() - 1; i++) {
-                List<String> temp = filterValues.get(i);
-                for(int j = 0; j < temp.size() - 1; j++) {
 
+        if(filterValues.size() != 0) {
+            log.trace("not empty");
+            for(int i = 0; i < filterValues.size(); i++) {
+                log.trace("in for");
+                query = query + "AND (" + namesOfValues.get(i) + " LIKE ";
+                List<String> temp = filterValues.get(i);
+                for(int j = 0; j < temp.size(); j++) {
+                    query = query + "\"%" + temp.get(j) + "%\" ";
+                    if(j+1 != temp.size() && temp.size() != 1) {
+                        query = query + "OR " + namesOfValues.get(i) + " LIKE ";
+                    }
                 }
+                query = query + ") ";
+                // ADD OR
             }
         }
-*/
+
         if(this.limit != 0) {
-            query = query + " LIMIT " + limit + ";";
+            query = query + "LIMIT " + limit + ";";
         } else {
             query = query + ";";
         }
+        log.trace(query);
         return query;
     }
 
