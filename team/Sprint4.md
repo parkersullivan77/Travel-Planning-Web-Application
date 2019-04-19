@@ -66,9 +66,9 @@ Key planning decisions for this sprint include:
 
 | Statistic | # Planned | # Completed |
 | --- | ---: | ---: |
-| Epics | *3* | *0* |
-| Tasks |  *value*   | *value* | 
-| Story Points |  *value*  | *value* | 
+| Epics | *3* | *1* |
+| Tasks |  *15*   | *23* | 
+| Story Points |  *10*  | *19* | 
 
 
 ## Scrums
@@ -95,20 +95,17 @@ These Epics were completed.
 
 These Epics were not completed.
 
-* *## epic title: explanation*
-*
+* *## #238 User: Let me plan my trip worldwide : partially completed*
+
 
 #### What went well
 
-We are working much better as a team and accomplishing more tasks
-
+We are working much better as a team and accomplishing more tasks.
 
 #### Problems encountered and resolutions
 
 Conforming to the provided schemas, our Itinerary server request was different from the one in TIPItineraryRequestSchema.json and we had to figure 
 out a way  to validate our requests against the schemas.
-
-
 
 ## Retrospective (focus on people, process, tools)
 
@@ -124,6 +121,6 @@ Prioritizing tasks, understanding the code base better and improving our debuggi
 
 #### What we need to work on
 
-Getting even better at assigning the right number of epics, 
+Getting even better at assigning the right number of epics and tasks as well as prioritizing tasks. We also learnt that we should get help from other teams/TA's when we spend too much time on a task.
 #### What we will change next sprint 
 
