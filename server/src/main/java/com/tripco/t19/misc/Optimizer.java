@@ -10,7 +10,7 @@ public class Optimizer {
 
     private long[][] distances;
     public int[] shortestTour;
-    private List<JsonObject> places;
+    public List<JsonObject> places;
     private double earthRadius;
     private long shortestDist;
     private long currShortest;

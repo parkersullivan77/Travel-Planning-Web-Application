@@ -3,6 +3,7 @@ package com.tripco.t19.TIP;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.tripco.t19.misc.GreatCircleDistance;
+import com.tripco.t19.misc.Optimizer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -62,5 +63,11 @@ public class TIPItinerary extends TIPHeader{
                   this.earthRadius = Double.parseDouble(this.options.get("earthRadius").toString().replaceAll("\"", ""));
             }
             return GreatCircleDistance.haversine(lat1, lon1, lat2, lon2, earthRadius);
+      }
+
+      public void shortOpt(){
+            Optimizer oneOpt = new Optimizer(places, earthRadius);
+            oneOpt.shortOpt();
+            places = oneOpt.places;
       }
 }
