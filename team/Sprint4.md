@@ -80,18 +80,9 @@ Key planning decisions for this sprint include:
 | *04/15/2019* | *#279,#276,#272* | *#233,#283,#284* | *none* |
 | *04/17/2019* | *#281*| *#233,#283,#284,#285* | *none* |
 
-
-| Date | Tasks closed  | Tasks in progress | Impediments |
-| :--- | :--- | :--- | :--- |
-| 03/05/19 | #167,#172 | #161,#173 |none | 
-| 03/08/19 | #161,#173 | #174,#175,#162,#176 | none | 
-| 03/13/19 | #162,#175,#176 | #178,#179,#182,#183,#185 | none | 
-| 03/23/19 | #178,#179,#182,#183,#185,#184,#186,#188,#189 | #191,#192,#197,#198,#199,#200  | none | 
-| 03/25/19 | #191,#192,#197,#198,#199,#200 | #158,#177,#194,#208,#209,#210,#213 | none |
-| 03/28/19 | #158,#177,#194,#208,#209,#210,#213 | none | none |
 ## Review (focus on solution and technology)
 
-In this sprint, ...
+In this sprint, we were able to add a world map and implement JSON schemas for validation
 
 #### Completed epics in Sprint Backlog 
 
@@ -109,7 +100,7 @@ These Epics were not completed.
 
 #### What went well
 
-We are working much better as a team. 
+We are working much better as a team and accomplishing more tasks
 
 
 #### Problems encountered and resolutions
@@ -121,20 +112,18 @@ out a way  to validate our requests against the schemas.
 
 ## Retrospective (focus on people, process, tools)
 
-In this sprint, ...
+In this sprint, we were able to add a world map and implement JSON schemas for validation 
 
 #### What we changed this sprint
 
-Our changes for this sprint included ...
+Setting more realistic goals, we are getting better at predicting how many epics we can get done in a sprint.  
 
 #### What we did well
 
-We ...
+Prioritizing tasks, understanding the code base better and improving our debugging skills
 
 #### What we need to work on
 
-We could improve ...
-
+Getting even better at assigning the right number of epics, 
 #### What we will change next sprint 
 
-We will change ...
