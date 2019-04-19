@@ -216,7 +216,8 @@ export default class Itinerary extends Component{
             'requestType': 'find',
             'requestVersion':4,
             'limit' : this.state.limit,
-            'match': this.state.match.matcher
+            'match': this.state.match.matcher,
+            'narrow': []
         }
         sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
             .then((response) => {

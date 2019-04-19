@@ -49,6 +49,10 @@
         "additionalProperties": true
       },
       "minitems": 0
+    },
+    "narrow": {
+      "description": "list of filters for database",
+      "minitems": 0
     }
   },
   "required":["requestVersion","requestType","match"],
