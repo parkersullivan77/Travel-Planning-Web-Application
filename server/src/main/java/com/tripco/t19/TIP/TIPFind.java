@@ -68,9 +68,22 @@ public class TIPFind extends TIPHeader{
         this.limit = limit;
         this.places = places;
         this.found = found;
-        if (narrow != null)
+        log.trace("Before IF NULL");
+        if (narrow != null){
+            log.trace("IN IS NULL");
             this.narrow = narrow;
+        }
+        log.trace("WORKED");
     }
+
+    TIPFind(String match, int limit, ArrayList<Map> places, int found) {
+        this.match = match;
+        this.limit = limit;
+        this.places = places;
+        this.found = found;
+        this.narrow = null;
+    }
+
 
     public List<List<String>> processFilters(List<HashMap<String, Object>> narrow) {
         List<List<String>> filters = new ArrayList<>();

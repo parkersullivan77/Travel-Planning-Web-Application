@@ -52,10 +52,6 @@
     },
     "narrow": {
       "description": "list of filters for database",
-      "type":"array",
-      "items": {
-        "type":"object",
-      },
       "minitems": 0
     }
   },
