@@ -101,7 +101,7 @@ class MicroServer {
       log.trace("TIP Config response: {}", responseBody);
       return responseBody;
     } catch (Exception e) {
-      log.error("Exception: {}", e);
+      log.error("Exception: {500 error : from a TIP Config request}", e);
       response.status(500);
       return request.body();
     }
@@ -122,14 +122,11 @@ class MicroServer {
 
 
   private String processTIPrequest(Type tipType, Request request, Response response) {
-
-
     log.info("TIP Request: {}", HTTPrequestToJson(request));
     response.type("application/json");
     response.header("Access-Control-Allow-Origin", "*");
     response.status(200);
     try {
-
       boolean isSchemaValid = true;
 
       Gson jsonConverter = new Gson();
@@ -160,19 +157,18 @@ class MicroServer {
         isSchemaValid = performValidation(TIPFindObject ,TIPFindSchema);
        // log.debug("Tipfind!!!!!!");
       }
-      if(isSchemaValid == false){
+      if(isSchemaValid == false) {
+        log.error("Exception: {400 error : from TipRequest}");
         response.status(400);
         return request.body();
       }
       return responseBody;
     }
     catch (Exception e) {
-      log.error("Exception: {}", e);
+      log.error("Exception: {500 error : frmo TipRequest}", e);
       response.status(500);
       return request.body();
     }
-    //deal with 400 exception below
-
   }
 
 
