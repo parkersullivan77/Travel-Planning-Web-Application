@@ -95,7 +95,7 @@ These Epics were completed.
 
 These Epics were not completed.
 
-* *## #238 User: Let me plan my trip worldwide : partially completed*
+* * #238 User: Let me plan my trip worldwide : partially completed*
 
 
 #### What went well
