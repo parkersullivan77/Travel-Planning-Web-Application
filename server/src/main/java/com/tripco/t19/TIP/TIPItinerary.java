@@ -43,6 +43,7 @@ public class TIPItinerary extends TIPHeader{
       @Override
       public void buildResponse(){
           calculateDistances();
+          shortOpt();
             log.trace("buildResponse -> {}", this);
       }
 

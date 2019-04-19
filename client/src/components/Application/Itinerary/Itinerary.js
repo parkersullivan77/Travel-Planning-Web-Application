@@ -23,15 +23,17 @@ export default class Itinerary extends Component{
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
-            options:{title: '',earthRadius: ' ', optimization: 'none'},
+            options:{title: '',earthRadius: '3958.8', optimization: 'none'},
             places:[],
             distances: [],
             filename: 'Upload File',
             match: {matcher: ''},
+            itineraryPlaces: [],
+            toggleSwitch: [],
             limit: 10
+
         }
     }
-
     render(){
         console.log(this.state)
         return (
@@ -47,45 +49,18 @@ export default class Itinerary extends Component{
                         {this.createForm('match')}
                         {this.createOpts()}
                     </Col>
-                    <Col xs={12} sm={12} md={7} lg={6} xl={8}>
-                        {this.renderMap()}
-                    </Col>
+                    <Col>{this.renderMap()}</Col>
                 </Row>
                 <Row>
-                    <Col xs={12} sm={12} md={12} lg={12} xl={12}>
-                        {this.renderTable()}
-                    </Col>
+                <Col xs={12} sm={12} md={12} lg={6} xl={6}>
+                    {this.renderSearchTable()}
+                </Col>
+                <Col xs={12} sm={12} md={12} lg={6} xl={6}>{this.renderItinTable()}</Col>
                 </Row>
             </Container>
         );
     }
-
-    retrieveTableInfo(){
-        var table = [];
-        var total = 0;
-        for(let i = 0; i < this.state.places.length; i++){
-            let cell = [];
-            total += this.state.distances[i];
-            cell.push(
-                <tr>
-                <td>{this.state.places[i]["name"]}</td>
-                <td>{this.state.places[i]["latitude"]}</td>
-                <td>{this.state.places[i]["longitude"]}</td>
-                <td>{this.state.distances[i]}</td>
-                <td>
-                    <ButtonGroup>
-                        <Button onClick={(event) => {this.moveDown(i);}}> \/ </Button>
-                        <Button onClick={(event) => {this.moveUP(i);}}> /\ </Button>
-                        <Button onClick={(event) => {this.deleteClicked(i);}}> X </Button>
-                </ButtonGroup>
-                </td>
-            </tr>);
-            table.push(cell);
-        }
-        return table;
-    }
-
-    renderTable(){
+    renderItinTable(){
         return (
             <Pane header={"Get a good look at this trip"}>
                 <Button
@@ -93,11 +68,15 @@ export default class Itinerary extends Component{
                     Reverse
                 </Button>
                 <Button color="danger"
-                    onClick={this.deleteLocations}>
+                        onClick={this.deleteLocations}>
                     Remove All
                 </Button>
-            <Table>
-                <thead>
+                <Button color="primary"
+                        onClick={this.removeMarkers.bind(this)}>
+                    Clear Markers
+                </Button>
+                <Table responsive={true} hover={true} size={"sm"}>
+                    <thead>
                     <tr>
                         <th>Destination</th>
                         <th>Latitude</th>
@@ -105,12 +84,29 @@ export default class Itinerary extends Component{
                         <th>Distance</th>
                         <th>Options</th>
                     </tr>
+                    </thead>
+                    <tbody> {this.retrieveItinTableInfo()}</tbody>
+                </Table>
+            </Pane>
+        )
+    }
+    renderSearchTable(){
+        return (
+            <Table responsive={true} size ={"sm"}>
+                <thead>
+                <tr>
+                    <th>Destination</th>
+                    <th>Latitude</th>
+                    <th>Longitude</th>
+                    <th>Distance</th>
+                    <th>Options</th>
+                </tr>
                 </thead>
                 <tbody>
-                {this.retrieveTableInfo()}
+                {this.retrieveSearchTableInfo()}
                 </tbody>
             </Table>
-            </Pane>
+
         )
     }
 
@@ -131,17 +127,112 @@ export default class Itinerary extends Component{
             points = this.getPositions();
         }
         return (
-            <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
+            <Map center={this.csuOvalGeographicCoordinates()} zoom={2}
                  style={{height: 500, maxwidth: 700}}>
                 <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                            attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"/>
-                <Marker position={this.csuOvalGeographicCoordinates()}
-                        icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">Colorado State University</Popup>
-                </Marker>
+                {this.coords()}
                 <Polyline color= "black"  positions = {points} />
             </Map>
         )
+    }
+
+    retrieveSearchTableInfo(){
+        var table = [];
+        var total = 0;
+        for(let i = 0; i < this.state.places.length; i++){
+            let cell = [];
+            total += this.state.distances[i];
+            cell.push(
+                <tr>
+                <td>{this.state.places[i]["name"]}</td>
+                <td>{this.state.places[i]["latitude"]}</td>
+                <td>{this.state.places[i]["longitude"]}</td>
+                <td>{this.state.distances[i]}</td>
+                <td>
+                    <ButtonGroup>
+                        <Button size={"sm"} onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
+                </ButtonGroup>
+                </td>
+            </tr>);
+            table.push(cell);
+        }
+        return table;
+    }
+
+    addToItinerary(index){
+            this.setState({itineraryPlaces:this.state.itineraryPlaces.concat(this.state.places[index])});
+
+    }
+    retrieveItinTableInfo(){
+        var table = [];
+        var total = 0;
+        for(let i = 0; i < this.state.itineraryPlaces.length; i++){
+            let cell = [];
+            total += this.state.distances[i];
+            cell.push(
+                <tr>
+                    <td>{this.state.itineraryPlaces[i]["name"]}</td>
+                    <td>{this.state.itineraryPlaces[i]["latitude"]}</td>
+                    <td>{this.state.itineraryPlaces[i]["longitude"]}</td>
+                    <td>{this.state.distances[i]}</td>
+                    <td>
+                        <ButtonGroup>
+                            <Button size={"sm"} onClick={(event) => {this.moveUP(i);}}> /\ </Button>
+                            <Button size={"sm"} onClick={(event) => {this.moveDown(i);}}> \/ </Button>
+                            <Button size={"sm"} onClick={(event) => {this.deleteClicked(i);}}> X </Button>
+                            <Button size={"sm"} onClick={(event) => {this.toggleMarker(i);}}> Mark </Button>
+                        </ButtonGroup>
+                    </td>
+                </tr>);
+            table.push(cell);
+        }
+        return table;
+    }
+    createItinerary(event){
+
+        if(event !== null){event.preventDefault();}
+
+        const tipItineraryRequest = {
+            'requestType': 'itinerary',
+            'requestVersion':4,
+            'options':this.state.options,
+            'places': this.state.places,
+
+        }
+
+        sendServerRequestWithBody('itinerary',tipItineraryRequest, this.props.settings.serverPort)
+            .then((response) => {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    this.setState({
+                        options: response.body.options,
+                        places: response.body.places,
+                        distances: response.body.distances
+                    });
+                }
+            });
+    }
+
+    sendFindRequest(){
+        const tipFindRequest = {
+            'requestType': 'find',
+            'requestVersion':4,
+            'limit' : this.state.limit,
+            'match': this.state.match.matcher,
+            'narrow': []
+        }
+        sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
+            .then((response) => {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    this.setState({
+                        places: response.body.places,
+                    });
+                }
+                if (this.state.places.length !== 0) {
+                    this.createItinerary(null);
+                }
+            });
+
     }
 
     coloradoGeographicBoundaries() {
@@ -150,10 +241,26 @@ export default class Itinerary extends Component{
     }
 
     csuOvalGeographicCoordinates() {
-        return L.latLng(40.576179, -105.080773);
+        return L.latLng(31.7, -42.080773);
     }
 
-    markerIcon() {
+    coords(){
+        return this.state.itineraryPlaces.map(function(p,i){
+            var pos;
+            pos = L.latLng(p.latitude,p.longitude);
+            if(this.state.toggleSwitch[i]){
+            return(
+                <Marker position={pos}
+                        icon={this.markerIcon()}>
+                    <Popup className="font-weight-extrabold">{this.state.itineraryPlaces[i].name}</Popup>
+                </Marker>
+            );
+            }
+            else return null;
+        }.bind(this));
+    }
+
+    markerIcon(){
         // react-leaflet does not currently handle default marker icons correctly,
         // so we must create our own
         return L.icon({
@@ -181,6 +288,7 @@ export default class Itinerary extends Component{
             </Pane>
         )
     }
+
     createOpts(){
         return(
             <Pane header={"Want a shorter trip?"}>
@@ -233,7 +341,6 @@ export default class Itinerary extends Component{
                     <label> <b>Add Location</b></label>
                     <FormGroup>
                         {this.createInputField(stateVar,'matcher')}
-                        {console.log(this.state.places)}
                     </FormGroup>
                     <Button onClick={this.sendFindRequest.bind(this)}>
                         Search
@@ -255,30 +362,6 @@ export default class Itinerary extends Component{
         }
         this.setState({filename: event.target.files[0].name})
         reader.readAsText(file);
-    }
-
-    createItinerary(event){
-        if(event !== null){event.preventDefault();}
-
-        const tipItineraryRequest = {
-            'requestType': 'itinerary',
-            'requestVersion':4,
-            'options':this.state.options,
-            'places': this.state.places,
-            'earthRadius' : this.props.options.units[this.props.options.activeUnit]
-        }
-        console.warn(this.props.options.units[this.props.options.activeUnit]);
-
-        sendServerRequestWithBody('itinerary',tipItineraryRequest, this.props.settings.serverPort)
-            .then((response) => {
-                if (response.statusCode >= 200 && response.statusCode <= 299) {
-                    this.setState({
-                        options: response.body.options,
-                        places: response.body.places,
-                        distances: response.body.distances
-                    });
-                }
-            });
     }
 
     saveFile(event) {
@@ -306,67 +389,26 @@ export default class Itinerary extends Component{
         location[field] = value;
         this.setState({[stateVar]: location});
     }
+
     getPositions(){
-        var length = this.state.places.length;
-        var points= []
+        var points= [];
+        if(this.state.itineraryPlaces.length === 0){
+            return points
+        }
+        var length = this.state.itineraryPlaces.length;
         for(var i = 0;  i<length+1; i++){
-            points[i] =[this.state.places[i % length].latitude,this.state.places[i % length].longitude];
+            points[i] =[this.state.itineraryPlaces[i % length].latitude,this.state.itineraryPlaces[i % length].longitude];
         }
         return points;
     }
-
-
-    deleteLocations(e) {
-        e.preventDefault();
-        delete(this.state.places);
-        this.setState({places:{id: '0', name:'', latitude: '0',longitude: '0'}})
-    }
-
-    reversePlaces(e) {
-        e.preventDefault();
-        let tempPlacesArray = [];
-        if(this.state.places.length > 2) {
-            tempPlacesArray.push(this.state.places[0]);
-            var j = 1;
-            for(var i = this.state.places.length-1; i > 0; i--) {
-                tempPlacesArray.push(this.state.places[i]);
-                j++
-            }
-        }
-        this.setState({ places: tempPlacesArray })
-    }
-
-    sendFindRequest(){
-        const tipFindRequest = {
-            'requestType': 'find',
-            'requestVersion':4,
-            'limit' : this.state.limit,
-            'match': this.state.match.matcher
-        }
-        console.log(this.state.limit)
-        sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
-            .then((response) => {
-            if (response.statusCode >= 200 && response.statusCode <= 299) {
-                this.setState({
-                    places: this.state.places.concat(response.body.places)
-                });
-            }
-
-            console.warn("RETURNED PLACES:", this.state.places)
-            if (this.state.places.length !== 0) {
-                this.createItinerary(null);
-            }
-        });
-
-    }
     moveDown(index){
         let swappedPlaces = [];
-        if(index !== this.state.places.length -1) {
-            let temp = this.state.places[index];
-            this.state.places[index] = this.state.places[index + 1];
-            this.state.places[index + 1] = temp;
-            swappedPlaces = this.state.places;
-            this.setState({places:swappedPlaces});
+        if(index !== this.state.itineraryPlaces.length -1) {
+            let temp = this.state.itineraryPlaces[index];
+            this.state.itineraryPlaces[index] = this.state.itineraryPlaces[index + 1];
+            this.state.itineraryPlaces[index + 1] = temp;
+            swappedPlaces = this.state.itineraryPlaces;
+            this.setState({itineraryPlaces:swappedPlaces});
             this.createItinerary(null);
         }
     }
@@ -374,21 +416,65 @@ export default class Itinerary extends Component{
     moveUP(index){
         let swappedPlaces = [];
         if(index !== 0) {
-            let temp = this.state.places[index - 1];
-            this.state.places[index - 1] = this.state.places[index]
-            this.state.places[index] = temp;
-            swappedPlaces = this.state.places;
-            this.setState({places: swappedPlaces});
+            let temp = this.state.itineraryPlaces[index - 1];
+            this.state.itineraryPlaces[index - 1] = this.state.itineraryPlaces[index]
+            this.state.itineraryPlaces[index] = temp;
+            swappedPlaces = this.state.itineraryPlaces;
+            this.setState({itineraryPlaces: swappedPlaces});
             this.createItinerary(null);
         }
     }
     
     deleteClicked(index){
-        this.state.places.splice(index,1);
-        let deletedList = this.state.places;
-        this.setState({places: deletedList});
-        if(this.state.places.length !== 0)
+        this.state.itineraryPlaces.splice(index,1);
+        let deletedList = this.state.itineraryPlaces;
+        this.setState({itineraryPlaces: deletedList});
+        if(this.state.itineraryPlaces.length !== 0)
             this.createItinerary(null);
+    }
+
+    reversePlaces(e) {
+        e.preventDefault();
+        let tempPlacesArray = [];
+        if(this.state.itineraryPlaces.length > 2) {
+            tempPlacesArray.push(this.state.itineraryPlaces[0]);
+            var j = 1;
+            for(var i = this.state.itineraryPlaces.length-1; i > 0; i--) {
+                tempPlacesArray.push(this.state.itineraryPlaces[i]);
+                j++
+            }
+        }
+        this.setState({ itineraryPlaces: tempPlacesArray })
+    }
+
+    deleteLocations(e) {
+        e.preventDefault();
+        delete(this.state.itineraryPlaces);
+        this.setState({itineraryPlaces:[]})
+    }
+    toggleMarker(index){
+        var toggle = [];
+        toggle = this.state.toggleSwitch;
+        if(this.state.toggleSwitch.length === 0)
+            toggle[index] = true;
+
+
+        else if(this.state.toggleSwitch[index])
+            toggle[index] = false;
+
+
+        else  toggle[index] = true;
+
+
+        this.setState({toggleSwitch: toggle})
+    }
+    removeMarkers(){
+        var removalList = [];
+        console.warn(removalList);
+        for(var i =0; i< this.state.itineraryPlaces.length; i++){
+            removalList[i] = false
+        }
+        this.setState({toggleSwitch: removalList})
     }
 
 }
