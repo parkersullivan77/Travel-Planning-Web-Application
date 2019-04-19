@@ -45,6 +45,7 @@ export default class Itinerary extends Component{
                     <Col xs={12} sm={12} md={7} lg={6} xl={4}>
                         {this.createFileInput()}
                         {this.createForm('match')}
+                        {this.createOpts()}
                     </Col>
                     <Col xs={12} sm={12} md={7} lg={6} xl={8}>
                         {this.renderMap()}
