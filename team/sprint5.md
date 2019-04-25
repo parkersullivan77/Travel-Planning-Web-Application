@@ -77,7 +77,8 @@ primarily made for the sake of cleanliness.
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* | 
+| 4-24-2018 |  | #166, #298, #305 | *none* | 
+| coming | soon to | a zenhub | near you |
 
 
 ## Review (focus on solution and technology)
