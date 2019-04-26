@@ -30,7 +30,8 @@ export default class Application extends Component {
       serverConfig: null,
       planOptions: {
         units: {'miles':3959, 'kilometers':6371, 'nautical miles': 3440},
-        activeUnit: 'miles'
+        activeUnit: 'miles',
+        optimization: {none:'none', short:'short'}
       },
       clientSettings: {
         serverPort: getOriginalServerPort()
@@ -40,6 +41,7 @@ export default class Application extends Component {
       origin: {latitude: '', longitude: ''},
       destination: {latitude: '', longitude: ''},
       distance: 0,
+
     };
 
     this.updateServerConfig();
