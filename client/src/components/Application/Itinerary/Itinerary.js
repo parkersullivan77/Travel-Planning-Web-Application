@@ -62,11 +62,11 @@ export default class Itinerary extends Component{
     renderItinTable(){
         return (
             <Pane header={"Get a good look at this trip"}>
-                <Button
+                <Button color="primary"
                     onClick={this.reversePlaces.bind(this)}>
                     Reverse
                 </Button>
-                <Button color="danger"
+                <Button color="primary"
                         onClick={this.deleteLocations}>
                     Remove All
                 </Button>
