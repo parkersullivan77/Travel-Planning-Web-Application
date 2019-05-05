@@ -40,7 +40,7 @@ export default class Itinerary extends Component{
             <Container>
                 <Row>
                     <Col xs={12} sm={12} md={7} lg={6} xl={4}>
-                        {this.createInputForm()}
+                        {this.createInputForms()}
                     </Col>
                     <Col>{this.renderMap()}</Col>
                 </Row>
@@ -262,7 +262,7 @@ export default class Itinerary extends Component{
         })
     }
 
-    createInputForm() {
+    createInputForms() {
         return(
             <Pane header={'Plan Your Trip'}>
                 <Form onSubmit= {this.deleteLocations.bind(this)}>
