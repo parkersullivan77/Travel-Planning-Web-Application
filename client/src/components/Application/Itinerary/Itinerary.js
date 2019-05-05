@@ -39,11 +39,6 @@ export default class Itinerary extends Component{
         return (
             <Container>
                 <Row>
-                    <Col>
-                        {this.createHeader()}
-                    </Col>
-                </Row>
-                <Row>
                     <Col xs={12} sm={12} md={7} lg={6} xl={4}>
                         {this.createFileInput()}
                         {this.createForm('match')}
@@ -270,7 +265,7 @@ export default class Itinerary extends Component{
 
     createFileInput (){
         return(
-            <Pane header={'Load In Your Itinerary'}>
+            <Pane header={'Plan Your Trip'}>
                 <Form onSubmit= {this.deleteLocations.bind(this)}>
                     <FormGroup>
                         <Label for="itinerary">File Browser</Label>
@@ -286,16 +281,6 @@ export default class Itinerary extends Component{
             </Pane>
         )
     }
-    createHeader() {
-        return (
-            <Pane header={'Itinerary'}>
-            <div>
-                <b>Plan your Trip Boyyyysss</b>
-            </div>
-            </Pane>
-        );
-    }
-
 
     createInputField(stateVar, coordinate) {
         let updateStateVarOnChange = (event) => {
