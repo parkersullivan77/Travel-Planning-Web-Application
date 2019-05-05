@@ -267,14 +267,7 @@ export default class Itinerary extends Component{
             <Pane header={'Plan Your Trip'}>
                 <Form onSubmit= {this.deleteLocations.bind(this)}>
                     <FormGroup>
-                        <Label for="itinerary">File Browser</Label>
                         <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
-                    </FormGroup>
-                    <FormGroup>
-                        <Button
-                            type ="submit">
-                            Download
-                        </Button>
                     </FormGroup>
                 </Form>
 
@@ -285,6 +278,10 @@ export default class Itinerary extends Component{
                     </FormGroup>
                     <Button onClick={this.sendFindRequest.bind(this)}>
                         Search
+                    </Button>
+                    <Button
+                        onClick={this.saveFile}>
+                        Download
                     </Button>
                 </Form>
             </Pane>
