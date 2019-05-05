@@ -305,21 +305,7 @@ export default class Itinerary extends Component{
                    style={{width: "100%"}}/>
         );
     }
-    createForm(stateVar) {
-        return (
-            <Pane header={'Type a Location'}>
-                <Form >
-                    <label> <b>Add Location</b></label>
-                    <FormGroup>
-                        {this.createInputField(stateVar,'matcher')}
-                    </FormGroup>
-                    <Button onClick={this.sendFindRequest.bind(this)}>
-                        Search
-                    </Button>
-                </Form>
-            </Pane>
-            );
-    }
+
     updateField(event) {
         var file = event.target.files[0];
         var reader = new FileReader();
