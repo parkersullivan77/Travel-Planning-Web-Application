@@ -420,6 +420,9 @@ export default class Itinerary extends Component{
                 tempPlacesArray.push(this.state.itineraryPlaces[i]);
                 j++
             }
+        } else if(this.state.itineraryPlaces.length === 2) {
+            tempPlacesArray.push(this.state.itineraryPlaces[1])
+            tempPlacesArray.push(this.state.itineraryPlaces[0])
         }
         this.setState({ itineraryPlaces: tempPlacesArray })
     }
