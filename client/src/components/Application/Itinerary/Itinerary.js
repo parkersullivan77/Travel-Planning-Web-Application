@@ -16,7 +16,7 @@ export default class Itinerary extends Component{
         super(props);
         this.updateField= this.updateField.bind(this);
         this.createItinerary = this.createItinerary.bind(this);
-        this.createFileInput= this.createFileInput.bind(this);
+        //this.createFileInput= this.createFileInput.bind(this);
         this.createInputField = this.createInputField.bind(this);
         this.saveFile = this.saveFile.bind(this);
         this.deleteLocations = this.deleteLocations.bind(this);
@@ -40,8 +40,7 @@ export default class Itinerary extends Component{
             <Container>
                 <Row>
                     <Col xs={12} sm={12} md={7} lg={6} xl={4}>
-                        {this.createFileInput()}
-                        {this.createForm('match')}
+                        {this.createInputForm()}
                     </Col>
                     <Col>{this.renderMap()}</Col>
                 </Row>
@@ -263,6 +262,35 @@ export default class Itinerary extends Component{
         })
     }
 
+    createInputForm() {
+        return(
+            <Pane header={'Plan Your Trip'}>
+                <Form onSubmit= {this.deleteLocations.bind(this)}>
+                    <FormGroup>
+                        <Label for="itinerary">File Browser</Label>
+                        <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
+                    </FormGroup>
+                    <FormGroup>
+                        <Button
+                            type ="submit">
+                            Download
+                        </Button>
+                    </FormGroup>
+                </Form>
+
+                <Form >
+                    <label> <b>Add Location</b></label>
+                    <FormGroup>
+                        {this.createInputField('match','matcher')}
+                    </FormGroup>
+                    <Button onClick={this.sendFindRequest.bind(this)}>
+                        Search
+                    </Button>
+                </Form>
+            </Pane>
+        )
+    }
+/*
     createFileInput (){
         return(
             <Pane header={'Plan Your Trip'}>
@@ -281,7 +309,7 @@ export default class Itinerary extends Component{
             </Pane>
         )
     }
-
+*/
     createInputField(stateVar, coordinate) {
         let updateStateVarOnChange = (event) => {
             this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
