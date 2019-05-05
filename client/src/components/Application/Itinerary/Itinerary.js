@@ -276,10 +276,10 @@ export default class Itinerary extends Component{
                     <FormGroup>
                         {this.createInputField('match','matcher')}
                     </FormGroup>
-                    <Button onClick={this.sendFindRequest.bind(this)}>
+                    <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
                         <FaSearchLocation />
                     </Button>
-                    <Button
+                    <Button style={{ backgroundColor: "#1E4D2B" }}
                         onClick={this.saveFile}>
                         <FaFileDownload />
                     </Button>
