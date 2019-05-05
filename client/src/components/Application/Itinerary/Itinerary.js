@@ -39,10 +39,12 @@ export default class Itinerary extends Component{
         return (
             <Container>
                 <Row>
+                    <Col>{this.renderMap()}</Col>
+                </Row>
+                <Row>
                     <Col xs={12} sm={12} md={7} lg={6} xl={4}>
                         {this.createInputForms()}
                     </Col>
-                    <Col>{this.renderMap()}</Col>
                 </Row>
                 <Row>
                 <Col xs={12} sm={12} md={12} lg={6} xl={6}>
@@ -105,9 +107,9 @@ export default class Itinerary extends Component{
 
     renderMap() {
         return (
-            <Pane header={'Where Am I?'}>
+            <div>
                 {this.renderLeafletMap()}
-            </Pane>
+            </div>
         );
     }
 
