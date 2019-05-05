@@ -42,7 +42,7 @@ export default class Itinerary extends Component{
                     <Col>{this.renderMap()}</Col>
                 </Row>
                 <Row>
-                    <Col xs={12} sm={12} md={7} lg={6} xl={4}>
+                    <Col>
                         {this.createInputForms()}
                     </Col>
                 </Row>
@@ -267,24 +267,29 @@ export default class Itinerary extends Component{
     createInputForms() {
         return(
             <Pane header={'Plan Your Trip'}>
-                <Form onSubmit= {this.deleteLocations.bind(this)}>
+                <Form inline>
+
                     <FormGroup>
-                        <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
+                            <CustomInput onChange = {(event) => {this.updateField; this.deleteLocations.bind(this)}} type="file" id ="itinerary" name="filename" label={this.state.filename} />
                     </FormGroup>
+
+                    <FormGroup>
+                            {this.createInputField('match','matcher')}
+                    </FormGroup>
+                    <FormGroup>
+                        <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
+                            <FaSearchLocation />
+                        </Button>
+                    </FormGroup>
+                    <FormGroup>
+                        <Button style={{ backgroundColor: "#1E4D2B" }}
+                            onClick={this.saveFile}>
+                            <FaFileDownload />
+                        </Button>
+                    </FormGroup>
+
                 </Form>
 
-                <Form >
-                    <FormGroup>
-                        {this.createInputField('match','matcher')}
-                    </FormGroup>
-                    <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
-                        <FaSearchLocation />
-                    </Button>
-                    <Button style={{ backgroundColor: "#1E4D2B" }}
-                        onClick={this.saveFile}>
-                        <FaFileDownload />
-                    </Button>
-                </Form>
             </Pane>
         )
     }
