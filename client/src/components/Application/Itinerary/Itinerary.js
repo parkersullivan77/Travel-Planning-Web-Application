@@ -272,7 +272,6 @@ export default class Itinerary extends Component{
                 </Form>
 
                 <Form >
-                    <label> <b>Add Location</b></label>
                     <FormGroup>
                         {this.createInputField('match','matcher')}
                     </FormGroup>
@@ -295,7 +294,7 @@ export default class Itinerary extends Component{
 
         let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
         return (
-            <Input name={coordinate} placeholder={'Location'}
+            <Input name={coordinate} placeholder={'Add Location'}
                    id={`${stateVar}${capitalizedCoordinate}`}
                    value={this.state[stateVar][coordinate]}
                    onChange={updateStateVarOnChange}
