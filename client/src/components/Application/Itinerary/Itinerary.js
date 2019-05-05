@@ -8,7 +8,7 @@ import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
-import Coordinates from "coordinate-parser";
+import { FaSearchLocation, FaFileDownload } from 'react-icons/fa';
 
 
 export default class Itinerary extends Component{
@@ -277,11 +277,11 @@ export default class Itinerary extends Component{
                         {this.createInputField('match','matcher')}
                     </FormGroup>
                     <Button onClick={this.sendFindRequest.bind(this)}>
-                        Search
+                        <FaSearchLocation />
                     </Button>
                     <Button
                         onClick={this.saveFile}>
-                        Download
+                        <FaFileDownload />
                     </Button>
                 </Form>
             </Pane>
