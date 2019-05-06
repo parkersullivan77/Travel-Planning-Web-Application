@@ -403,8 +403,12 @@ export default class Itinerary extends Component{
                 tempPlacesArray.push(this.state.itineraryPlaces[i]);
                 j++
             }
+            this.setState({ itineraryPlaces: tempPlacesArray })
+        } else if(this.state.itineraryPlaces.length === 2) {
+            tempPlacesArray.push(this.state.itineraryPlaces[1])
+            tempPlacesArray.push(this.state.itineraryPlaces[0])
+            this.setState({ itineraryPlaces: tempPlacesArray })
         }
-        this.setState({ itineraryPlaces: tempPlacesArray })
     }
 
     deleteLocations(e) {
