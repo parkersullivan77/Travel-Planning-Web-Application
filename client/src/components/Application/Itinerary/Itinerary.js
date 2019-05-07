@@ -190,7 +190,7 @@ export default class Itinerary extends Component{
         if(event !== null){event.preventDefault();}
         const tipItineraryRequest = {
             'requestType': 'itinerary',
-            'requestVersion':4,
+            'requestVersion':5,
             'options':this.state.options,
             'places': this.state.places,
 
@@ -211,7 +211,7 @@ export default class Itinerary extends Component{
     sendFindRequest(){
         const tipFindRequest = {
             'requestType': 'find',
-            'requestVersion':4,
+            'requestVersion':5,
             'limit' : this.state.limit,
             'match': this.state.match.matcher,
             'narrow': []
