@@ -8,7 +8,7 @@ import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
-import { FaSearchLocation, FaFileDownload } from 'react-icons/fa';
+import { FaSearchLocation, FaFileDownload, FaFileUpload } from 'react-icons/fa';
 
 
 export default class Itinerary extends Component{
@@ -20,6 +20,7 @@ export default class Itinerary extends Component{
         this.createInputField = this.createInputField.bind(this);
         this.saveFile = this.saveFile.bind(this);
         this.deleteLocations = this.deleteLocations.bind(this);
+        this.callInputField = this.callInputField.bind(this);
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
@@ -270,7 +271,16 @@ export default class Itinerary extends Component{
                 <Form inline>
 
                     <FormGroup>
-                            <CustomInput onChange = {(event) => {this.updateField; this.deleteLocations.bind(this)}} type="file" id ="itinerary" name="filename" label={this.state.filename} />
+
+                        <Label for="itinerary"></Label>
+                        <Button style={{ backgroundColor: "#1E4D2B" }}
+                                    onClick={this.callInputField}
+                                    >
+                                <FaFileUpload />
+                        </Button>
+                        <input type="file" id ="itinerary" name="filename" label={this.state.filename}
+                               style={{display: "none"}} onChange={this.updateField}/>
+
                     </FormGroup>
 
                     <FormGroup>
@@ -294,6 +304,12 @@ export default class Itinerary extends Component{
         )
     }
 
+    callInputField(event) {
+        event.preventDefault()
+        var a = document.getElementById("itinerary")
+        a.click()
+    }
+
     createInputField(stateVar, coordinate) {
         let updateStateVarOnChange = (event) => {
             this.updateLocationOnChange(stateVar, event.target.name, event.target.value)
@@ -311,6 +327,7 @@ export default class Itinerary extends Component{
 
     updateField(event) {
         var file = event.target.files[0];
+        console.log("asdasd", file)
         var reader = new FileReader();
         const scope = this;
 
