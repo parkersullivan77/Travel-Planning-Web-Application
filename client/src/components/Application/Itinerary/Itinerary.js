@@ -8,7 +8,7 @@ import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
-import Coordinates from "coordinate-parser";
+import { FaSearchLocation, FaFileDownload, FaFileUpload } from 'react-icons/fa';
 
 
 export default class Itinerary extends Component{
@@ -16,10 +16,11 @@ export default class Itinerary extends Component{
         super(props);
         this.updateField= this.updateField.bind(this);
         this.createItinerary = this.createItinerary.bind(this);
-        this.createFileInput= this.createFileInput.bind(this);
+        //this.createFileInput= this.createFileInput.bind(this);
         this.createInputField = this.createInputField.bind(this);
         this.saveFile = this.saveFile.bind(this);
         this.deleteLocations = this.deleteLocations.bind(this);
+        this.callInputField = this.callInputField.bind(this);
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
@@ -39,16 +40,12 @@ export default class Itinerary extends Component{
         return (
             <Container>
                 <Row>
-                    <Col>
-                        {this.createHeader()}
-                    </Col>
+                    <Col>{this.renderMap()}</Col>
                 </Row>
                 <Row>
-                    <Col xs={12} sm={12} md={7} lg={6} xl={4}>
-                        {this.createFileInput()}
-                        {this.createForm('match')}
+                    <Col>
+                        {this.createInputForms()}
                     </Col>
-                    <Col>{this.renderMap()}</Col>
                 </Row>
                 <Row>
                 <Col xs={12} sm={12} md={12} lg={6} xl={6}>
@@ -111,9 +108,9 @@ export default class Itinerary extends Component{
 
     renderMap() {
         return (
-            <Pane header={'Where Am I?'}>
+            <div>
                 {this.renderLeafletMap()}
-            </Pane>
+            </div>
         );
     }
 
@@ -268,34 +265,50 @@ export default class Itinerary extends Component{
         })
     }
 
-    createFileInput (){
+    createInputForms() {
         return(
-            <Pane header={'Load In Your Itinerary'}>
-                <Form onSubmit= {this.deleteLocations.bind(this)}>
+            <Pane header={'Plan Your Trip'}>
+                <Form inline>
+
                     <FormGroup>
-                        <Label for="itinerary">File Browser</Label>
-                        <CustomInput onChange = {this.updateField} type="file" id ="itinerary" name="filename" label={this.state.filename} />
+
+                        <Label for="itinerary"></Label>
+                        <Button style={{ backgroundColor: "#1E4D2B" }}
+                                    onClick={this.callInputField}
+                                    >
+                                <FaFileUpload />
+                        </Button>
+                        <input type="file" id ="itinerary" name="filename" label={this.state.filename}
+                               style={{display: "none"}} onChange={this.updateField}/>
+
+                    </FormGroup>
+
+                    <FormGroup>
+                            {this.createInputField('match','matcher')}
                     </FormGroup>
                     <FormGroup>
-                        <Button
-                            type ="submit">
-                            Download
+                        <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
+                            <FaSearchLocation />
                         </Button>
                     </FormGroup>
+                    <FormGroup>
+                        <Button style={{ backgroundColor: "#1E4D2B" }}
+                            onClick={this.saveFile}>
+                            <FaFileDownload />
+                        </Button>
+                    </FormGroup>
+
                 </Form>
+
             </Pane>
         )
     }
-    createHeader() {
-        return (
-            <Pane header={'Itinerary'}>
-            <div>
-                <b>Plan your Trip Boyyyysss</b>
-            </div>
-            </Pane>
-        );
-    }
 
+    callInputField(event) {
+        event.preventDefault()
+        var a = document.getElementById("itinerary")
+        a.click()
+    }
 
     createInputField(stateVar, coordinate) {
         let updateStateVarOnChange = (event) => {
@@ -304,30 +317,17 @@ export default class Itinerary extends Component{
 
         let capitalizedCoordinate = coordinate.charAt(0).toUpperCase() + coordinate.slice(1);
         return (
-            <Input name={coordinate} placeholder={'Location'}
+            <Input name={coordinate} placeholder={'Add Location'}
                    id={`${stateVar}${capitalizedCoordinate}`}
                    value={this.state[stateVar][coordinate]}
                    onChange={updateStateVarOnChange}
                    style={{width: "100%"}}/>
         );
     }
-    createForm(stateVar) {
-        return (
-            <Pane header={'Type a Location'}>
-                <Form >
-                    <label> <b>Add Location</b></label>
-                    <FormGroup>
-                        {this.createInputField(stateVar,'matcher')}
-                    </FormGroup>
-                    <Button onClick={this.sendFindRequest.bind(this)}>
-                        Search
-                    </Button>
-                </Form>
-            </Pane>
-            );
-    }
+
     updateField(event) {
         var file = event.target.files[0];
+        console.log("asdasd", file)
         var reader = new FileReader();
         const scope = this;
 
@@ -420,8 +420,12 @@ export default class Itinerary extends Component{
                 tempPlacesArray.push(this.state.itineraryPlaces[i]);
                 j++
             }
+            this.setState({ itineraryPlaces: tempPlacesArray })
+        } else if(this.state.itineraryPlaces.length === 2) {
+            tempPlacesArray.push(this.state.itineraryPlaces[1])
+            tempPlacesArray.push(this.state.itineraryPlaces[0])
+            this.setState({ itineraryPlaces: tempPlacesArray })
         }
-        this.setState({ itineraryPlaces: tempPlacesArray })
     }
 
     deleteLocations(e) {
