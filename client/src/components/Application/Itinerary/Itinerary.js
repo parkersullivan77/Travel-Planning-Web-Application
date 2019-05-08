@@ -269,7 +269,6 @@ export default class Itinerary extends Component{
         return(
             <Pane header={'Plan Your Trip'}>
                 <Form inline>
-
                     <FormGroup>
                             {this.createInputField('match','matcher')}
                     </FormGroup>
@@ -280,9 +279,7 @@ export default class Itinerary extends Component{
                     </FormGroup>
                     <FormGroup>
                         <Label for="itinerary"></Label>
-                        <Button style={{ backgroundColor: "#1E4D2B" }}
-                                onClick={this.callInputField}
-                        >
+                        <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.callInputField}>
                             <FaFileUpload />
                         </Button>
                         <input type="file" id ="itinerary" name="filename" label={this.state.filename}
@@ -294,9 +291,7 @@ export default class Itinerary extends Component{
                             <FaFileDownload />
                         </Button>
                     </FormGroup>
-
                 </Form>
-
             </Pane>
         )
     }
