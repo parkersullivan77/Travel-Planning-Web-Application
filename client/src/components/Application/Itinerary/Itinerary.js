@@ -216,7 +216,7 @@ export default class Itinerary extends Component{
             'requestType': 'itinerary',
             'requestVersion':5,
             'options':this.state.options,
-            'places': this.state.places,
+            'places': this.state.itineraryPlaces,
 
     }
         tipItineraryRequest.options.earthRadius = this.props.options.units[this.props.options.activeUnit].toString();
@@ -225,7 +225,6 @@ export default class Itinerary extends Component{
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
                     this.setState({
                         options: response.body.options,
-                        places: response.body.places,
                         distances: response.body.distances
                     });
                 }
