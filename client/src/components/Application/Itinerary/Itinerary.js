@@ -319,18 +319,22 @@ export default class Itinerary extends Component{
 
     updateField(event) {
         var file = event.target.files[0];
-        console.log("asdasd", file)
         var reader = new FileReader();
         const scope = this;
 
         reader.onload = function(e) {
             var parsed = JSON.parse(e.target.result);
-            scope.setState(parsed);
+            scope.limitParsedToTen(parsed)
             scope.createItinerary(e);
-
         }
         this.setState({filename: event.target.files[0].name})
         reader.readAsText(file);
+    }
+
+    limitParsedToTen(parsed) {
+        for(let i = 0; i < 10; i++) {
+            this.state.places.push(parsed.places[i])
+        }
     }
 
     saveFile(event) {
