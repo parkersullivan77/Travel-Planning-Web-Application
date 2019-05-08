@@ -181,8 +181,10 @@ export default class Itinerary extends Component{
     }
 
     addToItinerary(index){
-            this.setState({itineraryPlaces:this.state.itineraryPlaces.concat(this.state.places[index])});
-
+        console.log("In addToItinerary, itineraryPlaces before:", this.state.itineraryPlaces)
+        this.state.itineraryPlaces.push(this.state.places[index])
+        console.log("After adding", this.state.itineraryPlaces)
+        this.createItinerary(null)
     }
     retrieveItinTableInfo(){
         var table = [];
@@ -212,6 +214,7 @@ export default class Itinerary extends Component{
     createItinerary(event){
 
         if(event !== null){event.preventDefault();}
+        console.warn(this.state.itineraryPlaces)
         const tipItineraryRequest = {
             'requestType': 'itinerary',
             'requestVersion':5,
@@ -225,6 +228,7 @@ export default class Itinerary extends Component{
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
                     this.setState({
                         options: response.body.options,
+                        itineraryPlaces: response.body.places,
                         distances: response.body.distances
                     });
                 }
