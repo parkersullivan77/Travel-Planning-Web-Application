@@ -107,14 +107,12 @@ export default class Itinerary extends Component{
         return (
             <Pane header={"Add locations to itinerary"}>
                 <Form inline onSubmit={this.preventRefresh.bind(this)}>
-                    <FormGroup>
+                    <ButtonGroup>
                         {this.createInputField('match','matcher')}
-                    </FormGroup>
-                    <FormGroup>
                         <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
                             <FaSearchLocation />
                         </Button>
-                    </FormGroup>
+                    </ButtonGroup>
                 </Form>
             <Table responsive={true}>
                 <thead>
