@@ -8,7 +8,8 @@ import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
-import { FaSearchLocation, FaFileDownload, FaFileUpload } from 'react-icons/fa';
+import { FaSearchLocation, FaFileDownload, FaFileUpload, FaAngleUp, FaAngleDown, FaTimes, FaMapMarkerAlt,
+    FaSyncAlt, FaEraser, FaTrash } from 'react-icons/fa';
 
 
 export default class Itinerary extends Component{
@@ -60,16 +61,17 @@ export default class Itinerary extends Component{
             <Pane header={"Itinerary"}>
                 <ButtonGroup>
                     <Button
+                        style={{ backgroundColor: "#1E4D2B" }}
                         onClick={this.reversePlaces.bind(this)}>
-                        Reverse
+                        <FaSyncAlt/>
                     </Button>
                     <Button color="danger"
                             onClick={this.deleteLocations}>
-                        Remove All
+                        <FaTrash/>
                     </Button>
                     <Button color="primary"
                             onClick={this.removeMarkers.bind(this)}>
-                        Clear Markers
+                        <FaEraser/>
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup className="float-right">
@@ -171,7 +173,8 @@ export default class Itinerary extends Component{
                 <td>{this.state.places[i]["longitude"]}</td>
                 <td>
                     <ButtonGroup>
-                        <Button size={"sm"} onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
+                        <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
+                                onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
                 </ButtonGroup>
                 </td>
             </tr>);
@@ -200,10 +203,12 @@ export default class Itinerary extends Component{
                     <td>{this.state.distances[i]}</td>
                     <td>
                         <ButtonGroup>
-                            <Button size={"sm"} onClick={(event) => {this.moveUP(i);}}> /\ </Button>
-                            <Button size={"sm"} onClick={(event) => {this.moveDown(i);}}> \/ </Button>
-                            <Button size={"sm"} onClick={(event) => {this.deleteClicked(i);}}> X </Button>
-                            <Button size={"sm"} onClick={(event) => {this.toggleMarker(i);}}> Mark </Button>
+                            <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
+                                    onClick={(event) => {this.moveUP(i);}}> <FaAngleUp/> </Button>
+                            <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
+                                    onClick={(event) => {this.moveDown(i);}}> <FaAngleDown/> </Button>
+                            <Button size={"sm"} color={"danger"} onClick={(event) => {this.deleteClicked(i);}}> <FaTimes/> </Button>
+                            <Button size={"sm"} color={"primary"} onClick={(event) => {this.toggleMarker(i);}}> <FaMapMarkerAlt/> </Button>
                         </ButtonGroup>
                     </td>
                 </tr>);
