@@ -8,7 +8,7 @@ import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
-import { FaSearchLocation, FaFileDownload, FaFileUpload, FaAngleUp, FaAngleDown, FaTimes, FaMapMarkerAlt,
+import { FaSearchLocation, FaDownload, FaUpload, FaAngleUp, FaAngleDown, FaTimes, FaMapMarkerAlt,
     FaSyncAlt, FaEraser, FaTrash } from 'react-icons/fa';
 
 
@@ -79,13 +79,13 @@ export default class Itinerary extends Component{
                         <Button style={{ backgroundColor: "#1E4D2B" }}
                                 onClick={this.callInputField}
                         >
-                            <FaFileUpload />
+                            <FaUpload />
                     </Button>
                     <input type="file" id ="itinerary" name="filename" label={this.state.filename}
                            style={{display: "none"}} onChange={this.updateField}/>
                     <Button style={{ backgroundColor: "#1E4D2B" }}
                             onClick={this.saveFile}>
-                        <FaFileDownload />
+                        <FaDownload />
                     </Button>
                 </ButtonGroup>
                 <Table responsive={true} hover={true}>
