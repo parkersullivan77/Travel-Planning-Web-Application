@@ -44,14 +44,13 @@ export default class Itinerary extends Component{
                 </Row>
                 <Row>
                     <Col>
-                        {this.createInputForms()}
+                        {this.renderItinTable()}
                     </Col>
                 </Row>
                 <Row>
-                <Col xs={12} sm={12} md={12} lg={6} xl={6}>
-                    {this.renderSearchTable()}
-                </Col>
-                <Col xs={12} sm={12} md={12} lg={6} xl={6}>{this.renderItinTable()}</Col>
+                    <Col>
+                        {this.renderSearchTable()}
+                    </Col>
                 </Row>
             </Container>
         );
@@ -72,6 +71,8 @@ export default class Itinerary extends Component{
                             onClick={this.removeMarkers.bind(this)}>
                         Clear Markers
                     </Button>
+                </ButtonGroup>
+                <ButtonGroup className="float-right">
                         <Label for="itinerary"></Label>
                         <Button style={{ backgroundColor: "#1E4D2B" }}
                                 onClick={this.callInputField}
@@ -85,7 +86,7 @@ export default class Itinerary extends Component{
                         <FaFileDownload />
                     </Button>
                 </ButtonGroup>
-                <Table responsive={true} hover={true} size={"sm"}>
+                <Table responsive={true} hover={true}>
                     <thead>
                     <tr>
                         <th>Destination</th>
@@ -103,7 +104,17 @@ export default class Itinerary extends Component{
     renderSearchTable(){
         return (
             <Pane header={"Add locations to itinerary"}>
-            <Table responsive={true} size ={"sm"}>
+                <Form inline onSubmit={this.preventRefresh.bind(this)}>
+                    <FormGroup>
+                        {this.createInputField('match','matcher')}
+                    </FormGroup>
+                    <FormGroup>
+                        <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
+                            <FaSearchLocation />
+                        </Button>
+                    </FormGroup>
+                </Form>
+            <Table responsive={true}>
                 <thead>
                 <tr>
                     <th>Destination</th>
@@ -278,23 +289,6 @@ export default class Itinerary extends Component{
             shadowUrl: iconShadow,
             iconAnchor: [12,40]  // for proper placement
         })
-    }
-
-    createInputForms() {
-        return(
-            <Pane header={'Plan Your Trip'}>
-                <Form inline onSubmit={this.preventRefresh.bind(this)}>
-                    <FormGroup>
-                            {this.createInputField('match','matcher')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
-                            <FaSearchLocation />
-                        </Button>
-                    </FormGroup>
-                </Form>
-            </Pane>
-        )
     }
 
     preventRefresh(e) {
