@@ -271,25 +271,22 @@ export default class Itinerary extends Component{
                 <Form inline>
 
                     <FormGroup>
-
-                        <Label for="itinerary"></Label>
-                        <Button style={{ backgroundColor: "#1E4D2B" }}
-                                    onClick={this.callInputField}
-                                    >
-                                <FaFileUpload />
-                        </Button>
-                        <input type="file" id ="itinerary" name="filename" label={this.state.filename}
-                               style={{display: "none"}} onChange={this.updateField}/>
-
-                    </FormGroup>
-
-                    <FormGroup>
                             {this.createInputField('match','matcher')}
                     </FormGroup>
                     <FormGroup>
                         <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
                             <FaSearchLocation />
                         </Button>
+                    </FormGroup>
+                    <FormGroup>
+                        <Label for="itinerary"></Label>
+                        <Button style={{ backgroundColor: "#1E4D2B" }}
+                                onClick={this.callInputField}
+                        >
+                            <FaFileUpload />
+                        </Button>
+                        <input type="file" id ="itinerary" name="filename" label={this.state.filename}
+                               style={{display: "none"}} onChange={this.updateField}/>
                     </FormGroup>
                     <FormGroup>
                         <Button style={{ backgroundColor: "#1E4D2B" }}
