@@ -283,7 +283,7 @@ export default class Itinerary extends Component{
     createInputForms() {
         return(
             <Pane header={'Plan Your Trip'}>
-                <Form inline>
+                <Form inline onSubmit={this.preventRefresh.bind(this)}>
                     <FormGroup>
                             {this.createInputField('match','matcher')}
                     </FormGroup>
@@ -295,6 +295,11 @@ export default class Itinerary extends Component{
                 </Form>
             </Pane>
         )
+    }
+
+    preventRefresh(e) {
+        e.preventDefault()
+        this.sendFindRequest()
     }
 
     callInputField(event) {
