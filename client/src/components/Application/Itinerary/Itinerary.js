@@ -58,7 +58,7 @@ export default class Itinerary extends Component{
     }
     renderItinTable(){
         return (
-            <Pane>
+            <Pane header={"Itinerary"}>
                 <ButtonGroup>
                     <Button
                         onClick={this.reversePlaces.bind(this)}>
@@ -102,7 +102,7 @@ export default class Itinerary extends Component{
     }
     renderSearchTable(){
         return (
-            <Pane>
+            <Pane header={"Add locations to itinerary"}>
             <Table responsive={true} size ={"sm"}>
                 <thead>
                 <tr>
