@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Table, ButtonGroup } from 'reactstrap'
+import { Container, Row, Col, Table, ButtonGroup, ButtonToolbar } from 'reactstrap'
 import { CustomInput, FormGroup } from 'reactstrap';
 import { Button } from 'reactstrap'
 import { Form, Label, Input,} from 'reactstrap'
@@ -58,19 +58,33 @@ export default class Itinerary extends Component{
     }
     renderItinTable(){
         return (
-            <Pane header={"Get a good look at this trip"}>
-                <Button
-                    onClick={this.reversePlaces.bind(this)}>
-                    Reverse
-                </Button>
-                <Button color="danger"
-                        onClick={this.deleteLocations}>
-                    Remove All
-                </Button>
-                <Button color="primary"
-                        onClick={this.removeMarkers.bind(this)}>
-                    Clear Markers
-                </Button>
+            <Pane>
+                <ButtonGroup>
+                    <Button
+                        onClick={this.reversePlaces.bind(this)}>
+                        Reverse
+                    </Button>
+                    <Button color="danger"
+                            onClick={this.deleteLocations}>
+                        Remove All
+                    </Button>
+                    <Button color="primary"
+                            onClick={this.removeMarkers.bind(this)}>
+                        Clear Markers
+                    </Button>
+                        <Label for="itinerary"></Label>
+                        <Button style={{ backgroundColor: "#1E4D2B" }}
+                                onClick={this.callInputField}
+                        >
+                            <FaFileUpload />
+                    </Button>
+                    <input type="file" id ="itinerary" name="filename" label={this.state.filename}
+                           style={{display: "none"}} onChange={this.updateField}/>
+                    <Button style={{ backgroundColor: "#1E4D2B" }}
+                            onClick={this.saveFile}>
+                        <FaFileDownload />
+                    </Button>
+                </ButtonGroup>
                 <Table responsive={true} hover={true} size={"sm"}>
                     <thead>
                     <tr>
@@ -88,6 +102,7 @@ export default class Itinerary extends Component{
     }
     renderSearchTable(){
         return (
+            <Pane>
             <Table responsive={true} size ={"sm"}>
                 <thead>
                 <tr>
@@ -102,7 +117,7 @@ export default class Itinerary extends Component{
                 {this.retrieveSearchTableInfo()}
                 </tbody>
             </Table>
-
+        </Pane>
         )
     }
 
@@ -269,20 +284,6 @@ export default class Itinerary extends Component{
         return(
             <Pane header={'Plan Your Trip'}>
                 <Form inline>
-
-                    <FormGroup>
-
-                        <Label for="itinerary"></Label>
-                        <Button style={{ backgroundColor: "#1E4D2B" }}
-                                    onClick={this.callInputField}
-                                    >
-                                <FaFileUpload />
-                        </Button>
-                        <input type="file" id ="itinerary" name="filename" label={this.state.filename}
-                               style={{display: "none"}} onChange={this.updateField}/>
-
-                    </FormGroup>
-
                     <FormGroup>
                             {this.createInputField('match','matcher')}
                     </FormGroup>
@@ -291,15 +292,7 @@ export default class Itinerary extends Component{
                             <FaSearchLocation />
                         </Button>
                     </FormGroup>
-                    <FormGroup>
-                        <Button style={{ backgroundColor: "#1E4D2B" }}
-                            onClick={this.saveFile}>
-                            <FaFileDownload />
-                        </Button>
-                    </FormGroup>
-
                 </Form>
-
             </Pane>
         )
     }
