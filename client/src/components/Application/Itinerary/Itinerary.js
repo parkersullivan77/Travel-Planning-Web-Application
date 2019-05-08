@@ -169,9 +169,10 @@ export default class Itinerary extends Component{
                 <td>{this.state.places[i]["name"]}</td>
                 <td>{this.state.places[i]["latitude"]}</td>
                 <td>{this.state.places[i]["longitude"]}</td>
-                <td>
+                <td className={"text-center"}>
                     <ButtonGroup>
                         <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
+
                                 onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
                 </ButtonGroup>
                 </td>
@@ -199,7 +200,7 @@ export default class Itinerary extends Component{
                     <td>{this.state.itineraryPlaces[i]["latitude"]}</td>
                     <td>{this.state.itineraryPlaces[i]["longitude"]}</td>
                     <td>{this.state.distances[i]}</td>
-                    <td>
+                    <td className={"text-center"}>
                         <ButtonGroup>
                             <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
                                     onClick={(event) => {this.moveUP(i);}}> <FaAngleUp/> </Button>
