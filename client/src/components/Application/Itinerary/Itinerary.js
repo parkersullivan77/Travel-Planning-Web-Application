@@ -120,7 +120,6 @@ export default class Itinerary extends Component{
                     <th>Destination</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
-                    <th>Distance</th>
                     <th>Options</th>
                 </tr>
                 </thead>
@@ -170,7 +169,6 @@ export default class Itinerary extends Component{
                 <td>{this.state.places[i]["name"]}</td>
                 <td>{this.state.places[i]["latitude"]}</td>
                 <td>{this.state.places[i]["longitude"]}</td>
-                <td>{this.state.distances[i]}</td>
                 <td>
                     <ButtonGroup>
                         <Button size={"sm"} onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
