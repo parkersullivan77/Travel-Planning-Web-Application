@@ -44,11 +44,6 @@ export default class Itinerary extends Component{
                 </Row>
                 <Row>
                     <Col>
-                        {this.createInputForms()}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
                         {this.renderItinTable()}
                     </Col>
                 </Row>
@@ -109,6 +104,16 @@ export default class Itinerary extends Component{
     renderSearchTable(){
         return (
             <Pane header={"Add locations to itinerary"}>
+                <Form inline onSubmit={this.preventRefresh.bind(this)}>
+                    <FormGroup>
+                        {this.createInputField('match','matcher')}
+                    </FormGroup>
+                    <FormGroup>
+                        <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
+                            <FaSearchLocation />
+                        </Button>
+                    </FormGroup>
+                </Form>
             <Table responsive={true}>
                 <thead>
                 <tr>
@@ -284,23 +289,6 @@ export default class Itinerary extends Component{
             shadowUrl: iconShadow,
             iconAnchor: [12,40]  // for proper placement
         })
-    }
-
-    createInputForms() {
-        return(
-            <Pane header={'Plan Your Trip'}>
-                <Form inline onSubmit={this.preventRefresh.bind(this)}>
-                    <FormGroup>
-                            {this.createInputField('match','matcher')}
-                    </FormGroup>
-                    <FormGroup>
-                        <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
-                            <FaSearchLocation />
-                        </Button>
-                    </FormGroup>
-                </Form>
-            </Pane>
-        )
     }
 
     preventRefresh(e) {
