@@ -8,7 +8,7 @@
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
 
-    <modelVersion>5.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.tripco.t19</groupId>
     <artifactId>server</artifactId>
     <packaging>jar</packaging>
