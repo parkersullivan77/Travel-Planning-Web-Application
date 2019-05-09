@@ -79,7 +79,6 @@ export default class Itinerary extends Component{
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup className="float-right">
-                        <Label for="itinerary"></Label>
                         <Button style={{ backgroundColor: "#1E4D2B" }}
                                 onClick={this.callInputField}
                         >
@@ -148,7 +147,7 @@ export default class Itinerary extends Component{
         // 1: bounds={this.coloradoGeographicBoundaries()}
         // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
         var points = [];
-        if(this.state.places.length !== 0){
+        if(this.state.itineraryPlaces && this.state.itineraryPlaces.length !== 0){
             points = this.getPositions();
         }
         return (
@@ -187,42 +186,49 @@ export default class Itinerary extends Component{
     }
 
     addToItinerary(index){
-        console.log("In addToItinerary, itineraryPlaces before:", this.state.itineraryPlaces)
         this.state.itineraryPlaces.push(this.state.places[index])
-        console.log("After adding", this.state.itineraryPlaces)
         this.createItinerary(null)
     }
-    retrieveItinTableInfo(){
+    retrieveItinTableInfo() {
         var table = [];
         var total = 0;
-        for(let i = 0; i < this.state.itineraryPlaces.length; i++){
-            let cell = [];
-            total += this.state.distances[i];
-            cell.push(
-                <tr>
-                    <td>{this.state.itineraryPlaces[i]["name"]}</td>
-                    <td>{this.state.itineraryPlaces[i]["latitude"]}</td>
-                    <td>{this.state.itineraryPlaces[i]["longitude"]}</td>
-                    <td>{this.state.distances[i]}</td>
-                    <td className={"text-center"}>
-                        <ButtonGroup>
-                            <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
-                                    onClick={(event) => {this.moveUP(i);}}> <FaAngleUp/> </Button>
-                            <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
-                                    onClick={(event) => {this.moveDown(i);}}> <FaAngleDown/> </Button>
-                            <Button size={"sm"} color={"danger"} onClick={(event) => {this.deleteClicked(i);}}> <FaTimes/> </Button>
-                            <Button size={"sm"} color={"primary"} onClick={(event) => {this.toggleMarker(i);}}> <FaMapMarkerAlt/> </Button>
-                        </ButtonGroup>
-                    </td>
-                </tr>);
-            table.push(cell);
+        if (this.state.itineraryPlaces) {
+            for (let i = 0; i < this.state.itineraryPlaces.length; i++) {
+                let cell = [];
+                total += this.state.distances[i];
+                cell.push(
+                    <tr>
+                        <td>{this.state.itineraryPlaces[i]["name"]}</td>
+                        <td>{this.state.itineraryPlaces[i]["latitude"]}</td>
+                        <td>{this.state.itineraryPlaces[i]["longitude"]}</td>
+                        <td>{this.state.distances[i]}</td>
+                        <td className={"text-center"}>
+                            <ButtonGroup>
+                                <Button size={"sm"} style={{backgroundColor: "#1E4D2B"}}
+                                        onClick={(event) => {
+                                            this.moveUP(i);
+                                        }}> <FaAngleUp/> </Button>
+                                <Button size={"sm"} style={{backgroundColor: "#1E4D2B"}}
+                                        onClick={(event) => {
+                                            this.moveDown(i);
+                                        }}> <FaAngleDown/> </Button>
+                                <Button size={"sm"} color={"danger"} onClick={(event) => {
+                                    this.deleteClicked(i);
+                                }}> <FaTimes/> </Button>
+                                <Button size={"sm"} color={"primary"} onClick={(event) => {
+                                    this.toggleMarker(i);
+                                }}> <FaMapMarkerAlt/> </Button>
+                            </ButtonGroup>
+                        </td>
+                    </tr>);
+                table.push(cell);
+            }
         }
         return table;
     }
     createItinerary(event){
 
         if(event !== null){event.preventDefault();}
-        console.warn(this.state.itineraryPlaces)
         const tipItineraryRequest = {
             'requestType': 'itinerary',
             'requestVersion':5,
@@ -284,29 +290,25 @@ export default class Itinerary extends Component{
 
     }
 
-    coloradoGeographicBoundaries() {
-        // northwest and southeast corners of the state of Colorado
-        return L.latLngBounds(L.latLng(41, -109), L.latLng(37, -102));
-    }
-
     csuOvalGeographicCoordinates() {
         return L.latLng(31.7, -42.080773);
     }
 
     coords(){
-        return this.state.itineraryPlaces.map(function(p,i){
-            var pos;
-            pos = L.latLng(p.latitude,p.longitude);
-            if(this.state.toggleSwitch[i]){
-            return(
-                <Marker position={pos}
-                        icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">{this.state.itineraryPlaces[i].name}</Popup>
-                </Marker>
-            );
-            }
-            else return null;
-        }.bind(this));
+        if(this.state.itineraryPlaces) {
+            return this.state.itineraryPlaces.map(function (p, i) {
+                var pos;
+                pos = L.latLng(p.latitude, p.longitude);
+                if (this.state.toggleSwitch[i]) {
+                    return (
+                        <Marker position={pos}
+                                icon={this.markerIcon()}>
+                            <Popup className="font-weight-extrabold">{this.state.itineraryPlaces[i].name}</Popup>
+                        </Marker>
+                    );
+                } else return null;
+            }.bind(this));
+        }
     }
 
     markerIcon(){
@@ -347,15 +349,15 @@ export default class Itinerary extends Component{
 
     updateField(event) {
         var file = event.target.files[0];
-        console.log("asdasd", file)
         var reader = new FileReader();
         const scope = this;
 
         reader.onload = function(e) {
             var parsed = JSON.parse(e.target.result);
-            scope.setState(parsed);
-            scope.createItinerary(e);
-
+            scope.setState({
+                itineraryPlaces: parsed.places
+            });
+            scope.createItinerary(null);
         }
         this.setState({filename: event.target.files[0].name})
         reader.readAsText(file);
@@ -368,13 +370,16 @@ export default class Itinerary extends Component{
         a.style = "display: none";
         var fileName = this.state.filename;
         var data = this.state;
+        var tempPlaces = this.state.places;
+        data.places = this.state.itineraryPlaces;
+        delete(data["itineraryPlaces"]);
         delete(data["filename"]);
         delete(data["origin"]);
         delete(data["destination"]);
-
         var json = JSON.stringify(data),
             blob = new Blob([json], {type: "octet/stream"}),
             url = window.URL.createObjectURL(blob);
+        data.places = tempPlaces;
         a.href = url;
         a.download = fileName;
         a.click();
@@ -472,7 +477,6 @@ export default class Itinerary extends Component{
     }
     removeMarkers(){
         var removalList = [];
-        console.warn(removalList);
         for(var i =0; i< this.state.itineraryPlaces.length; i++){
             removalList[i] = false
         }
