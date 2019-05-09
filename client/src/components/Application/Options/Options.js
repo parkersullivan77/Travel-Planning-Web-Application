@@ -36,7 +36,10 @@ export default class Options extends Component{
   heading() {
     return (
         <Pane header={'Options'}
-              bodyJSX={'Select ...'}/>
+              bodyJSX={'Select ...'}>
+            Choose the units you would like your distances to be calculated in...
+        </Pane>
+
     );
   }
 
