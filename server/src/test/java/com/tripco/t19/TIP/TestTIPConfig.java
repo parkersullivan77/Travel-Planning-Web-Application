@@ -46,7 +46,7 @@ public class TestTIPConfig {
   @Test
   public void testOptimizationAttributes() {
     List<String> attr = conf.getOptimizationAttributes();
-    assertEquals("optimization attribute size", 1, attr.size());
+    assertEquals("optimization attribute size", 2, attr.size());
   }
 
   @Test
