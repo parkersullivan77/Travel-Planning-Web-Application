@@ -73,7 +73,6 @@ export default class Itinerary extends Component{
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup className="float-right">
-                        <Label for="itinerary"></Label>
                         <Button style={{ backgroundColor: "#1E4D2B" }}
                                 onClick={this.callInputField}
                         >
@@ -254,11 +253,6 @@ export default class Itinerary extends Component{
                 }
             });
 
-    }
-
-    coloradoGeographicBoundaries() {
-        // northwest and southeast corners of the state of Colorado
-        return L.latLngBounds(L.latLng(41, -109), L.latLng(37, -102));
     }
 
     csuOvalGeographicCoordinates() {
