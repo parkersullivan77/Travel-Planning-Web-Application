@@ -143,7 +143,7 @@ export default class Itinerary extends Component{
         // 1: bounds={this.coloradoGeographicBoundaries()}
         // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
         var points = [];
-        if(this.state.places.length !== 0){
+        if(this.state.itineraryPlaces.length !== 0){
             points = this.getPositions();
         }
         return (
@@ -182,9 +182,7 @@ export default class Itinerary extends Component{
     }
 
     addToItinerary(index){
-        console.log("In addToItinerary, itineraryPlaces before:", this.state.itineraryPlaces)
         this.state.itineraryPlaces.push(this.state.places[index])
-        console.log("After adding", this.state.itineraryPlaces)
         this.createItinerary(null)
     }
     retrieveItinTableInfo(){
@@ -217,7 +215,6 @@ export default class Itinerary extends Component{
     createItinerary(event){
 
         if(event !== null){event.preventDefault();}
-        console.warn(this.state.itineraryPlaces)
         const tipItineraryRequest = {
             'requestType': 'itinerary',
             'requestVersion':5,
@@ -318,14 +315,15 @@ export default class Itinerary extends Component{
 
     updateField(event) {
         var file = event.target.files[0];
-        console.log("asdasd", file)
         var reader = new FileReader();
         const scope = this;
 
         reader.onload = function(e) {
             var parsed = JSON.parse(e.target.result);
-            scope.setState(parsed);
-            scope.createItinerary(e);
+            scope.setState({
+                itineraryPlaces: parsed.places
+            });
+            scope.createItinerary(null);
 
         }
         this.setState({filename: event.target.files[0].name})
@@ -442,7 +440,6 @@ export default class Itinerary extends Component{
     }
     removeMarkers(){
         var removalList = [];
-        console.warn(removalList);
         for(var i =0; i< this.state.itineraryPlaces.length; i++){
             removalList[i] = false
         }
