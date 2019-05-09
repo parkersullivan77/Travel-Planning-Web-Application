@@ -143,7 +143,9 @@ export default class Itinerary extends Component{
         // 1: bounds={this.coloradoGeographicBoundaries()}
         // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
         var points = [];
-        if(this.state.itineraryPlaces.length !== 0){
+        console.warn("before if")
+        if(this.state.itineraryPlaces && this.state.itineraryPlaces.length !== 0){
+            console.warn("in if")
             points = this.getPositions();
         }
         return (
@@ -185,30 +187,40 @@ export default class Itinerary extends Component{
         this.state.itineraryPlaces.push(this.state.places[index])
         this.createItinerary(null)
     }
-    retrieveItinTableInfo(){
+    retrieveItinTableInfo() {
         var table = [];
         var total = 0;
-        for(let i = 0; i < this.state.itineraryPlaces.length; i++){
-            let cell = [];
-            total += this.state.distances[i];
-            cell.push(
-                <tr>
-                    <td>{this.state.itineraryPlaces[i]["name"]}</td>
-                    <td>{this.state.itineraryPlaces[i]["latitude"]}</td>
-                    <td>{this.state.itineraryPlaces[i]["longitude"]}</td>
-                    <td>{this.state.distances[i]}</td>
-                    <td className={"text-center"}>
-                        <ButtonGroup>
-                            <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
-                                    onClick={(event) => {this.moveUP(i);}}> <FaAngleUp/> </Button>
-                            <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
-                                    onClick={(event) => {this.moveDown(i);}}> <FaAngleDown/> </Button>
-                            <Button size={"sm"} color={"danger"} onClick={(event) => {this.deleteClicked(i);}}> <FaTimes/> </Button>
-                            <Button size={"sm"} color={"primary"} onClick={(event) => {this.toggleMarker(i);}}> <FaMapMarkerAlt/> </Button>
-                        </ButtonGroup>
-                    </td>
-                </tr>);
-            table.push(cell);
+        if (this.state.itineraryPlaces) {
+            for (let i = 0; i < this.state.itineraryPlaces.length; i++) {
+                let cell = [];
+                total += this.state.distances[i];
+                cell.push(
+                    <tr>
+                        <td>{this.state.itineraryPlaces[i]["name"]}</td>
+                        <td>{this.state.itineraryPlaces[i]["latitude"]}</td>
+                        <td>{this.state.itineraryPlaces[i]["longitude"]}</td>
+                        <td>{this.state.distances[i]}</td>
+                        <td className={"text-center"}>
+                            <ButtonGroup>
+                                <Button size={"sm"} style={{backgroundColor: "#1E4D2B"}}
+                                        onClick={(event) => {
+                                            this.moveUP(i);
+                                        }}> <FaAngleUp/> </Button>
+                                <Button size={"sm"} style={{backgroundColor: "#1E4D2B"}}
+                                        onClick={(event) => {
+                                            this.moveDown(i);
+                                        }}> <FaAngleDown/> </Button>
+                                <Button size={"sm"} color={"danger"} onClick={(event) => {
+                                    this.deleteClicked(i);
+                                }}> <FaTimes/> </Button>
+                                <Button size={"sm"} color={"primary"} onClick={(event) => {
+                                    this.toggleMarker(i);
+                                }}> <FaMapMarkerAlt/> </Button>
+                            </ButtonGroup>
+                        </td>
+                    </tr>);
+                table.push(cell);
+            }
         }
         return table;
     }
@@ -262,19 +274,20 @@ export default class Itinerary extends Component{
     }
 
     coords(){
-        return this.state.itineraryPlaces.map(function(p,i){
-            var pos;
-            pos = L.latLng(p.latitude,p.longitude);
-            if(this.state.toggleSwitch[i]){
-            return(
-                <Marker position={pos}
-                        icon={this.markerIcon()}>
-                    <Popup className="font-weight-extrabold">{this.state.itineraryPlaces[i].name}</Popup>
-                </Marker>
-            );
-            }
-            else return null;
-        }.bind(this));
+        if(this.state.itineraryPlaces) {
+            return this.state.itineraryPlaces.map(function (p, i) {
+                var pos;
+                pos = L.latLng(p.latitude, p.longitude);
+                if (this.state.toggleSwitch[i]) {
+                    return (
+                        <Marker position={pos}
+                                icon={this.markerIcon()}>
+                            <Popup className="font-weight-extrabold">{this.state.itineraryPlaces[i].name}</Popup>
+                        </Marker>
+                    );
+                } else return null;
+            }.bind(this));
+        }
     }
 
     markerIcon(){
@@ -324,10 +337,16 @@ export default class Itinerary extends Component{
                 itineraryPlaces: parsed.places
             });
             scope.createItinerary(null);
-
+            //scope.setStateForSavingFile(scope)
         }
         this.setState({filename: event.target.files[0].name})
         reader.readAsText(file);
+    }
+
+    setStateForSavingFile(scope) {
+        console.warn("This", this)
+        console.warn("scope", scope)
+        this.setState({itineraryPlaces: scope.places})
     }
 
     saveFile(event) {
@@ -337,10 +356,12 @@ export default class Itinerary extends Component{
         a.style = "display: none";
         var fileName = this.state.filename;
         var data = this.state;
+        data.places = this.state.itineraryPlaces;
+        delete(data["itineraryPlaces"]);
         delete(data["filename"]);
         delete(data["origin"]);
         delete(data["destination"]);
-
+        console.warn(data);
         var json = JSON.stringify(data),
             blob = new Blob([json], {type: "octet/stream"}),
             url = window.URL.createObjectURL(blob);
