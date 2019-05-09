@@ -9,7 +9,7 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
 import { FaSearchLocation, FaDownload, FaUpload, FaAngleUp, FaAngleDown, FaTimes, FaMapMarkerAlt,
-    FaSyncAlt, FaEraser, FaTrash } from 'react-icons/fa';
+    FaSyncAlt, FaEraser, FaTrash,FaTachometerAlt } from 'react-icons/fa';
 
 
 export default class Itinerary extends Component{
@@ -25,7 +25,7 @@ export default class Itinerary extends Component{
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
-            options:{title: '',earthRadius: '3958.8'},
+            options:{title: '',earthRadius: '3958.8', optimization: 'none'},
             places:[],
             distances: [],
             filename: 'Upload File',
@@ -72,6 +72,10 @@ export default class Itinerary extends Component{
                     <Button color="primary"
                             onClick={this.removeMarkers.bind(this)}>
                         <FaEraser/>
+                    </Button>
+                    <Button
+                    onClick={this.sendOptimizeRequest.bind(this)}>
+                        <FaTachometerAlt/>
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup className="float-right">
@@ -231,7 +235,7 @@ export default class Itinerary extends Component{
             'options':this.state.options,
             'places': this.state.itineraryPlaces,
 
-    }
+    };
         tipItineraryRequest.options.earthRadius = this.props.options.units[this.props.options.activeUnit].toString();
         sendServerRequestWithBody('itinerary',tipItineraryRequest, this.props.settings.serverPort)
             .then((response) => {
@@ -252,7 +256,7 @@ export default class Itinerary extends Component{
             'limit' : this.state.limit,
             'match': this.state.match.matcher,
             'narrow': []
-        }
+        };
         sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
@@ -262,6 +266,25 @@ export default class Itinerary extends Component{
                 }
                 if (this.state.places.length !== 0) {
                     this.createItinerary(null);
+                }
+            });
+
+    }
+    sendOptimizeRequest() {
+        let newOption = {title: '',earthRadius: '3958.8', optimization: 'short'}
+
+        const tipItineraryRequest = {
+            'requestType': 'itinerary',
+            'requestVersion':5,
+            'options':newOption,
+            'places': this.state.itineraryPlaces,
+        };
+        sendServerRequestWithBody('itinerary',tipItineraryRequest,this.props.settings.serverPort)
+            .then((response) => {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    this.setState({
+                        itineraryPlaces: response.body.places,
+                    });
                 }
             });
 
@@ -380,6 +403,7 @@ export default class Itinerary extends Component{
         }
         return points;
     }
+
     moveDown(index){
         let swappedPlaces = [];
         if(index !== this.state.itineraryPlaces.length -1) {
