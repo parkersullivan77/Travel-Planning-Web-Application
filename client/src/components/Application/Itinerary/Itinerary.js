@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Table, ButtonGroup, ButtonToolbar } from 'reactstrap'
-import { CustomInput, FormGroup } from 'reactstrap';
+import { Container, Row, Col, Table, ButtonGroup } from 'reactstrap'
+import { FormGroup } from 'reactstrap';
 import { Button } from 'reactstrap'
-import { Form, Label, Input,} from 'reactstrap'
+import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
-import { FaSearchLocation, FaFileDownload, FaFileUpload } from 'react-icons/fa';
+import { FaSearchLocation, FaDownload, FaUpload, FaAngleUp, FaAngleDown, FaTimes, FaMapMarkerAlt,
+    FaSyncAlt, FaEraser, FaTrash } from 'react-icons/fa';
 
 
 export default class Itinerary extends Component{
@@ -60,16 +61,17 @@ export default class Itinerary extends Component{
             <Pane header={"Itinerary"}>
                 <ButtonGroup>
                     <Button
+                        style={{ backgroundColor: "#1E4D2B" }}
                         onClick={this.reversePlaces.bind(this)}>
-                        Reverse
+                        <FaSyncAlt/>
                     </Button>
                     <Button color="danger"
                             onClick={this.deleteLocations}>
-                        Remove All
+                        <FaTrash/>
                     </Button>
                     <Button color="primary"
                             onClick={this.removeMarkers.bind(this)}>
-                        Clear Markers
+                        <FaEraser/>
                     </Button>
                     <Button
                     onClick={this.sendOptimizeRequest.bind(this)}>
@@ -81,13 +83,13 @@ export default class Itinerary extends Component{
                         <Button style={{ backgroundColor: "#1E4D2B" }}
                                 onClick={this.callInputField}
                         >
-                            <FaFileUpload />
+                            <FaUpload />
                     </Button>
                     <input type="file" id ="itinerary" name="filename" label={this.state.filename}
                            style={{display: "none"}} onChange={this.updateField}/>
                     <Button style={{ backgroundColor: "#1E4D2B" }}
                             onClick={this.saveFile}>
-                        <FaFileDownload />
+                        <FaDownload />
                     </Button>
                 </ButtonGroup>
                 <Table responsive={true} hover={true}>
@@ -109,14 +111,12 @@ export default class Itinerary extends Component{
         return (
             <Pane header={"Add locations to itinerary"}>
                 <Form inline onSubmit={this.preventRefresh.bind(this)}>
-                    <FormGroup>
+                    <ButtonGroup>
                         {this.createInputField('match','matcher')}
-                    </FormGroup>
-                    <FormGroup>
                         <Button style={{ backgroundColor: "#1E4D2B" }} onClick={this.sendFindRequest.bind(this)}>
                             <FaSearchLocation />
                         </Button>
-                    </FormGroup>
+                    </ButtonGroup>
                 </Form>
             <Table responsive={true}>
                 <thead>
@@ -124,7 +124,6 @@ export default class Itinerary extends Component{
                     <th>Destination</th>
                     <th>Latitude</th>
                     <th>Longitude</th>
-                    <th>Distance</th>
                     <th>Options</th>
                 </tr>
                 </thead>
@@ -174,10 +173,11 @@ export default class Itinerary extends Component{
                 <td>{this.state.places[i]["name"]}</td>
                 <td>{this.state.places[i]["latitude"]}</td>
                 <td>{this.state.places[i]["longitude"]}</td>
-                <td>{this.state.distances[i]}</td>
-                <td>
+                <td className={"text-center"}>
                     <ButtonGroup>
-                        <Button size={"sm"} onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
+                        <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
+
+                                onClick={(event) => {this.addToItinerary(i);}}> Add </Button>
                 </ButtonGroup>
                 </td>
             </tr>);
@@ -187,8 +187,10 @@ export default class Itinerary extends Component{
     }
 
     addToItinerary(index){
-            this.setState({itineraryPlaces:this.state.itineraryPlaces.concat(this.state.places[index])});
-
+        console.log("In addToItinerary, itineraryPlaces before:", this.state.itineraryPlaces)
+        this.state.itineraryPlaces.push(this.state.places[index])
+        console.log("After adding", this.state.itineraryPlaces)
+        this.createItinerary(null)
     }
     retrieveItinTableInfo(){
         var table = [];
@@ -202,12 +204,14 @@ export default class Itinerary extends Component{
                     <td>{this.state.itineraryPlaces[i]["latitude"]}</td>
                     <td>{this.state.itineraryPlaces[i]["longitude"]}</td>
                     <td>{this.state.distances[i]}</td>
-                    <td>
+                    <td className={"text-center"}>
                         <ButtonGroup>
-                            <Button size={"sm"} onClick={(event) => {this.moveUP(i);}}> /\ </Button>
-                            <Button size={"sm"} onClick={(event) => {this.moveDown(i);}}> \/ </Button>
-                            <Button size={"sm"} onClick={(event) => {this.deleteClicked(i);}}> X </Button>
-                            <Button size={"sm"} onClick={(event) => {this.toggleMarker(i);}}> Mark </Button>
+                            <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
+                                    onClick={(event) => {this.moveUP(i);}}> <FaAngleUp/> </Button>
+                            <Button size={"sm"} style={{ backgroundColor: "#1E4D2B" }}
+                                    onClick={(event) => {this.moveDown(i);}}> <FaAngleDown/> </Button>
+                            <Button size={"sm"} color={"danger"} onClick={(event) => {this.deleteClicked(i);}}> <FaTimes/> </Button>
+                            <Button size={"sm"} color={"primary"} onClick={(event) => {this.toggleMarker(i);}}> <FaMapMarkerAlt/> </Button>
                         </ButtonGroup>
                     </td>
                 </tr>);
@@ -218,11 +222,12 @@ export default class Itinerary extends Component{
     createItinerary(event){
 
         if(event !== null){event.preventDefault();}
+        console.warn(this.state.itineraryPlaces)
         const tipItineraryRequest = {
             'requestType': 'itinerary',
             'requestVersion':5,
             'options':this.state.options,
-            'places': this.state.places,
+            'places': this.state.itineraryPlaces,
 
     };
         tipItineraryRequest.options.earthRadius = this.props.options.units[this.props.options.activeUnit].toString();
@@ -231,7 +236,7 @@ export default class Itinerary extends Component{
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
                     this.setState({
                         options: response.body.options,
-                        places: response.body.places,
+                        itineraryPlaces: response.body.places,
                         distances: response.body.distances
                     });
                 }
