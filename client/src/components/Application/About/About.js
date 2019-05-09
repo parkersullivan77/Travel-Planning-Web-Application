@@ -1,13 +1,7 @@
 import React, { Component } from 'react'
 import { Container, Row, Col } from 'reactstrap'
-import { Button } from 'reactstrap'
-import { Form, Label, Input } from 'reactstrap'
-import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
-import { Card, CardImg, CardText, CardBody,
-    CardTitle, CardSubtitle, Spinner, CardImgOverlay } from 'reactstrap';
-
-
+import { Card, CardImg, CardText, CardBody, CardTitle} from 'reactstrap';
 
 
 
@@ -44,23 +38,13 @@ export default class About extends Component {
                 <Row>
                     <Col>
                         {this.createCard('parker')}
-
-                    </Col>
-                    <Col>
-                        {this.createCard('westin')}
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
                         {this.createCard('kareem')}
                     </Col>
                     <Col>
+                        {this.createCard('westin')}
                         {this.createCard('dziugas')}
                     </Col>
                 </Row>
-
-
-
             </Container>
         );
     }
@@ -68,7 +52,9 @@ export default class About extends Component {
     createHeader() {
         return (
             <Pane header={'About'}
-                  bodyJSX={<div>About <b>We Them Boys</b> page.</div>}/>
+                  bodyJSX={<div>About <b>We Them Boys</b> page.</div>}>
+                Get to know the boys behind this tool
+            </Pane>
         );
     }
 
