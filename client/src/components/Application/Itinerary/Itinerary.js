@@ -71,6 +71,10 @@ export default class Itinerary extends Component{
                             onClick={this.removeMarkers.bind(this)}>
                         Clear Markers
                     </Button>
+                    <Button
+                    onClick={this.sendOptimizeRequest.bind(this)}>
+                        Optimize
+                    </Button>
                 </ButtonGroup>
                 <ButtonGroup className="float-right">
                         <Label for="itinerary"></Label>
@@ -220,7 +224,7 @@ export default class Itinerary extends Component{
             'options':this.state.options,
             'places': this.state.places,
 
-    }
+    };
         tipItineraryRequest.options.earthRadius = this.props.options.units[this.props.options.activeUnit].toString();
         sendServerRequestWithBody('itinerary',tipItineraryRequest, this.props.settings.serverPort)
             .then((response) => {
@@ -241,7 +245,7 @@ export default class Itinerary extends Component{
             'limit' : this.state.limit,
             'match': this.state.match.matcher,
             'narrow': []
-        }
+        };
         sendServerRequestWithBody('find', tipFindRequest,this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
@@ -254,6 +258,20 @@ export default class Itinerary extends Component{
                 }
             });
 
+    }
+    sendOptimizeRequest() {
+        const tipOptRequest = {
+            'itineraryPlaces': this.state.itineraryPlaces,
+            'earthRadius': this.state.earthRadius
+        };
+        sendServerRequestWithBody('optimize', tipOptRequest, this.props.settings.serverPort)
+            .then((response) => {
+                if (response.statusCode >= 200 && response.statusCode <= 299) {
+                    this.setState({
+                        places: response.body.places,
+                    });
+                }
+            });
     }
 
     coloradoGeographicBoundaries() {
@@ -370,6 +388,7 @@ export default class Itinerary extends Component{
         }
         return points;
     }
+
     moveDown(index){
         let swappedPlaces = [];
         if(index !== this.state.itineraryPlaces.length -1) {

@@ -13,6 +13,7 @@ import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
+import com.tripco.t19.misc.Optimizer;
 import org.json.JSONObject;
 import spark.Request;
 import spark.Response;
@@ -83,6 +84,7 @@ class MicroServer {
     Spark.post("/api/distance", this::processTIPdistanceRequest);
     Spark.post("/api/itinerary", this::processTIPitineraryRequest);
     Spark.post("/api/find",this::processTIPfindRequest);
+    Spark.post("/api/optimize",this:: processOptRequest);
     Spark.get("/api/echo", this::echoHTTPrequest);
     log.trace("Restful configuration complete");
   }
@@ -117,6 +119,9 @@ class MicroServer {
   private String processTIPfindRequest(Request request, Response response) {
     log.trace("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     return processTIPrequest(TIPFind.class, request, response);
+  }
+  private String processOptRequest(Request request, Response response){
+    return processTIPrequest(Optimizer.class, request,response);
   }
 
 
