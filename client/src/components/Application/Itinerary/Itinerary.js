@@ -143,9 +143,7 @@ export default class Itinerary extends Component{
         // 1: bounds={this.coloradoGeographicBoundaries()}
         // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
         var points = [];
-        console.warn("before if")
         if(this.state.itineraryPlaces && this.state.itineraryPlaces.length !== 0){
-            console.warn("in if")
             points = this.getPositions();
         }
         return (
@@ -337,16 +335,9 @@ export default class Itinerary extends Component{
                 itineraryPlaces: parsed.places
             });
             scope.createItinerary(null);
-            //scope.setStateForSavingFile(scope)
         }
         this.setState({filename: event.target.files[0].name})
         reader.readAsText(file);
-    }
-
-    setStateForSavingFile(scope) {
-        console.warn("This", this)
-        console.warn("scope", scope)
-        this.setState({itineraryPlaces: scope.places})
     }
 
     saveFile(event) {
@@ -356,15 +347,16 @@ export default class Itinerary extends Component{
         a.style = "display: none";
         var fileName = this.state.filename;
         var data = this.state;
+        var tempPlaces = this.state.places;
         data.places = this.state.itineraryPlaces;
         delete(data["itineraryPlaces"]);
         delete(data["filename"]);
         delete(data["origin"]);
         delete(data["destination"]);
-        console.warn(data);
         var json = JSON.stringify(data),
             blob = new Blob([json], {type: "octet/stream"}),
             url = window.URL.createObjectURL(blob);
+        data.places = tempPlaces;
         a.href = url;
         a.download = fileName;
         a.click();
