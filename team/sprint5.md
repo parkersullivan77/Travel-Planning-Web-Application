@@ -36,6 +36,10 @@
 * Master is never broken.  If broken, it is fixed immediately.
 * Continuous integration successfully builds and tests all pull requests for master branch.
 * All Java dependencies in pom.xml.  Do not load external libraries in your repo. 
+* Each team member must complete Interop with another team and file an issue in the class repo with the results.
+  * title is your team number and your name, 
+  * labels should include Interop and the Team that you tested with, 
+  * description should include a list of tests performed, noting any failures that occurred.
 
 
 ## Plan
@@ -77,7 +81,13 @@ primarily made for the sake of cleanliness.
 
 | Date | Tasks closed  | Tasks in progress | Impediments |
 | :--- | :--- | :--- | :--- |
-| *date* | *#task, ...* | *#task, ...* | *none* | 
+| 4-24-2019 |  | #166, #298, #305 | *none* | 
+| 4-26-2019 |  | #166, #298, #305, #236 | *none* |
+| 4-29-2019 | #166, #236 | #298, #303, #301, #305 | *none* |
+| 5-1-2019 | #305 | #298, #303, #301 | *none* | 
+| 5-3-2019 | #301 | #303, #321, #320 | poor team attendance, little follow-up |  
+| 5-6-2019 | #321, #320 | #45, #326, #303 | teammates not responding or going to lecture | 
+| coming | soon to | a zenhub | near you |
 
 
 ## Review (focus on solution and technology)
