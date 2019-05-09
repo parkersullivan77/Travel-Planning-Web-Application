@@ -9,7 +9,7 @@ import icon from "leaflet/dist/images/marker-icon.png";
 import iconShadow from "leaflet/dist/images/marker-shadow.png";
 import {Map, Marker, Popup, TileLayer,Polyline} from "react-leaflet";
 import { FaSearchLocation, FaDownload, FaUpload, FaAngleUp, FaAngleDown, FaTimes, FaMapMarkerAlt,
-    FaSyncAlt, FaEraser, FaTrash } from 'react-icons/fa';
+    FaSyncAlt, FaEraser, FaTrash,FaTachometerAlt } from 'react-icons/fa';
 
 
 export default class Itinerary extends Component{
@@ -25,7 +25,7 @@ export default class Itinerary extends Component{
         this.state = {
             origin: {latitude: '', longitude: ''},
             destination: {latitude: '', longitude: ''},
-            options:{title: '',earthRadius: '3958.8'},
+            options:{title: '',earthRadius: '3958.8', optimization: 'none'},
             places:[],
             distances: [],
             filename: 'Upload File',
@@ -75,7 +75,7 @@ export default class Itinerary extends Component{
                     </Button>
                     <Button
                     onClick={this.sendOptimizeRequest.bind(this)}>
-                        Optimize
+                        <FaTachometerAlt/>
                     </Button>
                 </ButtonGroup>
                 <ButtonGroup className="float-right">
@@ -265,18 +265,23 @@ export default class Itinerary extends Component{
 
     }
     sendOptimizeRequest() {
-        const tipOptRequest = {
-            'itineraryPlaces': this.state.itineraryPlaces,
-            'earthRadius': this.state.earthRadius
+        let newOption = {title: '',earthRadius: '3958.8', optimization: 'short'}
+
+        const tipItineraryRequest = {
+            'requestType': 'itinerary',
+            'requestVersion':5,
+            'options':newOption,
+            'places': this.state.itineraryPlaces,
         };
-        sendServerRequestWithBody('optimize', tipOptRequest, this.props.settings.serverPort)
+        sendServerRequestWithBody('itinerary',tipItineraryRequest,this.props.settings.serverPort)
             .then((response) => {
                 if (response.statusCode >= 200 && response.statusCode <= 299) {
                     this.setState({
-                        places: response.body.places,
+                        itineraryPlaces: response.body.places,
                     });
                 }
             });
+
     }
 
     coloradoGeographicBoundaries() {

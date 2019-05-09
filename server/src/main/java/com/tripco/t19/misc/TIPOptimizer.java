@@ -1,12 +1,13 @@
 package com.tripco.t19.misc;
 
 import com.google.gson.JsonObject;
+import com.tripco.t19.TIP.TIPHeader;
 import com.tripco.t19.TIP.TIPItinerary;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Optimizer {
+public class TIPOptimizer{
 
     private long[][] distances;
     public int[] shortestTour;
@@ -15,15 +16,12 @@ public class Optimizer {
     private long shortestDist;
     private long currShortest;
 
-    public Optimizer(List<JsonObject> places, double earthRadius){
+    public TIPOptimizer(List<JsonObject> places, double earthRadius){
         this.places = places;
         this.earthRadius = earthRadius;
         distances = new long[places.size()+1][places.size()+1];
         shortestTour = new int[places.size() + 1];
         currShortest = Long.MAX_VALUE;
-    }
-    public void buildResponse() {
-        shortOpt();
     }
 
     public void fillDistances(){
