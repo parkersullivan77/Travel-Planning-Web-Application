@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, Table, ButtonGroup, ButtonToolbar } from 'reactstrap'
-import { CustomInput, FormGroup } from 'reactstrap';
+import { Container, Row, Col, Table, ButtonGroup } from 'reactstrap'
+import { FormGroup } from 'reactstrap';
 import { Button } from 'reactstrap'
-import { Form, Label, Input,} from 'reactstrap'
+import { Form, Label, Input } from 'reactstrap'
 import { sendServerRequestWithBody } from '../../../api/restfulAPI'
 import Pane from '../Pane';
 import icon from "leaflet/dist/images/marker-icon.png";
