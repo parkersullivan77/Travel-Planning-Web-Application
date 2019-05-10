@@ -87,53 +87,53 @@ primarily made for the sake of cleanliness.
 | 5-1-2019 | #305 | #298, #303, #301 | *none* | 
 | 5-3-2019 | #301 | #303, #321, #320 | poor team attendance, little follow-up |  
 | 5-6-2019 | #321, #320 | #45, #326, #303 | teammates not responding or going to lecture | 
-| coming | soon to | a zenhub | near you |
 
 
 ## Review (focus on solution and technology)
 
-In this sprint, ...
+In this sprint, we went beyond making the interface work. Instead of making obvious decisions in code, we designed the javascript to display everything in a concise and elegant manner. This involved importing button icons and fitting functionality into them and re-organizing the same information to be more attractive.
 
 #### Completed epics in Sprint Backlog 
 
 These Epics were completed.
 
-* *## epic title: comments*
-* 
+* #157 User: Make my trip shorter - Use the nearest neighbor algorithm to shorten the trip.
+* #296 User: Make the application easier to use - Make improvements in your user experience so someone not familiar with it can use it with no help from team members.
+* #35 User: I want to know where I am on the map - Use my browser's geolocation
 
 #### Incomplete epics in Sprint Backlog 
 
 These Epics were not completed.
 
-* *## epic title: explanation*
-*
+* #238 User: Let me plan trips world wide
 
 #### What went well
 
-The ...
+I don't have much to say about this. We worked hard at the end of the sprint and made something to be happy with.
 
 
 #### Problems encountered and resolutions
 
-The ...
+Work was not done, almost at all, in the first while of the sprint. Either nobody had motivation or they were preoccupied with finishing up other classes that they prioritized above this. In the end, most of the team came for a big bang but it was not the best of times.
 
+The team was not organized in the sense that no one was participating in slack and the scrums were difficult to piece together as a result. I addressed everyone in person to get information for them but it was a sloppy process.
 
 ## Retrospective (focus on people, process, tools)
 
-In this sprint, ...
+Kareem was completely unresponsive this whole sprint. He made zero contributions. Our unfortunate conclusion was to handle what he was supposed to do and evaluate him accordingly.
+Parker was not much better but he indeed came through to do an epic at the end. 
+
+Our process was really messy because no one communicated why they were not working or not able to solve what they were doing.
 
 #### What we changed this sprint
 
-Our changes for this sprint included ...
+Our changes for this sprint included holding team members more accountable for their work and following up more often. In addition, we worked more to detail out our tasks to relieve ambiguity. 
 
 #### What we did well
 
-We ...
+We knew how to solve the problems that we had, so in that sense we were we organized in the work.
 
 #### What we need to work on
 
-We could improve ...
+We could improve responding to team messages and holding ourselves accountable for work we are supposed to finish.
 
-#### What we will change next sprint 
-
-We will change ...
