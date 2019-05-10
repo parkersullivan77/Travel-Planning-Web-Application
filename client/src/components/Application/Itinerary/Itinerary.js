@@ -32,7 +32,7 @@ export default class Itinerary extends Component{
             match: {matcher: ''},
             itineraryPlaces: [],
             toggleSwitch: [],
-            limit: 10
+            limit: 100
 
         }
     }

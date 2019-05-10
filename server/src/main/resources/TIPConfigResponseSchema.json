@@ -39,7 +39,7 @@
       },
       "minItems":1,
       "uniqueItems": true,
-      "required":["none"]
+      "required":["none", "short"]
     }
   },
   "required":["requestVersion","requestType","serverName","placeAttributes","optimizations"],

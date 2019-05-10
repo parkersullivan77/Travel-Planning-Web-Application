@@ -31,14 +31,14 @@ public class TIPConfig extends TIPHeader {
 
   public TIPConfig() {
     this.requestType = "config";
-    this.requestVersion = 4;
+    this.requestVersion = 5;
   }
 
   @Override
   public void buildResponse() {
     this.serverName = "T19 We Them Boys";
     this.placeAttributes = Arrays.asList("name", "latitude", "longitude", "id", "municipality", "region", "country", "continent", "altitude");
-    this.optimizations = Arrays.asList("none");
+    this.optimizations = Arrays.asList("none", "short");
     JsonArray tempValuesArray = new JsonArray();
     tempValuesArray.add("airport");
     tempValuesArray.add("heliport");
