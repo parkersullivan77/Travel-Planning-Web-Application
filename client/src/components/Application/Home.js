@@ -11,61 +11,78 @@ import Pane from './Pane'
  */
 export default class Home extends Component {
 
+  constructor(props){
+    super(props);
+
+    this.getLocation = this.getLocation.bind(this);
+    this.currentLocation = this.currentLocation.bind(this);
+    this.state = {pos: null};
+  }
+
   render() {
     return (
-      <Container>
-        <Row>
-          <Col xs={12} sm={12} md={7} lg={8} xl={9}>
-            {this.renderMap()}
-          </Col>
-          <Col xs={12} sm={12} md={5} lg={4} xl={3}>
-            {this.renderIntro()}
-          </Col>
-        </Row>
-      </Container>
+        <Container>
+          <Row>
+            <Col xs={12} sm={12} md={7} lg={8} xl={9}>
+              {this.renderMap()}
+            </Col>
+            <Col xs={12} sm={12} md={5} lg={4} xl={3}>
+              {this.renderIntro()}
+            </Col>
+          </Row>
+        </Container>
     );
   }
 
   renderMap() {
     return (
-      <Pane header={'Where Am I?'}>
-        {this.renderLeafletMap()}
-      </Pane>
-        );
+        <Pane header={'Where Am I?'}>
+          {this.renderLeafletMap()}
+        </Pane>
+    );
   }
 
   renderLeafletMap() {
     // initial map placement can use either of these approaches:
     // 1: bounds={this.coloradoGeographicBoundaries()}
     // 2: center={this.csuOvalGeographicCoordinates()} zoom={10}
+
+    this.currentLocation();
+    if(this.state.pos == null){this.setState({pos: this.csuOvalGeographicCoordinates()});}
     return (
-      <Map center={this.csuOvalGeographicCoordinates()} zoom={10}
-           style={{height: 500, maxwidth: 700}}>
-        <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                   attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
-        />
-        <Marker position={this.csuOvalGeographicCoordinates()}
-                icon={this.markerIcon()}>
-          <Popup className="font-weight-extrabold">Colorado State University</Popup>
-        </Marker>
-      </Map>
+        <Map center={this.state.pos} zoom={10}
+             style={{height: 500, maxwidth: 700}}>
+          <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                     attribution="&copy; <a href=&quot;http://osm.org/copyright&quot;>OpenStreetMap</a> contributors"
+          />
+          <Marker position={this.state.pos}
+                  icon={this.markerIcon()}>
+            <Popup className="font-weight-extrabold">Colorado State University</Popup>
+          </Marker>
+        </Map>
     )
   }
 
   renderIntro() {
     return(
-      <Pane header={'Bon Voyage!'}
-            bodyJSX={'Let us help you plan your next trip.'}/>
+        <Pane header={'Bon Voyage!'}
+              bodyJSX={'Let us help you plan your next trip.'}/>
     );
-  }
-
-  coloradoGeographicBoundaries() {
-    // northwest and southeast corners of the state of Colorado
-    return L.latLngBounds(L.latLng(41, -109), L.latLng(37, -102));
   }
 
   csuOvalGeographicCoordinates() {
     return L.latLng(40.576179, -105.080773);
+  }
+
+  getLocation(location){
+    let latlong = new L.latLng(
+        location.coords.latitude,
+        location.coords.longitude);
+    this.setState({pos: latlong});
+  }
+
+  currentLocation(){
+    navigator.geolocation.getCurrentPosition(this.getLocation)
   }
 
   markerIcon() {
